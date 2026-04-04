@@ -1,4 +1,6 @@
-import { Radio, Hexagon, AlertTriangle, ChevronDown } from 'lucide-react'
+import { AlertTriangle, ChevronDown } from 'lucide-react'
+import { ACTION_COLORS, PILLAR_LABELS, PILLAR_WEIGHTS } from '../../types'
+import { usePrismScore } from '../../hooks/usePrismScore'
 
 interface HeroSectionProps {
   onScrollToDashboard: () => void
@@ -19,11 +21,69 @@ const floatingSquares = [
   { w: 30, h: 30, top: '35%', left: '60%', bg: 'rgba(126,184,212,0.10)', border: 'rgba(126,184,212,0.25)', anim: 'floatC 7s ease-in-out infinite', delay: '0.9s' },
 ]
 
-const stats = [
-  { icon: Radio, value: '3 Protocols', label: 'Monitored', iconColor: '#D4A017', delay: '1.0s' },
-  { icon: Hexagon, value: '6 Risk Pillars', label: 'Analyzed', iconColor: '#7EB8D4', delay: '1.15s' },
-  { icon: AlertTriangle, value: 'Real-Time', label: 'Exit Signals', iconColor: '#D4A017', delay: '1.3s' },
-]
+const CARD_SHELL = {
+  background: 'rgba(255,255,255,0.75)',
+  border: '1px solid rgba(126,184,212,0.25)',
+  borderRadius: 20,
+  padding: '20px 28px',
+  backdropFilter: 'blur(8px)',
+  WebkitBackdropFilter: 'blur(8px)',
+  boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
+} as const
+
+const CARD_HEADER = {
+  fontFamily: 'Inter, sans-serif',
+  fontSize: '0.65rem',
+  fontWeight: 600,
+  color: '#9A9A9A',
+  textTransform: 'uppercase' as const,
+  letterSpacing: '0.1em',
+  marginBottom: 14,
+}
+
+const HERO_PROTOCOLS = [
+  { id: 'aave-v3', name: 'Aave V3' },
+  { id: 'uniswap-v3', name: 'Uniswap V3' },
+  { id: 'stargate', name: 'Stargate Finance' },
+] as const
+
+/** Top 2 / middle 2 / bottom 2 by model weight — dot greys dark → light */
+const PILLAR_WEIGHT_TIERS = [
+  { keys: ['liquidity', 'liquidation'] as const, dot: '#2A2A2A' },
+  { keys: ['governance', 'oracle'] as const, dot: '#6E6E6E' },
+  { keys: ['supply', 'narrative'] as const, dot: '#B8B8B8' },
+] as const
+
+function ProtocolStatusRow({ protocolId, name }: { protocolId: string; name: string }) {
+  const { score } = usePrismScore(protocolId)
+  const dotColor =
+    score != null ? (ACTION_COLORS[score.action] ?? '#C8C8C8') : '#C8C8C8'
+
+  return (
+    <li
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 10,
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '0.9rem',
+        fontWeight: 500,
+        color: '#1A1A1A',
+      }}
+    >
+      <span
+        style={{
+          width: 10,
+          height: 10,
+          borderRadius: 999,
+          background: dotColor,
+          flexShrink: 0,
+        }}
+      />
+      {name}
+    </li>
+  )
+}
 
 export default function HeroSection({ onScrollToDashboard }: HeroSectionProps) {
   return (
@@ -164,39 +224,104 @@ export default function HeroSection({ onScrollToDashboard }: HeroSectionProps) {
           </div>
 
           <div
-            className="flex justify-center gap-6 flex-wrap shrink-0"
-            style={{ maxWidth: 840, margin: '0 auto', width: '100%', paddingBottom: 24 }}
+            className="flex justify-center items-stretch gap-5 flex-wrap shrink-0"
+            style={{ maxWidth: 1120, margin: '0 auto', width: '100%', paddingBottom: 24 }}
           >
-            {stats.map((stat, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-4"
-                style={{
-                  background: 'rgba(255,255,255,0.75)',
-                  border: '1px solid rgba(126,184,212,0.25)',
-                  borderRadius: 20,
-                  padding: '20px 28px',
-                  backdropFilter: 'blur(8px)',
-                  WebkitBackdropFilter: 'blur(8px)',
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
-                  flex: '1 1 200px',
-                  maxWidth: 260,
-                  opacity: 0,
-                  animation: 'fadeInUp 0.6s ease forwards',
-                  animationDelay: stat.delay,
-                }}
-              >
-                <stat.icon size={22} color={stat.iconColor} strokeWidth={1.5} />
-                <div>
-                  <p className="font-syne" style={{ fontWeight: 800, color: '#1A1A1A', fontSize: 16 }}>
-                    {stat.value}
-                  </p>
-                  <p style={{ color: '#5C5C5C', fontSize: 13 }}>
-                    {stat.label}
-                  </p>
-                </div>
+            {/* Card 1 — Monitored Protocols (dot = live PRISM action / exit signal) */}
+            <div
+              style={{
+                ...CARD_SHELL,
+                flex: '2 1 240px',
+                maxWidth: 320,
+                textAlign: 'left',
+                opacity: 0,
+                animation: 'fadeInUp 0.6s ease forwards',
+                animationDelay: '1.0s',
+              }}
+            >
+              <div style={CARD_HEADER}>Monitored Protocols</div>
+              <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {HERO_PROTOCOLS.map(p => (
+                  <ProtocolStatusRow key={p.id} protocolId={p.id} name={p.name} />
+                ))}
+              </ul>
+            </div>
+
+            {/* Card 2 — Real-Time Exit Signals (center) */}
+            <div
+              className="flex items-center gap-3"
+              style={{
+                ...CARD_SHELL,
+                flex: '0 1 200px',
+                maxWidth: 220,
+                minWidth: 168,
+                opacity: 0,
+                animation: 'fadeInUp 0.6s ease forwards',
+                animationDelay: '1.15s',
+              }}
+            >
+              <AlertTriangle size={22} color="#D4A017" strokeWidth={1.5} />
+              <div style={{ textAlign: 'left' }}>
+                <p className="font-syne" style={{ fontWeight: 800, color: '#1A1A1A', fontSize: 16, margin: 0, lineHeight: 1.2 }}>
+                  Real-Time
+                </p>
+                <p style={{ color: '#5C5C5C', fontSize: 13, margin: '4px 0 0' }}>Exit Signals</p>
               </div>
-            ))}
+            </div>
+
+            {/* Card 3 — Risk Pillars (weight tiers → grey gradient) */}
+            <div
+              style={{
+                ...CARD_SHELL,
+                flex: '2 1 280px',
+                maxWidth: 420,
+                textAlign: 'left',
+                opacity: 0,
+                animation: 'fadeInUp 0.6s ease forwards',
+                animationDelay: '1.3s',
+              }}
+            >
+              <div style={CARD_HEADER}>Risk Pillars</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {PILLAR_WEIGHT_TIERS.map(tier => (
+                  <div
+                    key={tier.keys.join('-')}
+                    style={{ display: 'flex', gap: 16, alignItems: 'stretch' }}
+                  >
+                    {tier.keys.map(key => (
+                      <div
+                        key={key}
+                        style={{
+                          flex: 1,
+                          minWidth: 0,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 8,
+                          fontFamily: 'Inter, sans-serif',
+                          fontSize: '0.78rem',
+                          color: '#1A1A1A',
+                          lineHeight: 1.35,
+                        }}
+                      >
+                        <span
+                          style={{
+                            width: 8,
+                            height: 8,
+                            borderRadius: 999,
+                            background: tier.dot,
+                            flexShrink: 0,
+                          }}
+                        />
+                        <span style={{ flex: 1, minWidth: 0 }}>{PILLAR_LABELS[key]}</span>
+                        <span style={{ color: '#9A9A9A', fontSize: '0.72rem', flexShrink: 0 }}>
+                          {PILLAR_WEIGHTS[key]}%
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
