@@ -2,6 +2,10 @@ import logging
 import httpx
 import os
 from datetime import datetime, timezone
+from email.message import EmailMessage
+
+import aiosmtplib
+
 logger = logging.getLogger(__name__)
 
 WEBHOOK_URL = os.getenv("ALERT_WEBHOOK_URL", "").strip()
@@ -24,6 +28,76 @@ async def _fire_webhook(payload: dict) -> None:
             await client.post(WEBHOOK_URL, json=payload)
     except Exception as e:
         logger.warning("Webhook delivery failed: %s", e)
+
+
+def _alert_email_text(alert: dict) -> tuple[str, str]:
+    """Subject and plain-text body for SMTP."""
+    name = alert.get("protocol_name", "Protocol")
+    atype = alert.get("type", "")
+    subject = f"[PRISM] {name} — {atype.replace('_', ' ')}"
+    lines = [
+        alert.get("message", ""),
+        "",
+        f"Severity: {alert.get('severity', '')}",
+        f"Protocol: {name} ({alert.get('protocol_id', '')})",
+        f"Time (UTC): {alert.get('timestamp', '')}",
+    ]
+    if alert.get("prev_action") is not None:
+        lines.append(f"Action: {alert.get('prev_action')} → {alert.get('new_action')}")
+    if alert.get("score_before") is not None:
+        lines.append(
+            f"Score: {alert.get('score_before')} → {alert.get('score_after')}"
+        )
+    lines.append(f"Composite score: {alert.get('score', '')}")
+    lines.append(f"Alert id: {alert.get('id', '')}")
+    return subject, "\n".join(lines)
+
+
+async def _send_smtp_email(alert: dict) -> None:
+    host = os.getenv("ALERT_SMTP_HOST", "").strip()
+    to_raw = os.getenv("ALERT_EMAIL_TO", "").strip()
+    if not host or not to_raw:
+        return
+
+    recipients = [e.strip() for e in to_raw.split(",") if e.strip()]
+    if not recipients:
+        return
+
+    port = int(os.getenv("ALERT_SMTP_PORT", "587"))
+    user = os.getenv("ALERT_SMTP_USER", "").strip()
+    password = os.getenv("ALERT_SMTP_PASSWORD", "").strip()
+    mail_from = os.getenv("ALERT_EMAIL_FROM", user).strip() or "prism-alerts@localhost"
+
+    use_tls = os.getenv("ALERT_SMTP_USE_TLS", "0").strip().lower() in ("1", "true", "yes")
+    start_tls = os.getenv("ALERT_SMTP_STARTTLS", "1").strip().lower() not in ("0", "false", "no")
+    if use_tls:
+        start_tls = False
+
+    subject, body = _alert_email_text(alert)
+    msg = EmailMessage()
+    msg["Subject"] = subject
+    msg["From"] = mail_from
+    msg["To"] = ", ".join(recipients)
+    msg.set_content(body)
+
+    try:
+        await aiosmtplib.send(
+            msg,
+            hostname=host,
+            port=port,
+            username=user or None,
+            password=password or None,
+            use_tls=use_tls,
+            start_tls=start_tls,
+            timeout=20.0,
+        )
+    except Exception as e:
+        logger.warning("SMTP alert delivery failed: %s", e)
+
+
+async def _dispatch_external(alert: dict) -> None:
+    await _fire_webhook(alert)
+    await _send_smtp_email(alert)
 
 
 def _record(alert: dict) -> None:
@@ -70,7 +144,7 @@ async def check_and_dispatch(protocol_id: str, name: str, new_score: dict) -> li
             }
             _record(alert)
             fired.append(alert)
-            await _fire_webhook(alert)
+            await _dispatch_external(alert)
 
         elif _rank(new_action) > _rank(prev_action):
             alert = {
@@ -104,7 +178,7 @@ async def check_and_dispatch(protocol_id: str, name: str, new_score: dict) -> li
             }
             _record(alert)
             fired.append(alert)
-            await _fire_webhook(alert)
+            await _dispatch_external(alert)
 
         score_drop = prev_composite - new_composite
         if score_drop >= 10.0:
@@ -123,7 +197,7 @@ async def check_and_dispatch(protocol_id: str, name: str, new_score: dict) -> li
             }
             _record(alert)
             fired.append(alert)
-            await _fire_webhook(alert)
+            await _dispatch_external(alert)
 
     _previous_states[protocol_id] = {
         "action": new_action,
