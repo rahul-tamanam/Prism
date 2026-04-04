@@ -39,6 +39,10 @@
   --pillar-narrative: #7B5EA7;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -111,9 +115,34 @@ body {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-18px); }
 }
+@keyframes floatA {
+  0%   { transform: translateY(0px) rotate(0deg); }
+  33%  { transform: translateY(-22px) rotate(3deg); }
+  66%  { transform: translateY(-8px) rotate(-2deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+@keyframes floatB {
+  0%   { transform: translateY(0px) rotate(0deg); }
+  40%  { transform: translateY(-14px) rotate(-4deg); }
+  75%  { transform: translateY(-28px) rotate(2deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+@keyframes floatC {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-18px); }
+  100% { transform: translateY(0px); }
+}
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0px); }
+}
+@keyframes chevronBounce {
+  0%, 100% { transform: translateY(0px); opacity: 0.6; }
+  50%       { transform: translateY(6px); opacity: 1; }
+}
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50%       { opacity: 0.85; transform: scale(1.08); }
 }
 @keyframes pulse-badge {
   0%, 100% { opacity: 1; }
@@ -153,6 +182,92 @@ body {
 
 .hero-glow {
   background: radial-gradient(ellipse 700px 300px at 50% 100%, rgba(126,184,212,0.18) 0%, transparent 70%);
+}
+.hero-glow--pulse {
+  animation: glowPulse 4s ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+
+.dashboard-section {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.dashboard-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#dashboard-content {
+  scroll-margin-top: 72px;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.3s ease;
+}
+
+.navbar.visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: all;
+}
+
+.nav-cluster {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  background: rgba(232, 228, 220, 0.5);
+  border-radius: 50px;
+  border: 1px solid #E8E4DC;
+}
+.nav-cluster-link {
+  display: flex;
+  align-items: center;
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: #5C5C5C;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+.nav-cluster-link svg {
+  margin-right: 6px;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+.nav-cluster-link--active {
+  background: #D4A017;
+  color: #FFFFFF;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(212, 160, 23, 0.3);
+}
+.nav-cluster-link--active svg {
+  opacity: 1;
+}
+.nav-cluster-link:not(.nav-cluster-link--active):hover {
+  color: #1A1A1A;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.dropdown-panel-enter {
+  animation: fadeInUp 0.15s ease forwards;
 }
 
 .anim-fade-in-up {

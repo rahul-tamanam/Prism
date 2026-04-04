@@ -135,7 +135,10 @@ async def calculate_liquidity_score(protocol_id: str, protocol_config: dict) -> 
     bridge_score = _bridge_flow_score(bridge_data.get("net_flow_pct", 0))
 
     if protocol_type == "amm":
-        pool_data = await get_uniswap_pool_liquidity(None)
+        pool_data = await get_uniswap_pool_liquidity(
+            None,
+            protocol_config.get("thegraph_subgraph"),
+        )
         tvl_usd = pool_data.get("tvl_usd", 100000000)
         liquidity_range_pct = min(100, (pool_data.get("tick_count", 50) / 100) * 60)
         depth_score = _liquidity_depth_score(tvl_usd, liquidity_range_pct)

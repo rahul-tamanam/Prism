@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { AlertTriangle, Shield, GitBranch, LogOut } from 'lucide-react'
 import { usePortfolio } from '../hooks/usePortfolio'
-import { ACTION_COLORS, ACTION_BG } from '../types'
+import { ACTION_COLORS } from '../types'
 import { formatScore } from '../lib/utils'
 import ActionBadge from '../components/cards/ActionBadge'
 import {

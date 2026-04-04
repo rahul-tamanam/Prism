@@ -1,5 +1,6 @@
 import logging
 from services.snapshot import get_governance_summary, get_recent_proposals
+from services.dune import get_whale_concentration
 
 logger = logging.getLogger(__name__)
 
@@ -119,7 +120,19 @@ async def calculate_governance_score(protocol_id: str, protocol_config: dict) ->
     space = protocol_config.get("snapshot_space", "")
     gov_summary = await get_governance_summary(space)
 
-    hhi = gov_summary.get("hhi", 0.25)
+    hhi = float(gov_summary.get("hhi", 0.25))
+
+    whale = await get_whale_concentration(protocol_config)
+    if whale.get("source") == "dune":
+        gini = whale.get("gini_coefficient")
+        if isinstance(gini, (int, float)):
+            hhi = min(1.0, (hhi + float(gini)) / 2.0)
+        elif whale.get("top_10_pct_supply") is not None:
+            try:
+                t10 = float(whale["top_10_pct_supply"]) / 100.0
+                hhi = min(1.0, (hhi + min(1.0, t10 * t10 * 2.5)) / 2.0)
+            except (TypeError, ValueError):
+                pass
     top5 = gov_summary.get("top_5_voter_share", 70.0)
     quorum = gov_summary.get("avg_quorum_participation", 0.8)
     proposal_count = gov_summary.get("proposal_count_30d", 2)
@@ -151,4 +164,7 @@ async def calculate_governance_score(protocol_id: str, protocol_config: dict) ->
         "raw_top5_share": round(top5, 1),
         "proposal_count_30d": proposal_count,
         "has_recent_proposal_48h": len(recent_48h) > 0,
+        "dune_whale_source": whale.get("source"),
+        "dune_whale_gini": whale.get("gini_coefficient"),
+        "dune_whale_top10_pct": whale.get("top_10_pct_supply"),
     }

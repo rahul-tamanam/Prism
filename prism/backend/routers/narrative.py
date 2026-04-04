@@ -2,7 +2,7 @@ import json
 import os
 import logging
 from fastapi import APIRouter, HTTPException
-from services.cryptopanic import get_news
+from services.news import get_news
 from services.sentiment import get_narrative_summary
 
 logger = logging.getLogger(__name__)

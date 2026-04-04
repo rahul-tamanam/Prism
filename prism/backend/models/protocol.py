@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional
 
 
@@ -11,7 +11,13 @@ class ProtocolConfig(BaseModel):
     defillama_slug: str
     defillama_chain: str
     dune_dashboard_id: Optional[str] = None
-    thegraph_subgraph: Optional[str] = None
+    dune_whale_query_id: Optional[int] = None
+    dune_users_query_id: Optional[int] = None
+    dune_liquidations_query_id: Optional[int] = None
+    thegraph_subgraph: Optional[str] = Field(
+        default=None,
+        description="The Graph deployment ID for gateway, or a full GraphQL URL (Studio/legacy).",
+    )
     snapshot_space: str
     tally_org: Optional[str] = None
     token_symbol: str

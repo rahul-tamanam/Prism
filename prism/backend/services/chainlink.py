@@ -1,4 +1,5 @@
 import logging
+import os
 import time
 import asyncio
 from functools import partial
@@ -34,7 +35,7 @@ FEED_REGISTRY = {
     "USDC/USD": {"address": "0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6", "heartbeat": 86400},
 }
 
-RPC_URL = "https://eth.llamarpc.com"
+RPC_URL = os.getenv("ETHEREUM_RPC_URL", "https://eth.llamarpc.com").strip()
 
 
 def _call_feed_sync(feed_address: str) -> dict:
