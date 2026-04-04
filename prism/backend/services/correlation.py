@@ -89,15 +89,15 @@ def compute_correlation_matrix(score_histories: dict[str, list[dict]]) -> dict:
 
 def _diversification_benefit(corr: float) -> str:
     if corr > 0.8:
-        return "Minimal — near-identical stress response"
+        return "Minimal - near-identical stress response"
     elif corr > 0.6:
-        return "Low — moderate co-movement during crashes"
+        return "Low - moderate co-movement during crashes"
     elif corr > 0.4:
-        return "Moderate — partial diversification"
+        return "Moderate - partial diversification"
     elif corr > 0.2:
-        return "Good — meaningful risk reduction"
+        return "Good - meaningful risk reduction"
     else:
-        return "Strong — near-independent risk drivers"
+        return "Strong - near-independent risk drivers"
 
 
 def _risk_note(a: str, b: str, corr: float) -> str:

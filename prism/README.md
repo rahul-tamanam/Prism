@@ -1,12 +1,12 @@
-# PRISM — Protocol Reflexivity, Insolvency, Stress & Marketability Score
+# PRISM - Protocol Reflexivity, Insolvency, Stress & Marketability Score
 
 **DeFi Exit Capacity & Reflexivity Risk Engine**
 
-PRISM is a fund-grade DeFi risk intelligence platform that helps portfolio managers determine how much capital they can safely hold in a DeFi protocol and when to enter, hold, reduce, or exit positions. Unlike conventional dashboards that track TVL as a vanity metric, PRISM measures *TVL quality* — whether your position size is too large for the protocol's real exit liquidity under stress.
+PRISM is a fund-grade DeFi risk intelligence platform that helps portfolio managers determine how much capital they can safely hold in a DeFi protocol and when to enter, hold, reduce, or exit positions. Unlike conventional dashboards that track TVL as a vanity metric, PRISM measures *TVL quality* - whether your position size is too large for the protocol's real exit liquidity under stress.
 
 The platform produces a master **PRISM Score** (0–100) per protocol, computed across six risk pillars: Liquidity Resilience, Liquidation Cascade Risk, Governance Capture Risk, Oracle & Infrastructure Risk, Reflexive Supply Pressure, and Narrative Risk. Each pillar pulls from on-chain data, governance APIs, oracle feeds, and sentiment analysis to generate an actionable recommendation: **ENTER**, **HOLD**, **REDUCE**, or **EXIT**.
 
-PRISM includes a Stress Lab for scenario-based risk simulation (ETH price crashes, whale exits, bridge outflows, governance attacks, oracle staleness) and a Triple Convergence Alert system that fires when negative sentiment, governance activity, and TVL drawdown occur simultaneously — the strongest empirical signal of imminent protocol distress.
+PRISM includes a Stress Lab for scenario-based risk simulation (ETH price crashes, whale exits, bridge outflows, governance attacks, oracle staleness) and a Triple Convergence Alert system that fires when negative sentiment, governance activity, and TVL drawdown occur simultaneously - the strongest empirical signal of imminent protocol distress.
 
 ---
 
@@ -64,7 +64,7 @@ cd prism
 cd backend
 pip install -r requirements.txt
 cp .env.example .env
-# Edit .env and add your API keys (optional — app works without them)
+# Edit .env and add your API keys (optional - app works without them)
 uvicorn main:app --reload --port 8000
 ```
 
@@ -106,7 +106,7 @@ ETHEREUM_RPC_URL=https://...   # optional Infura/Alchemy
 
 ---
 
-## PRISM Score — Six Pillars
+## PRISM Score - Six Pillars
 
 ### Pillar 1: Liquidity Resilience (23%)
 
@@ -178,7 +178,7 @@ PRISM = Liquidity×0.23 + Liquidation×0.23 + Governance×0.19
       + Oracle×0.14 + Supply×0.11 + Narrative×0.10
 ```
 
-**Triple Convergence Penalty:** When all three conditions fire simultaneously — sentiment spike + new governance proposal + TVL drawdown >5% — the score is reduced by 8 points and the action recommendation escalates one level.
+**Triple Convergence Penalty:** When all three conditions fire simultaneously - sentiment spike + new governance proposal + TVL drawdown >5% - the score is reduced by 8 points and the action recommendation escalates one level.
 
 ### Action Thresholds
 
@@ -210,14 +210,14 @@ Cross-protocol portfolio risk assessment. Fragility-ranked protocol table, safe 
 
 ---
 
-## Stress Lab — Four-Act Cascade Demo
+## Stress Lab - Four-Act Cascade Demo
 
 The signature demo sequence simulates a cascading market event:
 
-1. **Stage 1 — Bridge Outflow:** Capital begins fleeing cross-chain
-2. **Stage 2 — Whale Exit:** Large holder withdraws 15% of TVL
-3. **Stage 3 — Governance Spike:** Emergency proposals appear
-4. **Stage 4 — Market Crash:** ETH drops 20% + oracle feeds go stale
+1. **Stage 1 - Bridge Outflow:** Capital begins fleeing cross-chain
+2. **Stage 2 - Whale Exit:** Large holder withdraws 15% of TVL
+3. **Stage 3 - Governance Spike:** Emergency proposals appear
+4. **Stage 4 - Market Crash:** ETH drops 20% + oracle feeds go stale
 
 Each stage animates the score declining in real-time with action badge transitions. This demonstrates how PRISM captures the compounding nature of DeFi risk.
 
@@ -289,4 +289,4 @@ The scoring engine uses protocol type to determine which sub-scores apply. Lendi
 
 ---
 
-*Built for FinHack 2026 — UTD*
+*Built for FinHack 2026 - UTD*

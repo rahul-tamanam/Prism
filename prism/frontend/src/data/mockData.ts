@@ -143,7 +143,7 @@ export const mockScores: Record<string, PrismScore> = {
     },
     worst_pillar: 'narrative',
     triple_convergence_active: true,
-    safe_position_label: 'Exit recommended — 0%',
+    safe_position_label: 'Exit recommended - 0%',
     score_history: [],
     timestamp: new Date(Date.now() - 300000).toISOString(),
     details: {
@@ -405,12 +405,12 @@ export const mockStressResults: Record<string, Record<string, StressResult>> = {
       stressed_action: 'EXIT',
       pillar_deltas: { liquidity: -3.1, liquidation: -4.2, governance: -0.4, oracle: -16.8, supply: -2.7, narrative: -4.3 },
       most_affected_pillar: 'oracle',
-      narrative: 'Stale oracle feeds on a bridge protocol create asymmetric risk — users could bridge assets at incorrect valuations, draining pools on the mispriced side. Stargate\'s cross-chain oracle dependency amplifies this vulnerability.',
+      narrative: 'Stale oracle feeds on a bridge protocol create asymmetric risk - users could bridge assets at incorrect valuations, draining pools on the mispriced side. Stargate\'s cross-chain oracle dependency amplifies this vulnerability.',
     },
   },
 }
 
-/** Offline fallback for Monte Carlo API — shape matches backend response. */
+/** Offline fallback for Monte Carlo API - shape matches backend response. */
 export function getMockMonteCarlo(
   protocolId: string,
   scenario: string,
@@ -483,9 +483,9 @@ export const mockNarratives: Record<string, NarrativeSummary> = {
     triple_convergence_active: false,
     articles: [
       { title: 'Aave V3 passes proposal to reduce LTV ratios across volatile assets', url: '#', published_at: hoursAgo(2), sentiment_score: -0.24, source: 'DeFi Pulse' },
-      { title: 'Whale moves $43M from Aave to Morpho Blue — institutional migration?', url: '#', published_at: hoursAgo(5), sentiment_score: -0.58, source: 'The Block' },
+      { title: 'Whale moves $43M from Aave to Morpho Blue - institutional migration?', url: '#', published_at: hoursAgo(5), sentiment_score: -0.58, source: 'The Block' },
       { title: 'Aave DAO treasury hits $142M as fee revenue outpaces projections', url: '#', published_at: hoursAgo(8), sentiment_score: 0.71, source: 'Messari' },
-      { title: 'GHO stablecoin reaches $187M market cap — steady growth continues', url: '#', published_at: hoursAgo(14), sentiment_score: 0.62, source: 'CoinDesk' },
+      { title: 'GHO stablecoin reaches $187M market cap - steady growth continues', url: '#', published_at: hoursAgo(14), sentiment_score: 0.62, source: 'CoinDesk' },
       { title: 'Security researcher discloses low-severity bug in Aave V3 periphery contracts', url: '#', published_at: hoursAgo(22), sentiment_score: -0.34, source: 'Rekt News' },
       { title: 'Aave V3 Ethereum TVL climbs to $11.2B amid broader DeFi recovery', url: '#', published_at: daysAgo(1), sentiment_score: 0.83, source: 'DefiLlama' },
       { title: 'Analysis: Aave\'s liquidation engine handled March volatility with zero bad debt', url: '#', published_at: daysAgo(2), sentiment_score: 0.76, source: 'Delphi Digital' },
@@ -500,7 +500,7 @@ export const mockNarratives: Record<string, NarrativeSummary> = {
     spike_detected: false,
     triple_convergence_active: false,
     articles: [
-      { title: 'Uniswap Foundation proposes $62M treasury diversification — community divided', url: '#', published_at: hoursAgo(1), sentiment_score: -0.52, source: 'The Block' },
+      { title: 'Uniswap Foundation proposes $62M treasury diversification - community divided', url: '#', published_at: hoursAgo(1), sentiment_score: -0.52, source: 'The Block' },
       { title: 'Uniswap V3 sees 23% volume decline as MEV bots dominate order flow', url: '#', published_at: hoursAgo(4), sentiment_score: -0.67, source: 'Flashbots Research' },
       { title: 'SEC investigation into Uniswap Labs enters discovery phase', url: '#', published_at: hoursAgo(9), sentiment_score: -0.81, source: 'Bloomberg Crypto' },
       { title: 'UNI token drops 8% on fee switch uncertainty after latest governance vote', url: '#', published_at: hoursAgo(16), sentiment_score: -0.73, source: 'CoinDesk' },
@@ -520,7 +520,7 @@ export const mockNarratives: Record<string, NarrativeSummary> = {
     triple_convergence_active: true,
     articles: [
       { title: 'BREAKING: Stargate Finance TVL drops 34% in 48 hours amid bridge concerns', url: '#', published_at: hoursAgo(1), sentiment_score: -0.92, source: 'The Block' },
-      { title: 'LayerZero team denies Stargate insolvency rumors — issues emergency statement', url: '#', published_at: hoursAgo(3), sentiment_score: -0.78, source: 'CoinDesk' },
+      { title: 'LayerZero team denies Stargate insolvency rumors - issues emergency statement', url: '#', published_at: hoursAgo(3), sentiment_score: -0.78, source: 'CoinDesk' },
       { title: 'On-chain analysis: 3 wallets withdrew $89M from Stargate pools in coordinated exit', url: '#', published_at: hoursAgo(6), sentiment_score: -0.86, source: 'Nansen' },
       { title: 'Stargate governance proposal to halt bridge operations receives 40% support', url: '#', published_at: hoursAgo(10), sentiment_score: -0.71, source: 'Snapshot' },
       { title: 'STG token slides 18% as narrative risk compounds with liquidity crisis', url: '#', published_at: hoursAgo(14), sentiment_score: -0.83, source: 'Messari' },

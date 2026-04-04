@@ -47,7 +47,7 @@ const HERO_PROTOCOLS = [
   { id: 'stargate', name: 'Stargate Finance' },
 ] as const
 
-/** Top 2 / middle 2 / bottom 2 by model weight — dot greys dark → light */
+/** Top 2 / middle 2 / bottom 2 by model weight - dot greys dark → light */
 const PILLAR_WEIGHT_TIERS = [
   { keys: ['liquidity', 'liquidation'] as const, dot: '#2A2A2A' },
   { keys: ['governance', 'oracle'] as const, dot: '#6E6E6E' },
@@ -227,7 +227,7 @@ export default function HeroSection({ onScrollToDashboard }: HeroSectionProps) {
             className="flex justify-center items-stretch gap-5 flex-wrap shrink-0"
             style={{ maxWidth: 1120, margin: '0 auto', width: '100%', paddingBottom: 24 }}
           >
-            {/* Card 1 — Monitored Protocols (dot = live PRISM action / exit signal) */}
+            {/* Card 1 - Monitored Protocols (dot = live PRISM action / exit signal) */}
             <div
               style={{
                 ...CARD_SHELL,
@@ -247,7 +247,7 @@ export default function HeroSection({ onScrollToDashboard }: HeroSectionProps) {
               </ul>
             </div>
 
-            {/* Card 2 — Real-Time Exit Signals (center) */}
+            {/* Card 2 - Real-Time Exit Signals (center) */}
             <div
               className="flex items-center gap-3"
               style={{
@@ -269,7 +269,7 @@ export default function HeroSection({ onScrollToDashboard }: HeroSectionProps) {
               </div>
             </div>
 
-            {/* Card 3 — Risk Pillars (weight tiers → grey gradient) */}
+            {/* Card 3 - Risk Pillars (weight tiers → grey gradient) */}
             <div
               style={{
                 ...CARD_SHELL,

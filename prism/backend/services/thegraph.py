@@ -15,9 +15,9 @@ def resolve_subgraph_endpoint(subgraph_ref: str | None) -> tuple[str, dict[str, 
     Build the GraphQL HTTP URL and headers for The Graph.
 
     ``subgraph_ref`` may be:
-    - A full URL (Studio, legacy hosted, or pre-built gateway URL) — used as-is;
+    - A full URL (Studio, legacy hosted, or pre-built gateway URL) - used as-is;
       if THEGRAPH_API_KEY is set, ``Authorization: Bearer <key>`` is added.
-    - A bare subgraph deployment ID (e.g. from explorer) — resolved to:
+    - A bare subgraph deployment ID (e.g. from explorer) - resolved to:
       ``{GRAPH_GATEWAY_BASE}/api/subgraphs/id/{id}`` with Bearer auth (recommended)
       or, if the gateway rejects Bearer, set THEGRAPH_USE_KEY_IN_URL=1 to embed the
       key in the path (legacy gateway style).

@@ -136,7 +136,7 @@ async def calculate_liquidation_score(
     For non-lending protocols (AMMs, bridges), uses conservative default
     scores since liquidation mechanics differ or don't apply directly.
 
-    Dune: optional `dune_liquidations_query_id` — latest row surfaced in API details for UI.
+    Dune: optional `dune_liquidations_query_id` - latest row surfaced in API details for UI.
     """
     protocol_type = protocol_config.get("type", "lending")
     subgraph = protocol_config.get("thegraph_subgraph")
@@ -147,7 +147,7 @@ async def calculate_liquidation_score(
         unified_query_id=dune_unified_query_id,
     )
     dune_rows = dune_pkg.get("rows") or []
-    # UI shows first row — use ORDER BY day DESC in Dune so the latest period is first.
+    # UI shows first row - use ORDER BY day DESC in Dune so the latest period is first.
     latest = dune_rows[0] if dune_rows else None
 
     if protocol_type == "lending" and subgraph:

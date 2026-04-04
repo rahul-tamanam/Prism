@@ -9,10 +9,10 @@ import AlertPanel from './AlertPanel'
 
 const navItems = [
   { to: '/', label: 'Protocol Radar', icon: Radio },
+  { to: '/portfolio', label: 'Portfolio View', icon: Briefcase },
   { to: '/decomposition', label: 'Risk Decomposition', icon: BarChart3 },
   { to: '/stress', label: 'Stress Lab', icon: Zap },
   { to: '/narrative', label: 'Narrative Feed', icon: Newspaper },
-  { to: '/portfolio', label: 'Portfolio View', icon: Briefcase },
 ]
 
 const PROTOCOL_DOT: Record<string, string> = {

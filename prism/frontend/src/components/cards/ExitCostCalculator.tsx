@@ -182,7 +182,7 @@ export default function ExitCostCalculator({ protocolId, protocolName }: ExitCos
                   {result.total_cost_pct.toFixed(2)}%
                 </span>
                 <span style={{ fontFamily: 'Inter', fontSize: '0.85rem', color: '#5C5C5C', marginLeft: 8 }}>
-                  total exit cost — {formatUSD(result.total_cost_usd)} on {formatUSD(result.position_size_usd)}{' '}
+                  total exit cost - {formatUSD(result.total_cost_usd)} on {formatUSD(result.position_size_usd)}{' '}
                   position
                 </span>
               </div>

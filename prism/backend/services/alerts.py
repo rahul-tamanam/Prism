@@ -34,7 +34,7 @@ def _alert_email_text(alert: dict) -> tuple[str, str]:
     """Subject and plain-text body for SMTP."""
     name = alert.get("protocol_name", "Protocol")
     atype = alert.get("type", "")
-    subject = f"[PRISM] {name} — {atype.replace('_', ' ')}"
+    subject = f"[PRISM] {name} - {atype.replace('_', ' ')}"
     lines = [
         alert.get("message", ""),
         "",

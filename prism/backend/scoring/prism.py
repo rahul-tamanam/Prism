@@ -47,7 +47,7 @@ def calculate_safe_position(liquidity_score: float) -> str:
     Derive maximum safe position size as % of protocol TVL.
 
     Based on liquidity pillar score: safe_pct = (liquidity_score / 100) * 5
-    Caps at 5% — even the healthiest protocol shouldn't hold >5% concentration.
+    Caps at 5% - even the healthiest protocol shouldn't hold >5% concentration.
     """
     safe_pct = round((liquidity_score / 100) * 5, 1)
     return f"Max {safe_pct}% of protocol TVL"

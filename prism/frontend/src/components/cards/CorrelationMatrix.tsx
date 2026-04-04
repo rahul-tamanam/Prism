@@ -104,7 +104,7 @@ export default function CorrelationMatrix() {
           }}
         >
           ⚠ {high_correlation_warnings.length} high-correlation pair
-          {high_correlation_warnings.length > 1 ? 's' : ''} detected — portfolio may be less diversified than it
+          {high_correlation_warnings.length > 1 ? 's' : ''} detected - portfolio may be less diversified than it
           appears
         </div>
       )}
@@ -185,7 +185,7 @@ export default function CorrelationMatrix() {
                         color: isDiag ? '#9A9A9A' : isSelected ? '#FFFFFF' : correlationColor(corr),
                       }}
                     >
-                      {isDiag ? '—' : corr.toFixed(2)}
+                      {isDiag ? '-' : corr.toFixed(2)}
                     </span>
                   </motion.div>
                 )

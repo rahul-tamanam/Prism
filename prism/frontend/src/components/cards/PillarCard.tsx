@@ -29,39 +29,39 @@ function getRiskNarrative(pillar: string, score: number): string {
   const narratives: Record<string, Record<string, string>> = {
     liquidity: {
       healthy: 'Liquidity depth is strong with well-distributed order books.',
-      moderate: 'Liquidity is thinning — withdrawal capacity may be constrained under stress.',
+      moderate: 'Liquidity is thinning - withdrawal capacity may be constrained under stress.',
       elevated: 'Significant liquidity gaps detected; slippage risk is material.',
-      critical: 'Liquidity crisis in progress — large withdrawals may fail to execute.',
+      critical: 'Liquidity crisis in progress - large withdrawals may fail to execute.',
     },
     liquidation: {
       healthy: 'Liquidation thresholds are well-buffered across positions.',
       moderate: 'Clustered liquidation levels approaching current price range.',
       elevated: 'Liquidation cascades likely if collateral drops another 8-12%.',
-      critical: 'Active liquidation cascade in progress — bad debt accumulating.',
+      critical: 'Active liquidation cascade in progress - bad debt accumulating.',
     },
     governance: {
       healthy: 'Governance participation is strong with diversified voting power.',
-      moderate: 'Governance concentration risk is increasing — monitor token accumulation.',
-      elevated: 'Governance capture risk elevated — concentrated voting power detected.',
-      critical: 'Governance under active threat — emergency proposals may pass unchecked.',
+      moderate: 'Governance concentration risk is increasing - monitor token accumulation.',
+      elevated: 'Governance capture risk elevated - concentrated voting power detected.',
+      critical: 'Governance under active threat - emergency proposals may pass unchecked.',
     },
     oracle: {
       healthy: 'Price feeds are responsive with multiple redundant sources.',
       moderate: 'Oracle latency slightly elevated; monitoring for staleness.',
-      elevated: 'Oracle dependency risk growing — single-source feeds detected.',
-      critical: 'Oracle feeds stale or unreliable — pricing integrity compromised.',
+      elevated: 'Oracle dependency risk growing - single-source feeds detected.',
+      critical: 'Oracle feeds stale or unreliable - pricing integrity compromised.',
     },
     supply: {
       healthy: 'Supply dynamics are stable with balanced inflows and outflows.',
-      moderate: 'Net outflows detected — supply pressure building slowly.',
-      elevated: 'Significant supply contraction — TVL drawdown accelerating.',
-      critical: 'Supply crisis — rapid outflows threatening protocol viability.',
+      moderate: 'Net outflows detected - supply pressure building slowly.',
+      elevated: 'Significant supply contraction - TVL drawdown accelerating.',
+      critical: 'Supply crisis - rapid outflows threatening protocol viability.',
     },
     narrative: {
       healthy: 'Sentiment is positive with constructive community discourse.',
-      moderate: 'Mixed sentiment — negative articles increasing in frequency.',
-      elevated: 'Negative narrative building — social media mentions spiking.',
-      critical: 'Narrative crisis — coordinated FUD campaign or genuine risk exposure.',
+      moderate: 'Mixed sentiment - negative articles increasing in frequency.',
+      elevated: 'Negative narrative building - social media mentions spiking.',
+      critical: 'Narrative crisis - coordinated FUD campaign or genuine risk exposure.',
     },
   }
   return narratives[pillar]?.[level] || 'Risk assessment unavailable.'
@@ -77,7 +77,7 @@ const dataSources: Record<string, string> = {
 }
 
 function fmtUsdCompact(n: number): string {
-  if (!Number.isFinite(n)) return '—'
+  if (!Number.isFinite(n)) return '-'
   if (n >= 1e9) return `$${(n / 1e9).toFixed(2)}B`
   if (n >= 1e6) return `$${(n / 1e6).toFixed(2)}M`
   if (n >= 1e3) return `$${(n / 1e3).toFixed(1)}K`
@@ -128,11 +128,10 @@ function DuneWhaleBlock({ d }: { d: GovernanceDetail }) {
         <div>
           Holder concentration: <em>demo data</em>
           {err ? (
-            <> — Dune request failed.</>
+            <>. Dune request failed.</>
           ) : (
             <>
-              {' '}
-              — set <code style={{ fontSize: '0.68rem' }}>dune_prism_query_id</code> (one query for all cards) or{' '}
+              {' '}. Set <code style={{ fontSize: '0.68rem' }}>dune_prism_query_id</code> (one query for all cards) or{' '}
               <code style={{ fontSize: '0.68rem' }}>dune_whale_query_id</code>, plus{' '}
               <code style={{ fontSize: '0.68rem' }}>DUNE_API_KEY</code>. Use{' '}
               <code style={{ fontSize: '0.68rem' }}>?refresh=true</code> or wait for cache (~15m).
@@ -157,7 +156,7 @@ function DuneWhaleBlock({ d }: { d: GovernanceDetail }) {
         lineHeight: 1.45,
       }}
     >
-      Holder concentration: no Dune fields in API response — use live backend or add{' '}
+      Holder concentration: no Dune fields in API response - use live backend or add{' '}
       <code style={{ fontSize: '0.68rem' }}>dune_whale_query_id</code>.
     </div>
   )
@@ -186,7 +185,7 @@ function DuneLiquidationsBlock({ d }: { d: LiquidationDuneDetail }) {
         }}
       >
         <span style={{ fontWeight: 600, color: '#1A1A1A' }}>Dune (liquidations)</span>
-        {parts.length > 0 ? <span>{`: latest row — ${parts.join(' · ')}`}</span> : <span>: live query</span>}
+        {parts.length > 0 ? <span>{`: latest row - ${parts.join(' · ')}`}</span> : <span>: live query</span>}
       </div>
     )
   }
@@ -206,11 +205,10 @@ function DuneLiquidationsBlock({ d }: { d: LiquidationDuneDetail }) {
       <div>
         Liquidation history: <em>subgraph scores only</em>
         {err ? (
-          <> — Dune request failed.</>
+          <>. Dune request failed.</>
         ) : (
           <>
-            {' '}
-            — <strong style={{ fontWeight: 600, color: '#5C5C5C' }}>Not configured:</strong> add liquidation columns to{' '}
+            {' '}. <strong style={{ fontWeight: 600, color: '#5C5C5C' }}>Not configured:</strong> add liquidation columns to{' '}
             <code style={{ fontSize: '0.68rem' }}>dune_prism_query_id</code> or set{' '}
             <code style={{ fontSize: '0.68rem' }}>dune_liquidations_query_id</code>.
           </>
@@ -410,11 +408,10 @@ function DuneUsersBlock({ d }: { d: NarrativeDuneDetail }) {
       <div>
         On-chain activity: <em>placeholder until Dune is wired</em>
         {err ? (
-          <> — Dune request failed.</>
+          <>. Dune request failed.</>
         ) : (
           <>
-            {' '}
-            — <strong style={{ fontWeight: 600, color: '#5C5C5C' }}>Not configured:</strong> add{' '}
+            {' '}. <strong style={{ fontWeight: 600, color: '#5C5C5C' }}>Not configured:</strong> add{' '}
             <code style={{ fontSize: '0.68rem' }}>dau</code>/<code style={{ fontSize: '0.68rem' }}>wau</code>/
             <code style={{ fontSize: '0.68rem' }}>mau</code> to unified query or{' '}
             <code style={{ fontSize: '0.68rem' }}>dune_users_query_id</code>.

@@ -327,7 +327,7 @@ export default function StressLab() {
             />
           </label>
           <label style={{ display: 'flex', flexDirection: 'column', gap: 6, fontFamily: 'Inter', fontSize: '0.8rem', color: '#5C5C5C' }}>
-            σ (shock uncertainty) — {mcSigma.toFixed(2)}
+            σ (shock uncertainty) - {mcSigma.toFixed(2)}
             <input
               type="range"
               min={0.1}

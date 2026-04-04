@@ -92,7 +92,7 @@ def calculate_exit_cost(
     Calculate the true cost of exiting a DeFi position.
 
     Adjusts base liquidity parameters by the live liquidity pillar score
-    from the PRISM engine — a low score compresses available depth further.
+    from the PRISM engine - a low score compresses available depth further.
     """
     _ = current_tvl_usd  # reserved for future TVL-scaled depth
     params = PROTOCOL_LIQUIDITY_PARAMS.get(protocol_id, DEFAULT_PARAMS).copy()
@@ -133,7 +133,7 @@ def calculate_exit_cost(
     if n_chunks > 1:
         recommendations.append(f"Split into {n_chunks} transactions of ~${max_safe_tx_usd:,.0f} to limit per-trade impact")
     if params["utilization_rate"] > 0.8:
-        recommendations.append("High utilization — consider waiting for rate normalization before withdrawing")
+        recommendations.append("High utilization - consider waiting for rate normalization before withdrawing")
 
     return {
         "protocol_id": protocol_id,

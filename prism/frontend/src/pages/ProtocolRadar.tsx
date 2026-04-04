@@ -102,7 +102,7 @@ export default function ProtocolRadar() {
             return (
               <div key={id} className="prism-card" style={{ padding: 24 }}>
                 <p className="card-section-label">
-                  {score.name} — 30D TREND
+                  {score.name} - 30D TREND
                 </p>
                 <div style={{ height: 160 }}>
                   <ScoreTrendChart history={history} color={color} />

@@ -111,7 +111,7 @@ export const api = {
           : undefined,
       }
     } catch (e) {
-      console.warn(`[PRISM] getScore("${id}") failed — using mock data. Is the backend running?`, e)
+      console.warn(`[PRISM] getScore("${id}") failed - using mock data. Is the backend running?`, e)
       return mockScores[id]
     }
   },
@@ -246,7 +246,7 @@ export const api = {
             protocol_b: 'uniswap-v3',
             correlation: 0.72,
             source: 'static',
-            diversification_benefit: 'Low — moderate co-movement during crashes',
+            diversification_benefit: 'Low - moderate co-movement during crashes',
             risk_note:
               'Aave and Uniswap move together in roughly 72% of stress scenarios.',
             drivers: ['ETH price', 'Ethereum gas'],
@@ -256,7 +256,7 @@ export const api = {
             protocol_b: 'stargate',
             correlation: 0.41,
             source: 'static',
-            diversification_benefit: 'Moderate — partial diversification',
+            diversification_benefit: 'Moderate - partial diversification',
             risk_note: 'Aave and Stargate have sufficiently independent risk drivers.',
             drivers: ['Bridge liquidity'],
           },
@@ -265,7 +265,7 @@ export const api = {
             protocol_b: 'stargate',
             correlation: 0.38,
             source: 'static',
-            diversification_benefit: 'Moderate — partial diversification',
+            diversification_benefit: 'Moderate - partial diversification',
             risk_note: 'Uniswap and Stargate have independent risk drivers.',
             drivers: ['Cross-chain volume'],
           },

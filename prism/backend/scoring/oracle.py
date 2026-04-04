@@ -73,7 +73,7 @@ def _deviation_mismatch_score(feeds: list[dict]) -> float:
     - No feeds to check: uncertain → 50
     - Feed prices within expected bounds: score based on freshness proximity
 
-    This is a simplified version — production would compare against CoinGecko
+    This is a simplified version - production would compare against CoinGecko
     spot prices for each asset.
 
     Data source: Chainlink price vs external reference (CoinGecko stub).

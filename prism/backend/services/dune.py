@@ -1,5 +1,5 @@
 """
-Dune Analytics — uses GET /v1/query/{query_id}/results (latest run, no new execution).
+Dune Analytics - uses GET /v1/query/{query_id}/results (latest run, no new execution).
 
 **Single query (recommended):** set `dune_prism_query_id` to one query whose **first row**
 contains all columns listed in `data/dune_prism_unified_query.sql`. One HTTP call feeds every

@@ -20,11 +20,11 @@ PAIR_LABELS = {
 }
 
 PAIR_REAL_WORLD = {
-    ("liquidity", "governance"): "Euler March 2023 — governance concentration 58%, liquidity still 71. The 67-point gap preceded the $197M exploit.",
-    ("liquidity", "narrative"): "Curve July 2023 — 6 whales withdrew $31M before public disclosure. Exit pressure reached 94%.",
-    ("supply", "governance"): "Beanstalk April 2022 — governance velocity +340%, unique voters -71%. $182M drained via flash-loan vote.",
-    ("liquidation", "narrative"): "Terra May 2022 — liquidation cascade began 18 hours before mainstream media coverage.",
-    ("oracle", "liquidity"): "Mango Markets Oct 2022 — oracle manipulated while liquidity score appeared healthy.",
+    ("liquidity", "governance"): "Euler March 2023 - governance concentration 58%, liquidity still 71. The 67-point gap preceded the $197M exploit.",
+    ("liquidity", "narrative"): "Curve July 2023 - 6 whales withdrew $31M before public disclosure. Exit pressure reached 94%.",
+    ("supply", "governance"): "Beanstalk April 2022 - governance velocity +340%, unique voters -71%. $182M drained via flash-loan vote.",
+    ("liquidation", "narrative"): "Terra May 2022 - liquidation cascade began 18 hours before mainstream media coverage.",
+    ("oracle", "liquidity"): "Mango Markets Oct 2022 - oracle manipulated while liquidity score appeared healthy.",
 }
 
 DRS_ALERT_THRESHOLD = 35.0
@@ -76,7 +76,7 @@ def _interpret_drs(drs: float, dominant_pair: Optional[tuple], velocity: str) ->
     elif drs < 60:
         return f"Significant disagreement between {pair_str} signals. Protocol in transitional state. Consider reducing exposure."
     else:
-        return f"Severe divergence — {pair_str} signals are fundamentally contradicting. Immediate portfolio review required."
+        return f"Severe divergence - {pair_str} signals are fundamentally contradicting. Immediate portfolio review required."
 
 
 def calculate_divergence(
@@ -90,7 +90,7 @@ def calculate_divergence(
     For each signal pair, the excess gap beyond the 14-day baseline
     is weighted by pair importance and TVL scale. Sum gives DRS (0-100).
     Higher DRS means the protocol's internal signals are contradicting
-    each other — which historically precedes exploits.
+    each other - which historically precedes exploits.
     """
     tvl_weight = _compute_tvl_weight(tvl_usd)
     pair_results = []

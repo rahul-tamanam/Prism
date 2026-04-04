@@ -74,7 +74,7 @@ function triNoise(rng: () => number): number {
 }
 
 /**
- * Synthetic 30-day series for **excess gap vs baseline (Δ)** — same quantity that drives DRS.
+ * Synthetic 30-day series for **excess gap vs baseline (Δ)** - same quantity that drives DRS.
  * Today’s last point is exactly `pair.delta`. Path is a linear bridge + smooth mid-series noise
  * so lines aren’t flat at the start and don’t random-walk away from the headline score.
  */
@@ -239,7 +239,7 @@ function DivergenceGapTooltip({
     >
       <div style={{ color: 'var(--text-muted)', marginBottom: 4, fontWeight: 600 }}>{row.date}</div>
       <div style={{ color: 'var(--text-muted)', fontSize: 10, marginBottom: 8 }}>
-        Chart: synthetic Δ path (today = live Δ). DRS reference {typeof row.drsLevel === 'number' ? row.drsLevel.toFixed(1) : '—'}.
+        Chart: synthetic Δ path (today = live Δ). DRS reference {typeof row.drsLevel === 'number' ? row.drsLevel.toFixed(1) : '-'}.
       </div>
       {pairs.map(p => {
         const k = lineKey(p)
@@ -260,7 +260,7 @@ function DivergenceGapTooltip({
                 <span style={{ color: 'var(--text-secondary)' }}>{pairLegendSlug(p)}</span>
               </span>
               <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
-                {typeof v === 'number' ? v.toFixed(1) : '—'}
+                {typeof v === 'number' ? v.toFixed(1) : '-'}
               </span>
             </div>
             <div style={{ fontSize: 9, color: 'var(--text-muted)', marginLeft: 12, marginTop: 2 }}>
@@ -429,7 +429,7 @@ export default function DivergencePanel({ divergence }: DivergencePanelProps) {
           30-DAY DIVERGENCE TIMELINE
         </h4>
         <p style={{ margin: '0 0 12px', fontFamily: 'Inter', fontSize: '0.72rem', color: 'var(--text-muted)', lineHeight: 1.45 }}>
-          Each line tracks <strong>excess pair gap vs the rolling baseline (Δ)</strong> — the same input that weights into DRS. Today&apos;s point matches the live Δ per pair. Dashed gray line is aggregate DRS ({drs.toFixed(1)}).
+          Each line tracks <strong>excess pair gap vs the rolling baseline (Δ)</strong> - the same input that weights into DRS. Today&apos;s point matches the live Δ per pair. Dashed gray line is aggregate DRS ({drs.toFixed(1)}).
         </p>
 
         <div
@@ -637,7 +637,7 @@ export default function DivergencePanel({ divergence }: DivergencePanelProps) {
           { range: '0–15', label: 'In agreement', color: '#2D8A4E' },
           { range: '15–35', label: 'Mild divergence', color: '#D4A017' },
           { range: '35–60', label: 'Significant', color: '#E07B39' },
-          { range: '60–100', label: 'Severe — review now', color: '#C94040' },
+          { range: '60–100', label: 'Severe - review now', color: '#C94040' },
         ].map(item => (
           <div key={item.range} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <div style={{ width: 8, height: 8, borderRadius: 2, background: item.color }} />

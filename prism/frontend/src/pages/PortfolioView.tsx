@@ -57,7 +57,7 @@ export default function PortfolioView() {
       icon: Shield,
       title: 'Position Sizing',
       description:
-        'Reduce Uniswap V3 exposure to max 4.5% of portfolio. Exit Stargate Finance entirely — triple convergence signals systemic fragility.',
+        'Reduce Uniswap V3 exposure to max 4.5% of portfolio. Exit Stargate Finance entirely - triple convergence signals systemic fragility.',
       borderColor: '#D4A017',
     },
     {
@@ -71,7 +71,7 @@ export default function PortfolioView() {
       icon: LogOut,
       title: 'Exit Sequencing',
       description:
-        'If exiting Stargate, bridge assets to Ethereum mainnet first. Avoid cross-chain exits during high gas periods — slippage risk compounds.',
+        'If exiting Stargate, bridge assets to Ethereum mainnet first. Avoid cross-chain exits during high gas periods - slippage risk compounds.',
       borderColor: '#E07B39',
     },
   ]
@@ -179,7 +179,7 @@ export default function PortfolioView() {
                   {protocol.worst_risk}
                 </td>
                 <td style={{ padding: '12px 16px', fontFamily: 'Inter', fontWeight: 400, fontSize: '0.85rem', color: '#5C5C5C' }}>
-                  {protocol.safe_position_pct > 0 ? `${protocol.safe_position_pct}%` : '—'}
+                  {protocol.safe_position_pct > 0 ? `${protocol.safe_position_pct}%` : '-'}
                 </td>
                 <td style={{ padding: '12px 16px' }}>
                   {protocol.spike_detected && (
@@ -247,7 +247,7 @@ export default function PortfolioView() {
           <div style={{ marginTop: 12 }}>
             {exitProtocols.map(p => (
               <p key={p.id} style={{ fontFamily: 'Inter', fontSize: '0.8rem', color: '#C94040', fontStyle: 'italic' }}>
-                {p.name}: Exit recommended — no safe allocation
+                {p.name}: Exit recommended - no safe allocation
               </p>
             ))}
           </div>
