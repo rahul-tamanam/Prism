@@ -1,6 +1,9 @@
 import logging
+from typing import Any
+
 from services.defillama import get_tvl_change, get_bridge_flows
 from services.thegraph import get_uniswap_pool_liquidity
+from services.dune import unified_extra_pillar_fields
 
 logger = logging.getLogger(__name__)
 
@@ -113,7 +116,12 @@ def _slippage_simulation_score(exit_amount_usd: float, liquidity_within_range_us
         return 75.0 + 20.0 * max(0, (1 - price_impact_pct))
 
 
-async def calculate_liquidity_score(protocol_id: str, protocol_config: dict) -> dict:
+async def calculate_liquidity_score(
+    protocol_id: str,
+    protocol_config: dict,
+    *,
+    dune_unified_row: dict[str, Any] | None = None,
+) -> dict:
     """
     Calculate the Liquidity pillar score (Pillar 1) for a protocol.
 
@@ -155,7 +163,7 @@ async def calculate_liquidity_score(protocol_id: str, protocol_config: dict) -> 
         + slippage_score * 0.20
     )
 
-    return {
+    out = {
         "score": round(composite, 1),
         "tvl_change_7d_score": round(tvl_score, 1),
         "bridge_flow_score": round(bridge_score, 1),
@@ -164,3 +172,5 @@ async def calculate_liquidity_score(protocol_id: str, protocol_config: dict) -> 
         "tvl_data": tvl_data,
         "bridge_data": bridge_data,
     }
+    extras = unified_extra_pillar_fields(dune_unified_row).get("liquidity") or {}
+    return {**out, **extras}

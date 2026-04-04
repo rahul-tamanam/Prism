@@ -1,4 +1,8 @@
+from __future__ import annotations
+
 import logging
+from typing import Any
+
 from services.snapshot import get_governance_summary, get_recent_proposals
 from services.dune import get_whale_concentration
 
@@ -106,7 +110,13 @@ def _proposal_spike_score(proposal_count_30d: int) -> float:
         return max(20.0, 45.0 - 5.0 * (proposal_count_30d - 10))
 
 
-async def calculate_governance_score(protocol_id: str, protocol_config: dict) -> dict:
+async def calculate_governance_score(
+    protocol_id: str,
+    protocol_config: dict,
+    *,
+    dune_unified_row: dict[str, Any] | None = None,
+    dune_unified_query_id: int | None = None,
+) -> dict:
     """
     Calculate the Governance pillar score (Pillar 3) for a protocol.
 
@@ -122,7 +132,11 @@ async def calculate_governance_score(protocol_id: str, protocol_config: dict) ->
 
     hhi = float(gov_summary.get("hhi", 0.25))
 
-    whale = await get_whale_concentration(protocol_config)
+    whale = await get_whale_concentration(
+        protocol_config,
+        unified_row=dune_unified_row,
+        unified_query_id=dune_unified_query_id,
+    )
     if whale.get("source") == "dune":
         gini = whale.get("gini_coefficient")
         if isinstance(gini, (int, float)):
@@ -167,4 +181,5 @@ async def calculate_governance_score(protocol_id: str, protocol_config: dict) ->
         "dune_whale_source": whale.get("source"),
         "dune_whale_gini": whale.get("gini_coefficient"),
         "dune_whale_top10_pct": whale.get("top_10_pct_supply"),
+        "dune_whale_error": whale.get("dune_error"),
     }

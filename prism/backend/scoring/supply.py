@@ -1,6 +1,9 @@
 import logging
 import time
+from typing import Any
+
 from services.defillama import get_unlock_schedule, get_tvl_change
+from services.dune import unified_extra_pillar_fields
 
 logger = logging.getLogger(__name__)
 
@@ -80,7 +83,12 @@ def _stablecoin_dependency_score(stablecoin_tvl_pct: float) -> float:
         return 82.0 + 11.0 * min((20 - stablecoin_tvl_pct) / 20, 1.0)
 
 
-async def calculate_supply_score(protocol_id: str, protocol_config: dict) -> dict:
+async def calculate_supply_score(
+    protocol_id: str,
+    protocol_config: dict,
+    *,
+    dune_unified_row: dict[str, Any] | None = None,
+) -> dict:
     """
     Calculate the Supply pillar score (Pillar 5) for a protocol.
 
@@ -140,7 +148,7 @@ async def calculate_supply_score(protocol_id: str, protocol_config: dict) -> dic
         + stablecoin_s * 0.25
     )
 
-    return {
+    out = {
         "score": round(composite, 1),
         "unlock_pressure_score": round(unlock_s, 1),
         "emission_rate_score": round(emission_s, 1),
@@ -150,3 +158,5 @@ async def calculate_supply_score(protocol_id: str, protocol_config: dict) -> dic
         "annual_emission_rate_pct": emission_rate,
         "stablecoin_tvl_pct": stablecoin_pct,
     }
+    extras = unified_extra_pillar_fields(dune_unified_row).get("supply") or {}
+    return {**out, **extras}

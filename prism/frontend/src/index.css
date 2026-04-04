@@ -280,3 +280,17 @@ body {
 .anim-pulse-badge {
   animation: pulse-badge 2s ease-in-out infinite;
 }
+
+/* Risk Decomposition: keep radar + pillars readable; stack on narrow viewports */
+.risk-decomposition-grid {
+  display: grid;
+  grid-template-columns: minmax(300px, 1.05fr) minmax(280px, 1fr);
+  gap: 24px;
+  align-items: start;
+  margin-bottom: 32px;
+}
+@media (max-width: 960px) {
+  .risk-decomposition-grid {
+    grid-template-columns: 1fr;
+  }
+}

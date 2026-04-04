@@ -1,6 +1,10 @@
+import asyncio
 import logging
+from typing import Any
+
 from services.news import get_news
 from services.sentiment import get_narrative_summary
+from services.dune import get_protocol_users
 
 logger = logging.getLogger(__name__)
 
@@ -74,7 +78,13 @@ def _mention_spike_score(spike_detected: bool, mention_velocity: float) -> float
             return 80.0 + 10.0 * min((30 - mention_velocity) / 30, 1.0)
 
 
-async def calculate_narrative_score(protocol_id: str, protocol_config: dict) -> dict:
+async def calculate_narrative_score(
+    protocol_id: str,
+    protocol_config: dict,
+    *,
+    dune_unified_row: dict[str, Any] | None = None,
+    dune_unified_query_id: int | None = None,
+) -> dict:
     """
     Calculate the Narrative pillar score (Pillar 6) for a protocol.
 
@@ -85,7 +95,14 @@ async def calculate_narrative_score(protocol_id: str, protocol_config: dict) -> 
     media coverage, and capital flows. FUD-driven exits can become self-fulfilling.
     """
     token = protocol_config.get("token_symbol", "")
-    articles = await get_news([token])
+    users, articles = await asyncio.gather(
+        get_protocol_users(
+            protocol_config,
+            unified_row=dune_unified_row,
+            unified_query_id=dune_unified_query_id,
+        ),
+        get_news([token]),
+    )
     summary = await get_narrative_summary(token, articles)
 
     avg_compound = summary.get("avg_sentiment", 0.0)
@@ -113,4 +130,9 @@ async def calculate_narrative_score(protocol_id: str, protocol_config: dict) -> 
         "mention_velocity": round(velocity, 1),
         "spike_detected": spike,
         "articles_analyzed": len(articles),
+        "dune_users_source": users.get("source"),
+        "dune_dau": users.get("dau"),
+        "dune_wau": users.get("wau"),
+        "dune_mau": users.get("mau"),
+        "dune_users_error": users.get("dune_error"),
     }

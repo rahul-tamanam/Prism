@@ -1,3 +1,4 @@
+import asyncio
 import json
 import os
 import logging
@@ -25,10 +26,16 @@ async def list_protocols():
         logger.error(f"Failed to load protocol configs: {e}")
         raise HTTPException(status_code=500, detail="Failed to load protocol data")
 
+    slugs = [c.get("defillama_slug", c["id"]) for c in configs]
+    tvl_rows = await asyncio.gather(*[get_protocol_tvl(s) for s in slugs], return_exceptions=True)
+
     results = []
-    for config in configs:
-        slug = config.get("defillama_slug", config["id"])
-        tvl_data = await get_protocol_tvl(slug)
+    for config, tvl_data in zip(configs, tvl_rows):
+        if isinstance(tvl_data, Exception):
+            logger.warning("TVL fetch failed for %s: %s", config.get("id"), tvl_data)
+            tvl_val = 0
+        else:
+            tvl_val = tvl_data.get("tvl", 0)
 
         results.append({
             "id": config["id"],
@@ -39,7 +46,7 @@ async def list_protocols():
             "color": config.get("color", "#666"),
             "logo": config.get("logo", ""),
             "token_symbol": config.get("token_symbol", ""),
-            "current_tvl": tvl_data.get("tvl", 0),
+            "current_tvl": tvl_val,
         })
 
     return results

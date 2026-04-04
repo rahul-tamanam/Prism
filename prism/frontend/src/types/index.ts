@@ -19,6 +19,50 @@ export interface PillarScores {
   triple_convergence_active: boolean
 }
 
+/** Subset of backend `details.governance` used in the UI */
+export interface GovernanceDetail {
+  dune_whale_source?: string
+  dune_whale_gini?: number | null
+  dune_whale_top10_pct?: number | null
+  /** Present when Dune was attempted but failed (see backend logs too) */
+  dune_whale_error?: string | null
+}
+
+/** Backend `details.liquidation` Dune fields */
+export interface LiquidationDuneDetail {
+  dune_liquidations_source?: string
+  dune_liquidation_latest_date?: string | null
+  dune_liquidation_latest_count?: number | null
+  dune_liquidation_latest_usd?: number | null
+  dune_liquidation_error?: string | null
+}
+
+/** Backend `details.narrative` Dune user-activity fields */
+export interface NarrativeDuneDetail {
+  dune_users_source?: string
+  dune_dau?: number | null
+  dune_wau?: number | null
+  dune_mau?: number | null
+  dune_users_error?: string | null
+}
+
+/** Optional unified-query fields merged into `details.liquidity` */
+export interface LiquidityDuneSnippet {
+  dune_liquidity_source?: string
+  dune_liquidity_tvl_usd?: number | null
+  dune_borrowed_usd?: number | null
+}
+
+export interface OracleDuneSnippet {
+  dune_oracle_source?: string
+  dune_oracle_max_deviation_bps?: number | null
+}
+
+export interface SupplyDuneSnippet {
+  dune_supply_source?: string
+  dune_supply_net_flow_30d_usd?: number | null
+}
+
 export interface PrismScore {
   protocol_id: string
   name: string
@@ -30,6 +74,15 @@ export interface PrismScore {
   safe_position_label: string
   score_history: ScoreHistoryPoint[]
   timestamp: string
+  /** Pillar breakdown from API (includes Dune snippets per pillar where wired) */
+  details?: {
+    governance?: GovernanceDetail
+    liquidation?: LiquidationDuneDetail
+    narrative?: NarrativeDuneDetail
+    liquidity?: LiquidityDuneSnippet
+    oracle?: OracleDuneSnippet
+    supply?: SupplyDuneSnippet
+  }
 }
 
 export interface ScoreHistoryPoint {

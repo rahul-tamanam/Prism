@@ -8,13 +8,45 @@ import PillarBarChart from '../components/charts/PillarBarChart'
 import TripleConvergenceAlert from '../components/cards/TripleConvergenceAlert'
 import ActionBadge from '../components/cards/ActionBadge'
 import { formatScore } from '../lib/utils'
+import type {
+  GovernanceDetail,
+  LiquidationDuneDetail,
+  NarrativeDuneDetail,
+  LiquidityDuneSnippet,
+  OracleDuneSnippet,
+  SupplyDuneSnippet,
+} from '../types'
+
+const GOV_DUNE_FALLBACK: GovernanceDetail = {
+  dune_whale_source: 'mock',
+  dune_whale_gini: null,
+  dune_whale_top10_pct: null,
+}
+
+const LIQ_DUNE_FALLBACK: LiquidationDuneDetail = {
+  dune_liquidations_source: 'mock',
+  dune_liquidation_latest_date: null,
+  dune_liquidation_latest_count: null,
+  dune_liquidation_latest_usd: null,
+}
+
+const NAR_DUNE_FALLBACK: NarrativeDuneDetail = {
+  dune_users_source: 'mock',
+  dune_dau: null,
+  dune_wau: null,
+  dune_mau: null,
+}
+
+const EMPTY_LIQUIDITY: LiquidityDuneSnippet = {}
+const EMPTY_ORACLE: OracleDuneSnippet = {}
+const EMPTY_SUPPLY: SupplyDuneSnippet = {}
 
 export default function RiskDecomposition() {
   const { selectedProtocol } = useOutletContext<{
     selectedProtocol: string
     setSelectedProtocol: (id: string) => void
   }>()
-  const { score, loading } = usePrismScore(selectedProtocol)
+  const { score, loading, refreshing, refreshScore } = usePrismScore(selectedProtocol)
 
   if (loading || !score) {
     return (
@@ -44,15 +76,54 @@ export default function RiskDecomposition() {
           <span style={{ width: 4, height: 24, background: '#D4A017', borderRadius: 2, display: 'inline-block' }} />
           Risk Decomposition
         </h1>
-        <p style={{ color: '#5C5C5C', fontSize: '0.9rem', marginTop: 4, fontFamily: 'DM Sans' }}>
-          Full pillar breakdown for {score.name}
-        </p>
+        <div
+          style={{
+            marginTop: 8,
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            gap: 12,
+            justifyContent: 'space-between',
+          }}
+        >
+          <p style={{ color: '#5C5C5C', fontSize: '0.9rem', margin: 0, fontFamily: 'DM Sans' }}>
+            Full pillar breakdown for {score.name}
+          </p>
+          <button
+            type="button"
+            onClick={() => void refreshScore()}
+            disabled={refreshing}
+            style={{
+              fontFamily: 'DM Sans',
+              fontSize: '0.75rem',
+              fontWeight: 600,
+              padding: '6px 12px',
+              borderRadius: 8,
+              border: '1px solid #E8E4DC',
+              background: refreshing ? '#F5F2EB' : '#FFFFFF',
+              color: '#5C5C5C',
+              cursor: refreshing ? 'default' : 'pointer',
+            }}
+          >
+            {refreshing ? 'Refreshing…' : 'Refresh live data'}
+          </button>
+        </div>
       </div>
 
       <TripleConvergenceAlert active={score.triple_convergence_active} />
 
-      <div style={{ display: 'grid', gridTemplateColumns: '55% 1fr', gap: 24, marginBottom: 32 }}>
-        <div className="prism-card" style={{ padding: 24, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div className="risk-decomposition-grid">
+        <div
+          className="prism-card"
+          style={{
+            padding: 24,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            minWidth: 0,
+            width: '100%',
+          }}
+        >
           <div className="flex items-center gap-4 mb-6 self-start">
             <span className="font-syne anim-count-up" style={{ fontSize: '3rem', fontWeight: 800, color: scoreColor }}>
               {formatScore(score.score)}
@@ -74,6 +145,18 @@ export default function RiskDecomposition() {
               weight={PILLAR_WEIGHTS[pillar]}
               color={PILLAR_COLORS[pillar]}
               index={index}
+              governanceDune={
+                pillar === 'governance' ? score.details?.governance ?? GOV_DUNE_FALLBACK : undefined
+              }
+              liquidationDune={
+                pillar === 'liquidation' ? score.details?.liquidation ?? LIQ_DUNE_FALLBACK : undefined
+              }
+              narrativeDune={
+                pillar === 'narrative' ? score.details?.narrative ?? NAR_DUNE_FALLBACK : undefined
+              }
+              liquidityDune={pillar === 'liquidity' ? score.details?.liquidity ?? EMPTY_LIQUIDITY : undefined}
+              oracleDune={pillar === 'oracle' ? score.details?.oracle ?? EMPTY_ORACLE : undefined}
+              supplyDune={pillar === 'supply' ? score.details?.supply ?? EMPTY_SUPPLY : undefined}
             />
           ))}
         </div>

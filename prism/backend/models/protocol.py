@@ -11,6 +11,10 @@ class ProtocolConfig(BaseModel):
     defillama_slug: str
     defillama_chain: str
     dune_dashboard_id: Optional[str] = None
+    dune_prism_query_id: Optional[int] = Field(
+        default=None,
+        description="Single Dune query supplying all PRISM pillar snippets (first row).",
+    )
     dune_whale_query_id: Optional[int] = None
     dune_users_query_id: Optional[int] = None
     dune_liquidations_query_id: Optional[int] = None

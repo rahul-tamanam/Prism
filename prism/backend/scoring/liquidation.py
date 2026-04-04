@@ -1,5 +1,9 @@
+import asyncio
 import logging
+from typing import Any
+
 from services.thegraph import get_aave_users_near_liquidation, get_aave_reserve_data
+from services.dune import get_liquidation_history
 
 logger = logging.getLogger(__name__)
 
@@ -115,7 +119,13 @@ def _eth_shock_score(pct_near_liq: float, avg_hf: float, shock_pct: float = 15.0
         return 60.0 + 25.0 * max(0, (5 - simulated_pct) / 5)
 
 
-async def calculate_liquidation_score(protocol_id: str, protocol_config: dict) -> dict:
+async def calculate_liquidation_score(
+    protocol_id: str,
+    protocol_config: dict,
+    *,
+    dune_unified_row: dict[str, Any] | None = None,
+    dune_unified_query_id: int | None = None,
+) -> dict:
     """
     Calculate the Liquidation pillar score (Pillar 2) for a protocol.
 
@@ -125,13 +135,26 @@ async def calculate_liquidation_score(protocol_id: str, protocol_config: dict) -
 
     For non-lending protocols (AMMs, bridges), uses conservative default
     scores since liquidation mechanics differ or don't apply directly.
+
+    Dune: optional `dune_liquidations_query_id` — latest row surfaced in API details for UI.
     """
     protocol_type = protocol_config.get("type", "lending")
     subgraph = protocol_config.get("thegraph_subgraph")
 
+    dune_pkg = await get_liquidation_history(
+        protocol_config,
+        unified_row=dune_unified_row,
+        unified_query_id=dune_unified_query_id,
+    )
+    dune_rows = dune_pkg.get("rows") or []
+    # UI shows first row — use ORDER BY day DESC in Dune so the latest period is first.
+    latest = dune_rows[0] if dune_rows else None
+
     if protocol_type == "lending" and subgraph:
-        liq_data = await get_aave_users_near_liquidation(subgraph)
-        reserves = await get_aave_reserve_data(subgraph)
+        liq_data, reserves = await asyncio.gather(
+            get_aave_users_near_liquidation(subgraph),
+            get_aave_reserve_data(subgraph),
+        )
 
         pct = liq_data.get("pct_near_liquidation", 8.7)
         avg_hf = liq_data.get("avg_health_factor", 1.086)
@@ -163,4 +186,9 @@ async def calculate_liquidation_score(protocol_id: str, protocol_config: dict) -
         "eth_shock_score": round(shock_score, 1),
         "pct_near_liquidation": round(pct, 2),
         "avg_health_factor": round(avg_hf, 4),
+        "dune_liquidations_source": dune_pkg.get("source"),
+        "dune_liquidation_latest_date": latest.get("date") if latest else None,
+        "dune_liquidation_latest_count": latest.get("liquidation_count") if latest else None,
+        "dune_liquidation_latest_usd": latest.get("total_liquidated_usd") if latest else None,
+        "dune_liquidation_error": dune_pkg.get("dune_error"),
     }

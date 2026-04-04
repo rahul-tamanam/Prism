@@ -1,5 +1,8 @@
 import logging
-from services.chainlink import get_all_feed_status, calculate_oracle_risk_score, FEED_REGISTRY
+from typing import Any
+
+from services.chainlink import get_all_feed_status
+from services.dune import unified_extra_pillar_fields
 
 logger = logging.getLogger(__name__)
 
@@ -93,7 +96,12 @@ def _deviation_mismatch_score(feeds: list[dict]) -> float:
     return sum(scores) / len(scores)
 
 
-async def calculate_oracle_score(protocol_id: str, protocol_config: dict) -> dict:
+async def calculate_oracle_score(
+    protocol_id: str,
+    protocol_config: dict,
+    *,
+    dune_unified_row: dict[str, Any] | None = None,
+) -> dict:
     """
     Calculate the Oracle pillar score (Pillar 4) for a protocol.
 
@@ -121,7 +129,7 @@ async def calculate_oracle_score(protocol_id: str, protocol_config: dict) -> dic
         + deviation_s * 0.25
     )
 
-    return {
+    out = {
         "score": round(composite, 1),
         "feed_freshness_score": round(freshness_s, 1),
         "single_oracle_dependency_score": round(dependency_s, 1),
@@ -137,3 +145,5 @@ async def calculate_oracle_score(protocol_id: str, protocol_config: dict) -> dic
             for f in relevant_feeds
         ],
     }
+    extras = unified_extra_pillar_fields(dune_unified_row).get("oracle") or {}
+    return {**out, **extras}

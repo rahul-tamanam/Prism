@@ -1,31 +1,43 @@
 """
 Dune Analytics — uses GET /v1/query/{query_id}/results (latest run, no new execution).
 
-Set DUNE_API_KEY in .env. For each protocol, set optional query IDs in protocols.json:
+**Single query (recommended):** set `dune_prism_query_id` to one query whose **first row**
+contains all columns listed in `data/dune_prism_unified_query.sql`. One HTTP call feeds every
+pillar Dune snippet. If that fetch fails, falls back to the per-pillar IDs below.
+You can also set `DUNE_PRISM_QUERY_ID_<PROTOCOL>` (e.g. `DUNE_PRISM_QUERY_ID_AAVE_V3`) when the JSON field is null.
+
+**Split queries (optional):**
   dune_whale_query_id, dune_users_query_id, dune_liquidations_query_id
 
-Your Dune SQL should return rows with columns PRISM maps (case-insensitive aliases allowed).
+Column names are matched case-insensitive (see _norm_row).
 """
 from __future__ import annotations
 
 import logging
 import os
+from datetime import datetime, timezone
 from typing import Any
 
 import httpx
 
 logger = logging.getLogger(__name__)
 
-DUNE_API_KEY = os.getenv("DUNE_API_KEY", "").strip()
-DUNE_BASE = os.getenv("DUNE_BASE_URL", "https://api.dune.com/api/v1").rstrip("/")
 TIMEOUT = 45.0
 
 HEADERS = {"Content-Type": "application/json"}
 
 
+def _dune_api_key() -> str:
+    """Read at call time so .env is always visible after load_dotenv()."""
+    return os.getenv("DUNE_API_KEY", "").strip()
+
+
+def _dune_base() -> str:
+    return os.getenv("DUNE_BASE_URL", "https://api.dune.com/api/v1").rstrip("/")
+
+
 def _headers() -> dict[str, str]:
-    h = {**HEADERS, "X-Dune-API-Key": DUNE_API_KEY}
-    return h
+    return {**HEADERS, "X-Dune-API-Key": _dune_api_key()}
 
 
 def _norm_key(k: str) -> str:
@@ -68,10 +80,10 @@ def _pick_str(row: dict[str, Any], *names: str) -> str:
 
 async def fetch_latest_query_rows(query_id: int, limit: int = 500) -> list[dict[str, Any]]:
     """Return result rows from the latest successful execution of a Dune query."""
-    if not DUNE_API_KEY:
+    if not _dune_api_key():
         raise ValueError("DUNE_API_KEY not set")
 
-    url = f"{DUNE_BASE}/query/{query_id}/results"
+    url = f"{_dune_base()}/query/{query_id}/results"
     params = {"limit": min(limit, 1000)}
 
     async with httpx.AsyncClient(timeout=TIMEOUT) as client:
@@ -90,7 +102,99 @@ async def fetch_latest_query_rows(query_id: int, limit: int = 500) -> list[dict[
     return [_norm_row(r) if isinstance(r, dict) else r for r in rows]
 
 
-async def get_whale_concentration(protocol_config: dict) -> dict:
+def _resolved_prism_query_id(protocol_config: dict) -> int | None:
+    """
+    Unified query id: protocols.json `dune_prism_query_id`, else env
+    DUNE_PRISM_QUERY_ID_<PROTO> (e.g. DUNE_PRISM_QUERY_ID_AAVE_V3).
+    """
+    raw = protocol_config.get("dune_prism_query_id")
+    if raw is not None:
+        try:
+            return int(raw)
+        except (TypeError, ValueError):
+            pass
+    pid = str(protocol_config.get("id", "")).strip()
+    if not pid:
+        return None
+    suffix = pid.upper().replace("-", "_")
+    env_v = os.getenv(f"DUNE_PRISM_QUERY_ID_{suffix}", "").strip()
+    if not env_v:
+        return None
+    try:
+        return int(env_v)
+    except ValueError:
+        return None
+
+
+async def fetch_unified_prism_row(
+    protocol_config: dict,
+) -> tuple[dict[str, Any] | None, int | None, str | None]:
+    """
+    Load first result row from dune_prism_query_id.
+
+    Returns (normalized_row, query_id, error_message).
+    On skip (no id / no key): (None, None, None).
+    """
+    qid_int_resolved = _resolved_prism_query_id(protocol_config)
+    pid = protocol_config.get("id", "unknown")
+    if not qid_int_resolved or not _dune_api_key():
+        return None, None, None
+    try:
+        qid_int = qid_int_resolved
+        rows = await fetch_latest_query_rows(qid_int, limit=5)
+        if not rows:
+            logger.warning("Dune unified query %s returned no rows (%s)", qid_int, pid)
+            return None, qid_int, "no rows"
+        return rows[0], qid_int, None
+    except Exception as e:
+        logger.warning("Dune unified query failed for %s: %s", pid, e)
+        return None, qid_int_resolved, str(e)
+
+
+def unified_extra_pillar_fields(row: dict[str, Any] | None) -> dict[str, dict[str, Any]]:
+    """Optional display/score context from unified row for liquidity, oracle, supply."""
+    if not row:
+        return {"liquidity": {}, "oracle": {}, "supply": {}}
+    liq: dict[str, Any] = {}
+    tvl = _pick_float(row, "prism_liquidity_tvl_usd", "dune_tvl_usd", "protocol_tvl_usd")
+    if tvl is not None:
+        liq["dune_liquidity_tvl_usd"] = round(tvl, 2)
+        liq["dune_liquidity_source"] = "dune"
+    borrowed = _pick_float(row, "prism_borrowed_usd", "total_borrowed_usd", "borrowed_usd")
+    if borrowed is not None:
+        liq["dune_borrowed_usd"] = round(borrowed, 2)
+
+    ora: dict[str, Any] = {}
+    dev = _pick_float(
+        row,
+        "prism_oracle_max_deviation_bps",
+        "oracle_max_deviation_bps",
+        "max_oracle_deviation_bps",
+    )
+    if dev is not None:
+        ora["dune_oracle_max_deviation_bps"] = round(dev, 4)
+        ora["dune_oracle_source"] = "dune"
+
+    sup: dict[str, Any] = {}
+    flow = _pick_float(
+        row,
+        "prism_supply_net_flow_30d_usd",
+        "supply_net_flow_30d_usd",
+        "net_mint_flow_30d_usd",
+    )
+    if flow is not None:
+        sup["dune_supply_net_flow_30d_usd"] = round(flow, 2)
+        sup["dune_supply_source"] = "dune"
+
+    return {"liquidity": liq, "oracle": ora, "supply": sup}
+
+
+async def get_whale_concentration(
+    protocol_config: dict,
+    *,
+    unified_row: dict[str, Any] | None = None,
+    unified_query_id: int | None = None,
+) -> dict:
     """
     Token / holder concentration from Dune.
 
@@ -103,7 +207,20 @@ async def get_whale_concentration(protocol_config: dict) -> dict:
     qid = protocol_config.get("dune_whale_query_id")
     pid = protocol_config.get("id", "unknown")
 
-    if not qid or not DUNE_API_KEY:
+    if unified_row is not None:
+        t10 = _pick_float(unified_row, "top_10_pct_supply", "top10_pct", "top_10_pct")
+        gini = _pick_float(unified_row, "gini_coefficient", "gini")
+        if t10 is not None or gini is not None:
+            return {
+                "top_10_pct_supply": t10 or 40.0,
+                "top_50_pct_supply": _pick_float(unified_row, "top_50_pct_supply", "top50_pct", "top_50_pct") or 65.0,
+                "gini_coefficient": gini or 0.75,
+                "whale_count_over_1m": _pick_int(unified_row, "whale_count_over_1m", "whale_count", "whales_over_1m") or 50,
+                "source": "dune",
+                "dune_query_id": unified_query_id,
+            }
+
+    if not qid or not _dune_api_key():
         return _mock_whale(pid)
 
     try:
@@ -161,12 +278,30 @@ def _mock_whale(protocol_id: str) -> dict:
     return {**base, "source": "mock"}
 
 
-async def get_protocol_users(protocol_config: dict) -> dict:
+async def get_protocol_users(
+    protocol_config: dict,
+    *,
+    unified_row: dict[str, Any] | None = None,
+    unified_query_id: int | None = None,
+) -> dict:
     """Active users: columns dau, wau, mau (first row)."""
     qid = protocol_config.get("dune_users_query_id")
     pid = protocol_config.get("id", "unknown")
 
-    if not qid or not DUNE_API_KEY:
+    if unified_row is not None:
+        dau_v = _pick_float(unified_row, "dau", "daily_active_users")
+        wau_v = _pick_float(unified_row, "wau", "weekly_active_users")
+        mau_v = _pick_float(unified_row, "mau", "monthly_active_users")
+        if dau_v is not None or wau_v is not None or mau_v is not None:
+            return {
+                "dau": int(dau_v or 5000),
+                "wau": int(wau_v or 15000),
+                "mau": int(mau_v or 40000),
+                "source": "dune",
+                "dune_query_id": unified_query_id,
+            }
+
+    if not qid or not _dune_api_key():
         return _mock_users(pid)
 
     try:
@@ -186,6 +321,7 @@ async def get_protocol_users(protocol_config: dict) -> dict:
         logger.warning("Dune users query failed for %s: %s", pid, e)
         m = _mock_users(pid)
         m["source"] = "mock"
+        m["dune_error"] = str(e)
         return m
 
 
@@ -198,26 +334,74 @@ def _mock_users(protocol_id: str) -> dict:
     return {**mock_data.get(protocol_id, {"dau": 5000, "wau": 15000, "mau": 40000}), "source": "mock"}
 
 
-async def get_liquidation_history(protocol_config: dict) -> list[dict]:
-    """
-    Rows: date (or day), liquidation_count (or count), total_liquidated_usd (or volume_usd).
-    """
-    qid = protocol_config.get("dune_liquidations_query_id")
-    pid = protocol_config.get("id", "unknown")
-
-    default = [
+def _default_liquidation_rows() -> list[dict]:
+    return [
         {"date": "2026-04-02", "liquidation_count": 23, "total_liquidated_usd": 4200000},
         {"date": "2026-04-01", "liquidation_count": 18, "total_liquidated_usd": 3100000},
     ]
 
-    if not qid or not DUNE_API_KEY:
-        return default
+
+async def get_liquidation_history(
+    protocol_config: dict,
+    *,
+    unified_row: dict[str, Any] | None = None,
+    unified_query_id: int | None = None,
+) -> dict:
+    """
+    Return parsed liquidation time series plus Dune source metadata.
+
+    Rows: date (or day), liquidation_count (or count), total_liquidated_usd (or volume_usd).
+    Unified row: use liquidation_asof_date + liquidation_count_7d + liquidation_usd_7d (aliases below).
+    Response keys: rows, source ("dune"|"mock"), optional dune_query_id, dune_error.
+    """
+    qid = protocol_config.get("dune_liquidations_query_id")
+    pid = protocol_config.get("id", "unknown")
+    default_rows = _default_liquidation_rows()
+
+    if unified_row is not None:
+        date_s = _pick_str(
+            unified_row,
+            "liquidation_asof_date",
+            "liq_asof_date",
+            "liquidation_date",
+            "liq_date",
+            "date",
+        )
+        cnt = _pick_int(
+            unified_row,
+            "liquidation_count_7d",
+            "liquidation_count",
+            "liq_count_7d",
+            "liq_count",
+            "n_liquidations_7d",
+        )
+        usd = _pick_float(
+            unified_row,
+            "liquidation_usd_7d",
+            "total_liquidated_usd",
+            "liq_volume_usd_7d",
+            "liquidated_usd_7d",
+        )
+        if cnt is not None and usd is not None:
+            if date_s:
+                dnorm = date_s[:10] if len(date_s) >= 10 else date_s
+            else:
+                # Dune/API may omit or stringify dates oddly; still surface counts + USD.
+                dnorm = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+            return {
+                "rows": [{"date": dnorm, "liquidation_count": cnt, "total_liquidated_usd": usd}],
+                "source": "dune",
+                "dune_query_id": unified_query_id,
+            }
+
+    if not qid or not _dune_api_key():
+        return {"rows": default_rows, "source": "mock"}
 
     try:
         qid_int = int(qid)
         rows = await fetch_latest_query_rows(qid_int, limit=100)
         if not rows:
-            return default
+            return {"rows": default_rows, "source": "mock"}
         out = []
         for r in rows:
             date_s = _pick_str(r, "date", "day", "dt", "block_date", "block_time")
@@ -229,7 +413,12 @@ async def get_liquidation_history(protocol_config: dict) -> list[dict]:
                     "liquidation_count": cnt,
                     "total_liquidated_usd": usd,
                 })
-        return out if out else default
+        use = out if out else default_rows
+        return {
+            "rows": use,
+            "source": "dune" if out else "mock",
+            "dune_query_id": qid_int,
+        }
     except Exception as e:
         logger.warning("Dune liquidations query failed for %s: %s", pid, e)
-        return default
+        return {"rows": default_rows, "source": "mock", "dune_error": str(e)}

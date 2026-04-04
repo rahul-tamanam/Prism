@@ -1,9 +1,15 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import type { Protocol, PrismScore } from '../../types'
 import { ACTION_COLORS, PILLAR_LABELS } from '../../types'
 import { formatScore, formatTVL } from '../../lib/utils'
 import ActionBadge from './ActionBadge'
 import PrismRadarChart from '../charts/PrismRadarChart'
+
+function logoIsRemoteUrl(logo: string | undefined): boolean {
+  const s = (logo || '').trim()
+  return /^https?:\/\//i.test(s)
+}
 
 const LOGO_COLORS: Record<string, string> = {
   'aave-v3': 'rgba(212,160,23,0.12)',
@@ -25,6 +31,9 @@ interface ProtocolCardProps {
 
 export default function ProtocolCard({ protocol, score, onClick, index = 0 }: ProtocolCardProps) {
   const scoreColor = ACTION_COLORS[score.action] || 'var(--text-primary)'
+  const [logoFailed, setLogoFailed] = useState(false)
+  const showImg = logoIsRemoteUrl(protocol.logo) && !logoFailed
+  const letterFallback = (protocol.name || protocol.id || '?').charAt(0).toUpperCase()
 
   return (
     <motion.div
@@ -37,7 +46,7 @@ export default function ProtocolCard({ protocol, score, onClick, index = 0 }: Pr
     >
       <div className="flex items-center gap-3 mb-4">
         <div
-          className="flex items-center justify-center font-syne font-bold text-sm"
+          className="flex items-center justify-center font-syne font-bold text-sm overflow-hidden shrink-0"
           style={{
             width: 36,
             height: 36,
@@ -46,7 +55,21 @@ export default function ProtocolCard({ protocol, score, onClick, index = 0 }: Pr
             color: LOGO_TEXT_COLORS[protocol.id] || '#D4A017',
           }}
         >
-          {protocol.logo}
+          {showImg ? (
+            <img
+              src={protocol.logo}
+              alt=""
+              width={36}
+              height={36}
+              loading="lazy"
+              decoding="async"
+              className="object-contain p-1"
+              style={{ width: 36, height: 36 }}
+              onError={() => setLogoFailed(true)}
+            />
+          ) : (
+            <span aria-hidden>{protocol.logo && !logoIsRemoteUrl(protocol.logo) ? protocol.logo : letterFallback}</span>
+          )}
         </div>
         <div>
           <h3 className="font-syne text-sm font-bold" style={{ color: '#1A1A1A' }}>

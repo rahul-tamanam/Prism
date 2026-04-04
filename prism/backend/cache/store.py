@@ -24,6 +24,11 @@ class CacheStore:
     def invalidate(self, key: str) -> None:
         self._store.pop(key, None)
 
+    def invalidate_prefix(self, prefix: str) -> None:
+        for k in list(self._store.keys()):
+            if k.startswith(prefix):
+                self._store.pop(k, None)
+
     def clear(self) -> None:
         self._store.clear()
 

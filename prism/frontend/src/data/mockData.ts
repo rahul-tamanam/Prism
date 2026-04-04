@@ -61,6 +61,28 @@ export const mockScores: Record<string, PrismScore> = {
     safe_position_label: 'Max 8.2% of portfolio',
     score_history: [],
     timestamp: new Date(Date.now() - 720000).toISOString(),
+    details: {
+      governance: {
+        dune_whale_source: 'mock',
+        dune_whale_gini: null,
+        dune_whale_top10_pct: null,
+      },
+      liquidation: {
+        dune_liquidations_source: 'mock',
+        dune_liquidation_latest_date: null,
+        dune_liquidation_latest_count: null,
+        dune_liquidation_latest_usd: null,
+      },
+      narrative: {
+        dune_users_source: 'mock',
+        dune_dau: null,
+        dune_wau: null,
+        dune_mau: null,
+      },
+      liquidity: {},
+      oracle: {},
+      supply: {},
+    },
   },
   'uniswap-v3': {
     protocol_id: 'uniswap-v3',
@@ -81,6 +103,28 @@ export const mockScores: Record<string, PrismScore> = {
     safe_position_label: 'Max 4.5% of portfolio',
     score_history: [],
     timestamp: new Date(Date.now() - 540000).toISOString(),
+    details: {
+      governance: {
+        dune_whale_source: 'mock',
+        dune_whale_gini: null,
+        dune_whale_top10_pct: null,
+      },
+      liquidation: {
+        dune_liquidations_source: 'mock',
+        dune_liquidation_latest_date: null,
+        dune_liquidation_latest_count: null,
+        dune_liquidation_latest_usd: null,
+      },
+      narrative: {
+        dune_users_source: 'mock',
+        dune_dau: null,
+        dune_wau: null,
+        dune_mau: null,
+      },
+      liquidity: {},
+      oracle: {},
+      supply: {},
+    },
   },
   'stargate': {
     protocol_id: 'stargate',
@@ -101,6 +145,28 @@ export const mockScores: Record<string, PrismScore> = {
     safe_position_label: 'Exit recommended — 0%',
     score_history: [],
     timestamp: new Date(Date.now() - 300000).toISOString(),
+    details: {
+      governance: {
+        dune_whale_source: 'mock',
+        dune_whale_gini: null,
+        dune_whale_top10_pct: null,
+      },
+      liquidation: {
+        dune_liquidations_source: 'mock',
+        dune_liquidation_latest_date: null,
+        dune_liquidation_latest_count: null,
+        dune_liquidation_latest_usd: null,
+      },
+      narrative: {
+        dune_users_source: 'mock',
+        dune_dau: null,
+        dune_wau: null,
+        dune_mau: null,
+      },
+      liquidity: {},
+      oracle: {},
+      supply: {},
+    },
   },
 }
 

@@ -5,6 +5,7 @@ from scoring.governance import calculate_governance_score
 from scoring.oracle import calculate_oracle_score
 from scoring.supply import calculate_supply_score
 from scoring.narrative import calculate_narrative_score
+from services.dune import fetch_unified_prism_row
 
 logger = logging.getLogger(__name__)
 
@@ -68,12 +69,29 @@ async def calculate_prism_score(protocol_id: str, protocol_config: dict) -> dict
     This penalty captures the reflexive feedback loop where simultaneous
     narrative, governance, and liquidity stress compound risk non-linearly.
     """
-    liquidity_result = await calculate_liquidity_score(protocol_id, protocol_config)
-    liquidation_result = await calculate_liquidation_score(protocol_id, protocol_config)
-    governance_result = await calculate_governance_score(protocol_id, protocol_config)
-    oracle_result = await calculate_oracle_score(protocol_id, protocol_config)
-    supply_result = await calculate_supply_score(protocol_id, protocol_config)
-    narrative_result = await calculate_narrative_score(protocol_id, protocol_config)
+    u_row, u_qid, _u_err = await fetch_unified_prism_row(protocol_config)
+
+    liquidity_result = await calculate_liquidity_score(protocol_id, protocol_config, dune_unified_row=u_row)
+    liquidation_result = await calculate_liquidation_score(
+        protocol_id,
+        protocol_config,
+        dune_unified_row=u_row,
+        dune_unified_query_id=u_qid,
+    )
+    governance_result = await calculate_governance_score(
+        protocol_id,
+        protocol_config,
+        dune_unified_row=u_row,
+        dune_unified_query_id=u_qid,
+    )
+    oracle_result = await calculate_oracle_score(protocol_id, protocol_config, dune_unified_row=u_row)
+    supply_result = await calculate_supply_score(protocol_id, protocol_config, dune_unified_row=u_row)
+    narrative_result = await calculate_narrative_score(
+        protocol_id,
+        protocol_config,
+        dune_unified_row=u_row,
+        dune_unified_query_id=u_qid,
+    )
 
     pillar_scores = {
         "liquidity": liquidity_result["score"],

@@ -8,7 +8,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
 
-load_dotenv()
+# Load .env next to this package (not dependent on shell cwd)
+_BACKEND_ROOT = os.path.dirname(os.path.abspath(__file__))
+load_dotenv(os.path.join(_BACKEND_ROOT, ".env"))
 
 logging.basicConfig(
     level=logging.INFO,

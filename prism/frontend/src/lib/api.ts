@@ -1,7 +1,18 @@
-import type { Protocol, PrismScore, ScoreHistoryPoint, StressResult, NarrativeSummary, PortfolioView } from '../types'
+import type {
+  Protocol,
+  PrismScore,
+  ScoreHistoryPoint,
+  StressResult,
+  NarrativeSummary,
+  PortfolioView,
+} from '../types'
 import { mockProtocols, mockScores, generateScoreHistory, mockStressResults, mockNarratives, mockPortfolio } from '../data/mockData'
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
+// In dev, use same-origin `/api` so Vite proxies to the backend (vite.config server.proxy).
+// Hitting `http://localhost:8000` directly from the browser often fails CORS or network rules.
+const BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.DEV ? '/api' : 'http://localhost:8000/api')
 
 async function fetchWithFallback<T>(url: string, fallback: T): Promise<T> {
   try {
@@ -17,9 +28,10 @@ async function fetchWithFallback<T>(url: string, fallback: T): Promise<T> {
 export const api = {
   getProtocols: () => fetchWithFallback<Protocol[]>('/protocols', mockProtocols),
 
-  getScore: async (id: string): Promise<PrismScore> => {
+  getScore: async (id: string, opts?: { refresh?: boolean }): Promise<PrismScore> => {
     try {
-      const res = await fetch(`${BASE_URL}/scores/${id}`)
+      const q = opts?.refresh ? '?refresh=true' : ''
+      const res = await fetch(`${BASE_URL}/scores/${id}${q}`)
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const data = await res.json()
       return {
@@ -33,8 +45,58 @@ export const api = {
         safe_position_label: data.safe_position_label,
         score_history: data.score_history || [],
         timestamp: data.timestamp,
+        details: data.details
+          ? {
+              governance: data.details.governance
+                ? {
+                    dune_whale_source: data.details.governance.dune_whale_source,
+                    dune_whale_gini: data.details.governance.dune_whale_gini ?? null,
+                    dune_whale_top10_pct: data.details.governance.dune_whale_top10_pct ?? null,
+                    dune_whale_error: data.details.governance.dune_whale_error ?? null,
+                  }
+                : undefined,
+              liquidation: data.details.liquidation
+                ? {
+                    dune_liquidations_source: data.details.liquidation.dune_liquidations_source,
+                    dune_liquidation_latest_date: data.details.liquidation.dune_liquidation_latest_date ?? null,
+                    dune_liquidation_latest_count: data.details.liquidation.dune_liquidation_latest_count ?? null,
+                    dune_liquidation_latest_usd: data.details.liquidation.dune_liquidation_latest_usd ?? null,
+                    dune_liquidation_error: data.details.liquidation.dune_liquidation_error ?? null,
+                  }
+                : undefined,
+              narrative: data.details.narrative
+                ? {
+                    dune_users_source: data.details.narrative.dune_users_source,
+                    dune_dau: data.details.narrative.dune_dau ?? null,
+                    dune_wau: data.details.narrative.dune_wau ?? null,
+                    dune_mau: data.details.narrative.dune_mau ?? null,
+                    dune_users_error: data.details.narrative.dune_users_error ?? null,
+                  }
+                : undefined,
+              liquidity: data.details.liquidity
+                ? {
+                    dune_liquidity_source: data.details.liquidity.dune_liquidity_source,
+                    dune_liquidity_tvl_usd: data.details.liquidity.dune_liquidity_tvl_usd ?? null,
+                    dune_borrowed_usd: data.details.liquidity.dune_borrowed_usd ?? null,
+                  }
+                : undefined,
+              oracle: data.details.oracle
+                ? {
+                    dune_oracle_source: data.details.oracle.dune_oracle_source,
+                    dune_oracle_max_deviation_bps: data.details.oracle.dune_oracle_max_deviation_bps ?? null,
+                  }
+                : undefined,
+              supply: data.details.supply
+                ? {
+                    dune_supply_source: data.details.supply.dune_supply_source,
+                    dune_supply_net_flow_30d_usd: data.details.supply.dune_supply_net_flow_30d_usd ?? null,
+                  }
+                : undefined,
+            }
+          : undefined,
       }
-    } catch {
+    } catch (e) {
+      console.warn(`[PRISM] getScore("${id}") failed — using mock data. Is the backend running?`, e)
       return mockScores[id]
     }
   },
