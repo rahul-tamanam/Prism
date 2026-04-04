@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+httpx
+pandas
+scipy
+numpy
+python-dotenv
+apscheduler
+web3
+vaderSentiment
+pydantic>=2.0

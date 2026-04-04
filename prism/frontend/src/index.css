@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+:root {
+  --bg-primary: #FAFAF7;
+  --bg-secondary: #F0EDE6;
+  --bg-card: #FFFFFF;
+  --bg-tertiary: #F4F3EE;
+  --bg-gradient: linear-gradient(160deg, #FAFAF7 0%, #EEF3F8 40%, #F5F2E8 100%);
+  --accent-yellow: #D4A017;
+  --accent-yellow-light: #F0C84A;
+  --accent-yellow-dim: rgba(212, 160, 23, 0.10);
+  --accent-blue: #7EB8D4;
+  --accent-blue-light: #B8D9E8;
+  --accent-teal: #D4A017;
+  --accent-teal-dim: rgba(212, 160, 23, 0.10);
+  --accent-purple: #7EB8D4;
+  --text-primary: #1A1A1A;
+  --text-secondary: #5C5C5C;
+  --text-muted: #9A9A9A;
+  --border: #E8E4DC;
+  --border-light: #E8E4DC;
+  --border-accent: #D4A017;
+  --action-enter: #2D8A4E;
+  --action-hold: #D4A017;
+  --action-reduce: #E07B39;
+  --action-exit: #C94040;
+  --score-enter: #2D8A4E;
+  --score-hold: #D4A017;
+  --score-reduce: #E07B39;
+  --score-exit: #C94040;
+  --shadow-card: 0 2px 16px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04);
+  --shadow-hover: 0 8px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06);
+  --pillar-liquidity: #2D8A4E;
+  --pillar-liquidation: #7B5EA7;
+  --pillar-governance: #D4A017;
+  --pillar-oracle: #7EB8D4;
+  --pillar-supply: #E07B39;
+  --pillar-narrative: #7B5EA7;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg-gradient);
+  color: var(--text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-display { font-family: 'Syne', sans-serif; }
+.font-mono { font-family: 'DM Sans', sans-serif; font-weight: 500; }
+.font-body { font-family: 'DM Sans', sans-serif; }
+.font-syne { font-family: 'Syne', sans-serif; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+.section-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-label::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 24px;
+  background: var(--accent-yellow);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.section-label::after {
+  content: none;
+}
+
+.prism-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.prism-card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-3px);
+}
+
+.card-section-label {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-18px); }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse-badge {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+@keyframes drawLine {
+  from { stroke-dashoffset: 1000; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes countUp {
+  from { opacity: 0; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+@keyframes float-med {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-14px); }
+}
+@keyframes float-fast {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.hero-grid {
+  background-image:
+    linear-gradient(rgba(126,184,212,0.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(126,184,212,0.10) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.hero-glow {
+  background: radial-gradient(ellipse 700px 300px at 50% 100%, rgba(126,184,212,0.18) 0%, transparent 70%);
+}
+
+.anim-fade-in-up {
+  animation: fadeInUp 0.5s ease forwards;
+  opacity: 0;
+}
+.anim-count-up {
+  animation: countUp 0.4s ease forwards;
+}
+.anim-pulse-badge {
+  animation: pulse-badge 2s ease-in-out infinite;
+}
