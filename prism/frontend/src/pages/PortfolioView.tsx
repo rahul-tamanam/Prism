@@ -4,6 +4,7 @@ import { usePortfolio } from '../hooks/usePortfolio'
 import { ACTION_COLORS } from '../types'
 import { formatScore } from '../lib/utils'
 import ActionBadge from '../components/cards/ActionBadge'
+import CorrelationMatrix from '../components/cards/CorrelationMatrix'
 import {
   BarChart,
   Bar,
@@ -291,6 +292,26 @@ export default function PortfolioView() {
           </motion.div>
         ))}
       </div>
+
+      <div style={{ marginTop: 32, marginBottom: 20, paddingBottom: 16, borderBottom: '1px solid #E8E4DC' }}>
+        <h2
+          className="font-syne"
+          style={{
+            fontWeight: 700,
+            fontSize: '1.6rem',
+            color: '#1A1A1A',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 10,
+          }}
+        >
+          <span
+            style={{ width: 4, height: 24, background: '#D4A017', borderRadius: 2, display: 'inline-block' }}
+          />
+          Correlation Risk
+        </h2>
+      </div>
+      <CorrelationMatrix />
     </motion.div>
   )
 }

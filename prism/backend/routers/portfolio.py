@@ -4,6 +4,8 @@ import logging
 from fastapi import APIRouter
 from cache.store import cache
 from scoring.prism import get_action
+from services.correlation import compute_correlation_matrix
+from services.history import get_score_history
 
 logger = logging.getLogger(__name__)
 router = APIRouter(tags=["portfolio"])
@@ -92,3 +94,20 @@ async def get_portfolio():
         "fragility_ranking": fragility_ranking,
         "protocols": protocols,
     }
+
+
+@router.get("/portfolio/correlation")
+async def get_correlation_matrix():
+    """
+    Return cross-protocol correlation matrix and pair-level risk notes.
+    Uses live score history where available, static estimates as fallback.
+    """
+    configs = _load_protocol_configs()
+
+    score_histories: dict[str, list[dict]] = {}
+    for config in configs:
+        pid = config["id"]
+        score_histories[pid] = get_score_history(pid, days=30)
+
+    result = compute_correlation_matrix(score_histories)
+    return result

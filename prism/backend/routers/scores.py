@@ -7,6 +7,15 @@ import numpy as np
 from fastapi import APIRouter, HTTPException, Query
 from cache.store import cache
 from scoring.prism import calculate_prism_score, get_action
+from models.score import ExitCostRequest, ExitCostResponse
+from services.exit_calculator import calculate_exit_cost
+from services.alerts import (
+    check_and_dispatch,
+    get_alert_history,
+    acknowledge_alert,
+    get_unacknowledged_count,
+)
+from services.history import record_score_snapshot, get_score_history
 
 logger = logging.getLogger(__name__)
 router = APIRouter(tags=["scores"])
@@ -42,6 +51,18 @@ def _score_cache_fingerprint(cfg: dict) -> str:
     }
     blob = json.dumps(subset, sort_keys=True, default=str)
     return hashlib.sha256(blob.encode()).hexdigest()[:12]
+
+
+def _get_cached_score(protocol_id: str) -> dict | None:
+    """Resolve a cached PRISM score (supports fingerprinted cache keys)."""
+    configs = _load_protocol_configs()
+    cfg = configs.get(protocol_id)
+    if cfg:
+        fp = _score_cache_fingerprint(cfg)
+        hit = cache.get(f"score:{protocol_id}:{fp}")
+        if hit is not None:
+            return hit
+    return cache.get(f"score:{protocol_id}")
 
 
 @router.get("/scores/{protocol_id}")
@@ -80,9 +101,12 @@ async def get_score(
         raise HTTPException(status_code=404, detail=f"Protocol '{protocol_id}' not found")
 
     try:
+        configs[protocol_id]["_score_history"] = get_score_history(protocol_id, days=30)
         result = await calculate_prism_score(protocol_id, configs[protocol_id])
         result["timestamp"] = datetime.utcnow().isoformat()
         cache.set(cache_key, result, ttl=CACHE_TTL)
+        record_score_snapshot(protocol_id, result)
+        await check_and_dispatch(protocol_id, result.get("name", protocol_id), result)
         logger.info(f"Computed fresh score for {protocol_id}: {result['score']}")
         return result
     except Exception as e:
@@ -97,7 +121,7 @@ async def get_score(
 
 
 @router.get("/scores/{protocol_id}/history")
-async def get_score_history(protocol_id: str, days: int = 30):
+async def get_score_history_route(protocol_id: str, days: int = 30):
     """
     Return score history for a protocol.
 
@@ -142,3 +166,55 @@ async def get_score_history(protocol_id: str, days: int = 30):
         "protocol_id": protocol_id,
         "history": history,
     }
+
+
+@router.post("/scores/{protocol_id}/exit-cost", response_model=ExitCostResponse)
+async def calculate_exit_cost_endpoint(protocol_id: str, request: ExitCostRequest):
+    """
+    Calculate the real cost of exiting a position.
+    Uses live PRISM liquidity pillar score to adjust depth estimates.
+    Falls back to mock data if live score unavailable.
+    """
+    configs = _load_protocol_configs()
+    if protocol_id not in configs:
+        raise HTTPException(status_code=404, detail=f"Protocol '{protocol_id}' not found")
+
+    liquidity_score = 50.0
+    cached = _get_cached_score(protocol_id)
+    if cached:
+        liquidity_score = cached.get("pillar_scores", {}).get("liquidity", 50.0)
+    else:
+        mock = _load_mock_scores()
+        if protocol_id in mock:
+            liquidity_score = mock[protocol_id].get("pillar_scores", {}).get("liquidity", 50.0)
+
+    result = calculate_exit_cost(
+        protocol_id=protocol_id,
+        position_size_usd=request.position_size_usd,
+        urgency=request.urgency,
+        liquidity_pillar_score=liquidity_score,
+    )
+    return result
+
+
+@router.get("/alerts")
+async def list_alerts(limit: int = 50):
+    """Return recent alert history with unacknowledged count."""
+    return {
+        "alerts": get_alert_history(limit),
+        "unacknowledged_count": get_unacknowledged_count(),
+    }
+
+
+@router.post("/alerts/{alert_id}/acknowledge")
+async def ack_alert(alert_id: str):
+    """Acknowledge an alert by ID."""
+    success = acknowledge_alert(alert_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Alert not found")
+    return {"acknowledged": True}
+
+
+@router.get("/alerts/count")
+async def alert_count():
+    return {"unacknowledged_count": get_unacknowledged_count()}

@@ -1,4 +1,5 @@
 import logging
+from scoring.divergence import calculate_divergence
 from scoring.liquidity import calculate_liquidity_score
 from scoring.liquidation import calculate_liquidation_score
 from scoring.governance import calculate_governance_score
@@ -119,6 +120,14 @@ async def calculate_prism_score(protocol_id: str, protocol_config: dict) -> dict
         raw = max(0, raw - TRIPLE_CONVERGENCE_PENALTY)
         logger.warning(f"TRIPLE CONVERGENCE ALERT for {protocol_id}: -8 penalty applied")
 
+    tvl_usd = liquidity_result.get("tvl_data", {}).get("current_tvl", 0.0)
+    score_history = protocol_config.get("_score_history", [])
+    divergence_result = calculate_divergence(
+        pillar_scores=pillar_scores,
+        score_history=score_history,
+        tvl_usd=tvl_usd,
+    )
+
     score = round(max(0, min(100, raw)), 1)
     action = get_action(score)
 
@@ -144,4 +153,5 @@ async def calculate_prism_score(protocol_id: str, protocol_config: dict) -> dict
             "supply": supply_result,
             "narrative": narrative_result,
         },
+        "divergence": divergence_result,
     }

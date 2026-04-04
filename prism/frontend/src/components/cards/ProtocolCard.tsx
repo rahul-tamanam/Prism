@@ -94,6 +94,35 @@ export default function ProtocolCard({ protocol, score, onClick, index = 0 }: Pr
         <ActionBadge action={score.action} size="md" />
       </div>
 
+      {score.divergence && (
+        <div
+          style={{
+            fontFamily: 'DM Sans',
+            fontSize: '0.72rem',
+            color:
+              score.divergence.drs < 15
+                ? '#2D8A4E'
+                : score.divergence.drs < 35
+                  ? '#D4A017'
+                  : score.divergence.drs < 60
+                    ? '#E07B39'
+                    : '#C94040',
+            fontWeight: 600,
+            marginTop: 6,
+            marginBottom: 8,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+          }}
+        >
+          <span>DIV {score.divergence.drs.toFixed(1)}</span>
+          <span style={{ color: '#9A9A9A', fontWeight: 400 }}>·</span>
+          <span style={{ color: '#9A9A9A', fontWeight: 400 }}>{score.divergence.dominant_pair}</span>
+          <span style={{ color: '#9A9A9A', fontWeight: 400 }}>·</span>
+          <span>{score.divergence.velocity}</span>
+        </div>
+      )}
+
       <div className="flex justify-center mb-4">
         <PrismRadarChart pillarScores={score.pillar_scores} color={scoreColor} size={200} />
       </div>

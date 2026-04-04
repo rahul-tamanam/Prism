@@ -5,6 +5,7 @@ import type { Protocol, PrismScore } from '../../types'
 import { ACTION_COLORS, ACTION_BG } from '../../types'
 import { formatScore, getRelativeTime } from '../../lib/utils'
 import { mockScores } from '../../data/mockData'
+import AlertPanel from './AlertPanel'
 
 const navItems = [
   { to: '/', label: 'Protocol Radar', icon: Radio },
@@ -23,6 +24,7 @@ const PROTOCOL_DOT: Record<string, string> = {
 interface NavBarProps {
   selectedProtocol: string
   onProtocolChange: (id: string) => void
+  onAlertNavigate?: (protocolId: string) => void
   score?: PrismScore | null
   protocols: Protocol[]
   showNavbar?: boolean
@@ -202,7 +204,14 @@ function ProtocolMenu({
 }
 
 export default function Sidebar(props?: NavBarProps) {
-  const { selectedProtocol = 'aave-v3', onProtocolChange, score, protocols, showNavbar = true } = props || {}
+  const {
+    selectedProtocol = 'aave-v3',
+    onProtocolChange,
+    onAlertNavigate,
+    score,
+    protocols,
+    showNavbar = true,
+  } = props || {}
   const isFresh = score
     ? Date.now() - new Date(score.timestamp).getTime() < 900000
     : false
@@ -257,6 +266,13 @@ export default function Sidebar(props?: NavBarProps) {
             protocols={protocols}
           />
         )}
+
+        <AlertPanel
+          onNavigate={id => {
+            if (onAlertNavigate) onAlertNavigate(id)
+            else if (onProtocolChange) onProtocolChange(id)
+          }}
+        />
 
         {score && (
           <div

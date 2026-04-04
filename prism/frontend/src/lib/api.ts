@@ -7,6 +7,10 @@ import type {
   MonteCarloRequestBody,
   NarrativeSummary,
   PortfolioView,
+  ExitCostRequest,
+  ExitCostResponse,
+  AlertsResponse,
+  CorrelationMatrix,
 } from '../types'
 import {
   mockProtocols,
@@ -55,6 +59,7 @@ export const api = {
         safe_position_label: data.safe_position_label,
         score_history: data.score_history || [],
         timestamp: data.timestamp,
+        divergence: data.divergence,
         details: data.details
           ? {
               governance: data.details.governance
@@ -173,6 +178,101 @@ export const api = {
       }
     } catch {
       return mockPortfolio
+    }
+  },
+
+  calculateExitCost: async (id: string, body: ExitCostRequest): Promise<ExitCostResponse> => {
+    try {
+      const res = await fetch(`${BASE_URL}/scores/${id}/exit-cost`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      })
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      return await res.json()
+    } catch {
+      return {
+        protocol_id: id,
+        position_size_usd: body.position_size_usd,
+        urgency: body.urgency,
+        slippage_pct: 1.2,
+        protocol_fee_pct: 0.05,
+        utilization_penalty_pct: 0.3,
+        total_cost_pct: 1.55,
+        total_cost_usd: Math.round(body.position_size_usd * 0.0155 * 100) / 100,
+        max_safe_single_tx_usd: 2_400_000,
+        optimal_chunks: Math.ceil(body.position_size_usd / 2_400_000),
+        optimal_exit_hours: 18,
+        exit_quality_rating: 'MODERATE',
+        recommendations: ['Spreading exit over 24h reduces cost significantly'],
+      }
+    }
+  },
+
+  getAlerts: async (): Promise<AlertsResponse> => {
+    try {
+      const res = await fetch(`${BASE_URL}/alerts`)
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      return await res.json()
+    } catch {
+      return { alerts: [], unacknowledged_count: 0 }
+    }
+  },
+
+  acknowledgeAlert: async (alertId: string): Promise<void> => {
+    try {
+      await fetch(`${BASE_URL}/alerts/${encodeURIComponent(alertId)}/acknowledge`, { method: 'POST' })
+    } catch {
+      /* silent */
+    }
+  },
+
+  getCorrelationMatrix: async (): Promise<CorrelationMatrix> => {
+    try {
+      const res = await fetch(`${BASE_URL}/portfolio/correlation`)
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      return await res.json()
+    } catch {
+      return {
+        protocols: ['aave-v3', 'uniswap-v3', 'stargate'],
+        matrix: {
+          'aave-v3': { 'aave-v3': 1.0, 'uniswap-v3': 0.72, stargate: 0.41 },
+          'uniswap-v3': { 'aave-v3': 0.72, 'uniswap-v3': 1.0, stargate: 0.38 },
+          stargate: { 'aave-v3': 0.41, 'uniswap-v3': 0.38, stargate: 1.0 },
+        },
+        pairs: [
+          {
+            protocol_a: 'aave-v3',
+            protocol_b: 'uniswap-v3',
+            correlation: 0.72,
+            source: 'static',
+            diversification_benefit: 'Low — moderate co-movement during crashes',
+            risk_note:
+              'Aave and Uniswap move together in roughly 72% of stress scenarios.',
+            drivers: ['ETH price', 'Ethereum gas'],
+          },
+          {
+            protocol_a: 'aave-v3',
+            protocol_b: 'stargate',
+            correlation: 0.41,
+            source: 'static',
+            diversification_benefit: 'Moderate — partial diversification',
+            risk_note: 'Aave and Stargate have sufficiently independent risk drivers.',
+            drivers: ['Bridge liquidity'],
+          },
+          {
+            protocol_a: 'uniswap-v3',
+            protocol_b: 'stargate',
+            correlation: 0.38,
+            source: 'static',
+            diversification_benefit: 'Moderate — partial diversification',
+            risk_note: 'Uniswap and Stargate have independent risk drivers.',
+            drivers: ['Cross-chain volume'],
+          },
+        ],
+        overall_diversification_score: 58.3,
+        high_correlation_warnings: [],
+      }
     }
   },
 }

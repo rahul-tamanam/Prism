@@ -63,6 +63,33 @@ export interface SupplyDuneSnippet {
   dune_supply_net_flow_30d_usd?: number | null
 }
 
+export interface DivergencePair {
+  pair: string
+  signal_a: string
+  signal_b: string
+  score_a: number
+  score_b: number
+  raw_gap: number
+  baseline_gap: number
+  delta: number
+  velocity: 'WIDENING' | 'STABLE' | 'NARROWING'
+  widening: boolean
+  label: string
+  real_world_precedent: string
+  weight: number
+  weighted_contribution: number
+}
+
+export interface DivergenceResult {
+  drs: number
+  velocity: 'WIDENING' | 'STABLE' | 'NARROWING'
+  dominant_pair: string
+  pairs: DivergencePair[]
+  alert: boolean
+  tvl_weight_applied: number
+  interpretation: string
+}
+
 export interface PrismScore {
   protocol_id: string
   name: string
@@ -83,6 +110,67 @@ export interface PrismScore {
     oracle?: OracleDuneSnippet
     supply?: SupplyDuneSnippet
   }
+  divergence?: DivergenceResult
+}
+
+export interface ExitCostRequest {
+  position_size_usd: number
+  urgency: 'immediate' | '24h' | '7d'
+}
+
+export interface ExitCostResponse {
+  protocol_id: string
+  position_size_usd: number
+  urgency: string
+  slippage_pct: number
+  protocol_fee_pct: number
+  utilization_penalty_pct: number
+  total_cost_pct: number
+  total_cost_usd: number
+  max_safe_single_tx_usd: number
+  optimal_chunks: number
+  optimal_exit_hours: number
+  exit_quality_rating: 'GOOD' | 'MODERATE' | 'HIGH' | 'CRITICAL'
+  recommendations: string[]
+}
+
+export interface PrismAlert {
+  id: string
+  type: 'ACTION_DOWNGRADE' | 'ACTION_UPGRADE' | 'TRIPLE_CONVERGENCE' | 'SCORE_DROP'
+  severity: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW'
+  protocol_id: string
+  protocol_name: string
+  message: string
+  score: number
+  timestamp: string
+  acknowledged: boolean
+  prev_action?: string
+  new_action?: string
+  score_before?: number
+  score_after?: number
+}
+
+export interface AlertsResponse {
+  alerts: PrismAlert[]
+  unacknowledged_count: number
+}
+
+export interface CorrelationPair {
+  protocol_a: string
+  protocol_b: string
+  correlation: number
+  source: 'live' | 'static'
+  diversification_benefit: string
+  risk_note: string
+  drivers: string[]
+}
+
+export interface CorrelationMatrix {
+  protocols: string[]
+  matrix: Record<string, Record<string, number>>
+  pairs: CorrelationPair[]
+  overall_diversification_score: number
+  high_correlation_warnings: CorrelationPair[]
 }
 
 export interface ScoreHistoryPoint {

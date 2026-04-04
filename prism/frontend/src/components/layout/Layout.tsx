@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Outlet, useLocation } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import Sidebar from './Sidebar'
 import { useProtocols } from '../../hooks/useProtocols'
 import { usePrismScore } from '../../hooks/usePrismScore'
@@ -8,6 +8,7 @@ export default function Layout() {
   const { protocols } = useProtocols()
   const [selectedProtocol, setSelectedProtocol] = useState('aave-v3')
   const { score } = usePrismScore(selectedProtocol)
+  const navigate = useNavigate()
   const location = useLocation()
   const isHeroRoute = location.pathname === '/'
   const [pastHero, setPastHero] = useState(!isHeroRoute)
@@ -33,6 +34,10 @@ export default function Layout() {
       <Sidebar
         selectedProtocol={selectedProtocol}
         onProtocolChange={setSelectedProtocol}
+        onAlertNavigate={id => {
+          setSelectedProtocol(id)
+          navigate('/')
+        }}
         score={score}
         protocols={protocols}
         showNavbar={showNavbar}

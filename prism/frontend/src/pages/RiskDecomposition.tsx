@@ -5,6 +5,8 @@ import { PILLAR_COLORS, PILLAR_WEIGHTS, ACTION_COLORS } from '../types'
 import PrismRadarChart from '../components/charts/PrismRadarChart'
 import PillarCard from '../components/cards/PillarCard'
 import PillarBarChart from '../components/charts/PillarBarChart'
+import ExitCostCalculator from '../components/cards/ExitCostCalculator'
+import DivergencePanel from '../components/cards/DivergencePanel'
 import TripleConvergenceAlert from '../components/cards/TripleConvergenceAlert'
 import ActionBadge from '../components/cards/ActionBadge'
 import { formatScore } from '../lib/utils'
@@ -166,6 +168,10 @@ export default function RiskDecomposition() {
         <p className="card-section-label" style={{ color: '#D4A017' }}>PILLAR COMPARISON</p>
         <PillarBarChart pillarScores={score.pillar_scores} />
       </div>
+
+      <ExitCostCalculator protocolId={selectedProtocol} protocolName={score.name} />
+
+      {score.divergence && <DivergencePanel divergence={score.divergence} />}
     </motion.div>
   )
 }
