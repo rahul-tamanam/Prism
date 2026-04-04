@@ -34,7 +34,7 @@ export default function PortfolioView() {
   if (loading || !portfolio) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span style={{ fontFamily: 'DM Sans', color: '#9A9A9A' }}>Loading portfolio…</span>
+        <span style={{ fontFamily: 'Inter', color: '#9A9A9A' }}>Loading portfolio…</span>
       </div>
     )
   }
@@ -92,7 +92,7 @@ export default function PortfolioView() {
           <span style={{ width: 4, height: 24, background: '#D4A017', borderRadius: 2, display: 'inline-block' }} />
           Portfolio View
         </h1>
-        <p style={{ color: '#5C5C5C', fontSize: '0.9rem', marginTop: 4, fontFamily: 'DM Sans' }}>
+        <p style={{ color: '#5C5C5C', fontSize: '0.9rem', marginTop: 4, fontFamily: 'Inter' }}>
           Aggregate risk assessment and position recommendations
         </p>
       </div>
@@ -113,7 +113,7 @@ export default function PortfolioView() {
         <AlertTriangle size={20} color={risk.color} />
         <div>
           <span style={{
-            fontFamily: 'DM Sans', fontWeight: 600, fontSize: '0.65rem',
+            fontFamily: 'Inter', fontWeight: 600, fontSize: '0.65rem',
             letterSpacing: '0.12em', textTransform: 'uppercase' as const,
             color: '#9A9A9A', display: 'block', marginBottom: 2,
           }}>
@@ -138,7 +138,7 @@ export default function PortfolioView() {
                   key={header}
                   style={{
                     textAlign: 'left',
-                    fontFamily: 'DM Sans',
+                    fontFamily: 'Inter',
                     fontWeight: 600,
                     fontSize: '0.7rem',
                     letterSpacing: '0.1em',
@@ -164,7 +164,7 @@ export default function PortfolioView() {
                   backgroundColor: idx % 2 === 1 ? 'rgba(250,248,245,0.6)' : 'transparent',
                 }}
               >
-                <td style={{ padding: '12px 16px', fontFamily: 'DM Sans', fontWeight: 400, fontSize: '0.9rem', color: '#1A1A1A' }}>
+                <td style={{ padding: '12px 16px', fontFamily: 'Inter', fontWeight: 400, fontSize: '0.9rem', color: '#1A1A1A' }}>
                   {protocol.name}
                 </td>
                 <td style={{ padding: '12px 16px' }}>
@@ -175,16 +175,16 @@ export default function PortfolioView() {
                 <td style={{ padding: '12px 16px' }}>
                   <ActionBadge action={protocol.action} size="sm" />
                 </td>
-                <td style={{ padding: '12px 16px', fontFamily: 'DM Sans', fontWeight: 400, fontSize: '0.85rem', color: '#5C5C5C' }}>
+                <td style={{ padding: '12px 16px', fontFamily: 'Inter', fontWeight: 400, fontSize: '0.85rem', color: '#5C5C5C' }}>
                   {protocol.worst_risk}
                 </td>
-                <td style={{ padding: '12px 16px', fontFamily: 'DM Sans', fontWeight: 400, fontSize: '0.85rem', color: '#5C5C5C' }}>
+                <td style={{ padding: '12px 16px', fontFamily: 'Inter', fontWeight: 400, fontSize: '0.85rem', color: '#5C5C5C' }}>
                   {protocol.safe_position_pct > 0 ? `${protocol.safe_position_pct}%` : '—'}
                 </td>
                 <td style={{ padding: '12px 16px' }}>
                   {protocol.spike_detected && (
                     <span style={{
-                      fontFamily: 'DM Sans', fontWeight: 600, fontSize: '0.7rem',
+                      fontFamily: 'Inter', fontWeight: 600, fontSize: '0.7rem',
                       textTransform: 'uppercase' as const,
                       backgroundColor: 'rgba(201,64,64,0.10)',
                       color: '#C94040',
@@ -211,7 +211,7 @@ export default function PortfolioView() {
               <XAxis
                 type="number"
                 domain={[0, 15]}
-                tick={{ fill: '#9A9A9A', fontSize: 9, fontFamily: 'DM Sans' }}
+                tick={{ fill: '#9A9A9A', fontSize: 9, fontFamily: 'Inter' }}
                 axisLine={{ stroke: '#E8E4DC' }}
                 tickLine={false}
                 tickFormatter={(v: number) => `${v}%`}
@@ -219,7 +219,7 @@ export default function PortfolioView() {
               <YAxis
                 type="category"
                 dataKey="name"
-                tick={{ fill: '#5C5C5C', fontSize: 11, fontFamily: 'DM Sans' }}
+                tick={{ fill: '#5C5C5C', fontSize: 11, fontFamily: 'Inter' }}
                 axisLine={false}
                 tickLine={false}
                 width={100}
@@ -231,7 +231,7 @@ export default function PortfolioView() {
                   borderRadius: 12,
                   boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
                   fontSize: 11,
-                  fontFamily: 'DM Sans',
+                  fontFamily: 'Inter',
                 }}
                 formatter={(value) => [`${value}%`, 'Safe Position']}
               />
@@ -246,7 +246,7 @@ export default function PortfolioView() {
         {exitProtocols.length > 0 && (
           <div style={{ marginTop: 12 }}>
             {exitProtocols.map(p => (
-              <p key={p.id} style={{ fontFamily: 'DM Sans', fontSize: '0.8rem', color: '#C94040', fontStyle: 'italic' }}>
+              <p key={p.id} style={{ fontFamily: 'Inter', fontSize: '0.8rem', color: '#C94040', fontStyle: 'italic' }}>
                 {p.name}: Exit recommended — no safe allocation
               </p>
             ))}
@@ -282,11 +282,11 @@ export default function PortfolioView() {
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
               <rec.icon size={16} color={rec.borderColor} />
-              <h4 style={{ fontFamily: 'DM Sans', fontWeight: 700, fontSize: '0.85rem', color: '#1A1A1A' }}>
+              <h4 style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: '0.85rem', color: '#1A1A1A' }}>
                 {rec.title}
               </h4>
             </div>
-            <p style={{ fontFamily: 'DM Sans', fontWeight: 400, fontSize: '0.85rem', color: '#5C5C5C', lineHeight: 1.6 }}>
+            <p style={{ fontFamily: 'Inter', fontWeight: 400, fontSize: '0.85rem', color: '#5C5C5C', lineHeight: 1.6 }}>
               {rec.description}
             </p>
           </motion.div>

@@ -47,21 +47,21 @@ export default function NewsCard({ article }: NewsCardProps) {
     >
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16 }}>
         <div style={{ flex: 1 }}>
-          <h4 style={{ fontFamily: 'DM Sans', fontWeight: 600, fontSize: '0.9rem', color: '#1A1A1A', lineHeight: 1.4, marginBottom: 6 }}>
+          <h4 style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '0.9rem', color: '#1A1A1A', lineHeight: 1.4, marginBottom: 6 }}>
             {article.title}
           </h4>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <span style={{ fontFamily: 'DM Sans', fontWeight: 400, fontSize: '0.8rem', color: '#9A9A9A' }}>
+            <span style={{ fontFamily: 'Inter', fontWeight: 400, fontSize: '0.8rem', color: '#9A9A9A' }}>
               {article.source}
             </span>
-            <span style={{ fontFamily: 'DM Sans', fontWeight: 400, fontSize: '0.8rem', color: '#9A9A9A' }}>
+            <span style={{ fontFamily: 'Inter', fontWeight: 400, fontSize: '0.8rem', color: '#9A9A9A' }}>
               {getRelativeTime(article.published_at)}
             </span>
           </div>
         </div>
         <span
           style={{
-            fontFamily: 'DM Sans',
+            fontFamily: 'Inter',
             fontWeight: 700,
             fontSize: '0.7rem',
             color: '#FFFFFF',

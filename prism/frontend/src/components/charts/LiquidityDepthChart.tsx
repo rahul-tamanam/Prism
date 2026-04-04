@@ -35,13 +35,13 @@ export default function LiquidityDepthChart({ data = defaultData }: LiquidityDep
       <AreaChart data={data} margin={{ top: 8, right: 16, bottom: 8, left: 0 }}>
         <XAxis
           dataKey="price"
-          tick={{ fill: 'var(--text-muted)', fontSize: 9, fontFamily: "'DM Sans', sans-serif" }}
+          tick={{ fill: 'var(--text-muted)', fontSize: 9, fontFamily: "'Inter', sans-serif" }}
           axisLine={{ stroke: 'var(--border)' }}
           tickLine={false}
           tickFormatter={(v: number) => `$${v}`}
         />
         <YAxis
-          tick={{ fill: 'var(--text-muted)', fontSize: 9, fontFamily: "'DM Sans', sans-serif" }}
+          tick={{ fill: 'var(--text-muted)', fontSize: 9, fontFamily: "'Inter', sans-serif" }}
           axisLine={{ stroke: 'var(--border)' }}
           tickLine={false}
           width={32}
@@ -51,7 +51,7 @@ export default function LiquidityDepthChart({ data = defaultData }: LiquidityDep
             backgroundColor: 'var(--bg-card)',
             border: '1px solid var(--border)',
             borderRadius: 8,
-            fontFamily: "'DM Sans', sans-serif",
+            fontFamily: "'Inter', sans-serif",
             fontSize: 11,
             boxShadow: 'var(--shadow-card)',
           }}

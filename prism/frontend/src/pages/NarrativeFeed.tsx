@@ -26,7 +26,7 @@ export default function NarrativeFeed() {
   if (loading || !narrative) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span style={{ fontFamily: 'DM Sans', color: '#9A9A9A' }}>Loading narrative data…</span>
+        <span style={{ fontFamily: 'Inter', color: '#9A9A9A' }}>Loading narrative data…</span>
       </div>
     )
   }
@@ -82,7 +82,7 @@ export default function NarrativeFeed() {
           <span style={{ width: 4, height: 24, background: '#D4A017', borderRadius: 2, display: 'inline-block' }} />
           Narrative Feed
         </h1>
-        <p style={{ color: '#5C5C5C', fontSize: '0.9rem', marginTop: 4, fontFamily: 'DM Sans' }}>
+        <p style={{ color: '#5C5C5C', fontSize: '0.9rem', marginTop: 4, fontFamily: 'Inter' }}>
           Sentiment analysis and media monitoring for {score?.name || 'selected protocol'}
         </p>
       </div>
@@ -107,7 +107,7 @@ export default function NarrativeFeed() {
             }}
           >
             <span style={{
-              fontFamily: 'DM Sans', fontWeight: 600, fontSize: '0.65rem',
+              fontFamily: 'Inter', fontWeight: 600, fontSize: '0.65rem',
               letterSpacing: '0.12em', textTransform: 'uppercase' as const,
               color: '#9A9A9A', display: 'block', marginBottom: 8,
             }}>
@@ -144,7 +144,7 @@ export default function NarrativeFeed() {
           <span className="font-syne" style={{ fontWeight: 800, fontSize: '1.2rem', color: sentimentColor, marginTop: 8 }}>
             {narrative.avg_sentiment.toFixed(2)}
           </span>
-          <span style={{ fontFamily: 'DM Sans', fontSize: '0.75rem', color: '#9A9A9A', marginTop: 2 }}>
+          <span style={{ fontFamily: 'Inter', fontSize: '0.75rem', color: '#9A9A9A', marginTop: 2 }}>
             {narrative.avg_sentiment >= 0.3 ? 'Positive' : narrative.avg_sentiment >= -0.1 ? 'Mixed' : 'Negative'}
           </span>
         </div>
@@ -161,13 +161,13 @@ export default function NarrativeFeed() {
               </defs>
               <XAxis
                 dataKey="hour"
-                tick={{ fill: '#9A9A9A', fontSize: 9, fontFamily: 'DM Sans' }}
+                tick={{ fill: '#9A9A9A', fontSize: 9, fontFamily: 'Inter' }}
                 axisLine={{ stroke: '#E8E4DC' }}
                 tickLine={false}
                 interval={3}
               />
               <YAxis
-                tick={{ fill: '#9A9A9A', fontSize: 9, fontFamily: 'DM Sans' }}
+                tick={{ fill: '#9A9A9A', fontSize: 9, fontFamily: 'Inter' }}
                 axisLine={{ stroke: '#E8E4DC' }}
                 tickLine={false}
                 width={32}
@@ -179,7 +179,7 @@ export default function NarrativeFeed() {
                   borderRadius: 12,
                   boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
                   fontSize: 11,
-                  fontFamily: 'DM Sans',
+                  fontFamily: 'Inter',
                 }}
               />
               <Area

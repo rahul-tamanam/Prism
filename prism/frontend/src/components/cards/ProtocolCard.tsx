@@ -97,7 +97,7 @@ export default function ProtocolCard({ protocol, score, onClick, index = 0 }: Pr
       {score.divergence && (
         <div
           style={{
-            fontFamily: 'DM Sans',
+            fontFamily: 'Inter',
             fontSize: '0.72rem',
             color:
               score.divergence.drs < 15
@@ -128,17 +128,17 @@ export default function ProtocolCard({ protocol, score, onClick, index = 0 }: Pr
       </div>
 
       <div className="space-y-2 mb-4">
-        <p className="text-xs font-medium" style={{ color: '#5C5C5C', fontFamily: 'DM Sans' }}>
+        <p className="text-xs font-medium" style={{ color: '#5C5C5C', fontFamily: 'Inter' }}>
           {score.safe_position_label}
         </p>
-        <p className="text-xs font-medium" style={{ color: '#D4A017', fontFamily: 'DM Sans' }}>
+        <p className="text-xs font-medium" style={{ color: '#D4A017', fontFamily: 'Inter' }}>
           Worst: {PILLAR_LABELS[score.worst_pillar] || score.worst_pillar}
         </p>
       </div>
 
       <button
         className="text-sm font-medium transition-colors"
-        style={{ color: '#7EB8D4', fontFamily: 'DM Sans', fontWeight: 500, fontSize: '0.85rem' }}
+        style={{ color: '#7EB8D4', fontFamily: 'Inter', fontWeight: 500, fontSize: '0.85rem' }}
         onMouseEnter={e => { (e.target as HTMLElement).style.color = '#D4A017' }}
         onMouseLeave={e => { (e.target as HTMLElement).style.color = '#7EB8D4' }}
       >

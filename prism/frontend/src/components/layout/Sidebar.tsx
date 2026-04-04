@@ -68,7 +68,7 @@ function ProtocolMenu({
           borderRadius: 10,
           boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
           cursor: 'pointer',
-          fontFamily: 'DM Sans, sans-serif',
+          fontFamily: 'Inter, sans-serif',
           fontWeight: 600,
           fontSize: '0.875rem',
           color: '#1A1A1A',
@@ -154,7 +154,7 @@ function ProtocolMenu({
                   gap: 10,
                   padding: '11px 16px',
                   cursor: 'pointer',
-                  fontFamily: 'DM Sans, sans-serif',
+                  fontFamily: 'Inter, sans-serif',
                   fontWeight: selected ? 600 : 400,
                   fontSize: '0.875rem',
                   color: '#1A1A1A',
@@ -183,7 +183,7 @@ function ProtocolMenu({
                   <span
                     style={{
                       fontSize: '0.75rem',
-                      fontFamily: 'Syne, sans-serif',
+                      fontFamily: 'Inter, sans-serif',
                       fontWeight: 700,
                       color: actionColor,
                       background: actionBg,

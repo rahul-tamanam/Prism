@@ -18,13 +18,13 @@ export default function MonteCarloHistogramChart({ result }: MonteCarloHistogram
       <BarChart data={data} margin={{ top: 8, right: 12, bottom: 4, left: 0 }}>
         <XAxis
           dataKey="label"
-          tick={{ fill: 'var(--text-muted)', fontSize: 8, fontFamily: "'DM Sans', sans-serif" }}
+          tick={{ fill: 'var(--text-muted)', fontSize: 8, fontFamily: "'Inter', sans-serif" }}
           axisLine={{ stroke: 'var(--border)' }}
           tickLine={false}
           interval={2}
         />
         <YAxis
-          tick={{ fill: 'var(--text-muted)', fontSize: 9, fontFamily: "'DM Sans', sans-serif" }}
+          tick={{ fill: 'var(--text-muted)', fontSize: 9, fontFamily: "'Inter', sans-serif" }}
           axisLine={{ stroke: 'var(--border)' }}
           tickLine={false}
           width={36}
@@ -35,7 +35,7 @@ export default function MonteCarloHistogramChart({ result }: MonteCarloHistogram
             backgroundColor: 'var(--bg-card)',
             border: '1px solid var(--border)',
             borderRadius: 8,
-            fontFamily: "'DM Sans', sans-serif",
+            fontFamily: "'Inter', sans-serif",
             fontSize: 11,
             boxShadow: 'var(--shadow-card)',
           }}

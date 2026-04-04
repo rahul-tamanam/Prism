@@ -29,14 +29,14 @@ export default function PillarBarChart({ pillarScores }: PillarBarChartProps) {
         <XAxis
           type="number"
           domain={[0, 100]}
-          tick={{ fill: 'var(--text-muted)', fontSize: 9, fontFamily: "'DM Sans', sans-serif" }}
+          tick={{ fill: 'var(--text-muted)', fontSize: 9, fontFamily: "'Inter', sans-serif" }}
           axisLine={{ stroke: 'var(--border)' }}
           tickLine={false}
         />
         <YAxis
           type="category"
           dataKey="name"
-          tick={{ fill: 'var(--text-secondary)', fontSize: 11, fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}
+          tick={{ fill: 'var(--text-secondary)', fontSize: 11, fontFamily: "'Inter', sans-serif", fontWeight: 500 }}
           axisLine={false}
           tickLine={false}
           width={120}
@@ -51,7 +51,7 @@ export default function PillarBarChart({ pillarScores }: PillarBarChartProps) {
             style={{
               fill: 'var(--text-secondary)',
               fontSize: 10,
-              fontFamily: "'DM Sans', sans-serif",
+              fontFamily: "'Inter', sans-serif",
             }}
             formatter={(v: unknown) => typeof v === 'number' ? v.toFixed(1) : String(v ?? '')}
           />

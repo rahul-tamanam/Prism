@@ -69,7 +69,7 @@ export default function ProtocolRadar() {
             <span style={{ width: 4, height: 24, background: '#D4A017', borderRadius: 2, display: 'inline-block' }} />
             Protocol Radar
           </h1>
-          <p style={{ color: '#5C5C5C', fontSize: '0.9rem', marginTop: 4, fontFamily: 'DM Sans' }}>
+          <p style={{ color: '#5C5C5C', fontSize: '0.9rem', marginTop: 4, fontFamily: 'Inter' }}>
             Real-time PRISM scores across monitored protocols
           </p>
         </div>

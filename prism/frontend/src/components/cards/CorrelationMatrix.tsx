@@ -34,7 +34,7 @@ export default function CorrelationMatrix() {
 
   if (!data) {
     return (
-      <div style={{ padding: 24, textAlign: 'center', color: '#9A9A9A', fontFamily: 'DM Sans' }}>
+      <div style={{ padding: 24, textAlign: 'center', color: '#9A9A9A', fontFamily: 'Inter' }}>
         Loading correlation data…
       </div>
     )
@@ -71,7 +71,7 @@ export default function CorrelationMatrix() {
           </h3>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ fontFamily: 'DM Sans', fontSize: '0.75rem', color: '#9A9A9A' }}>
+          <span style={{ fontFamily: 'Inter', fontSize: '0.75rem', color: '#9A9A9A' }}>
             Portfolio Diversification Score
           </span>
           <span
@@ -98,7 +98,7 @@ export default function CorrelationMatrix() {
             padding: '10px 24px',
             background: 'rgba(224,123,57,0.06)',
             borderBottom: '1px solid rgba(224,123,57,0.2)',
-            fontFamily: 'DM Sans',
+            fontFamily: 'Inter',
             fontSize: '0.8rem',
             color: '#E07B39',
           }}
@@ -123,7 +123,7 @@ export default function CorrelationMatrix() {
             <div
               key={p}
               style={{
-                fontFamily: 'DM Sans',
+                fontFamily: 'Inter',
                 fontWeight: 600,
                 fontSize: '0.7rem',
                 color: '#5C5C5C',
@@ -139,7 +139,7 @@ export default function CorrelationMatrix() {
             <Fragment key={rowProto}>
               <div
                 style={{
-                  fontFamily: 'DM Sans',
+                  fontFamily: 'Inter',
                   fontWeight: 600,
                   fontSize: '0.7rem',
                   color: '#5C5C5C',
@@ -203,7 +203,7 @@ export default function CorrelationMatrix() {
           ].map(item => (
             <div key={item.label} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <div style={{ width: 10, height: 10, borderRadius: 2, background: item.color }} />
-              <span style={{ fontFamily: 'DM Sans', fontSize: '0.72rem', color: '#5C5C5C' }}>{item.label}</span>
+              <span style={{ fontFamily: 'Inter', fontSize: '0.72rem', color: '#5C5C5C' }}>{item.label}</span>
             </div>
           ))}
         </div>
@@ -233,7 +233,7 @@ export default function CorrelationMatrix() {
               </span>
               <span
                 style={{
-                  fontFamily: 'DM Sans',
+                  fontFamily: 'Inter',
                   fontWeight: 600,
                   fontSize: '0.7rem',
                   color: '#9A9A9A',
@@ -247,7 +247,7 @@ export default function CorrelationMatrix() {
             </div>
             <p
               style={{
-                fontFamily: 'DM Sans',
+                fontFamily: 'Inter',
                 fontSize: '0.82rem',
                 color: '#5C5C5C',
                 margin: '0 0 8px',
@@ -258,7 +258,7 @@ export default function CorrelationMatrix() {
             </p>
             <p
               style={{
-                fontFamily: 'DM Sans',
+                fontFamily: 'Inter',
                 fontSize: '0.8rem',
                 color: '#2D8A4E',
                 margin: '0 0 8px',
@@ -272,7 +272,7 @@ export default function CorrelationMatrix() {
                 <span
                   key={d}
                   style={{
-                    fontFamily: 'DM Sans',
+                    fontFamily: 'Inter',
                     fontSize: '0.7rem',
                     color: '#7EB8D4',
                     background: 'rgba(126,184,212,0.1)',

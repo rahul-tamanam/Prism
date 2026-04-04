@@ -82,10 +82,10 @@ export default function HeroSection({ onScrollToDashboard }: HeroSectionProps) {
             </p>
 
             <h1
-              className="font-syne"
+              className="font-playfair"
               style={{
-                fontWeight: 800,
-                fontSize: 72,
+                fontWeight: 400,
+                fontSize: 'clamp(3rem, 5.5vw + 2rem, 7.5rem)',
                 color: '#1A1A1A',
                 lineHeight: 1.05,
                 marginBottom: 24,
@@ -94,7 +94,8 @@ export default function HeroSection({ onScrollToDashboard }: HeroSectionProps) {
                 animationDelay: '0.4s',
               }}
             >
-              Know When to Exit.
+              Know When to{' '}
+              <span style={{ fontWeight: 700, color: 'var(--action-enter)' }}>Exit</span>
             </h1>
 
             <p

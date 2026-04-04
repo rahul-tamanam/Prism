@@ -83,7 +83,7 @@ export default function AlertPanel({ onNavigate }: AlertPanelProps) {
               borderRadius: '50%',
               background: '#C94040',
               color: '#FFF',
-              fontFamily: 'DM Sans',
+              fontFamily: 'Inter',
               fontWeight: 700,
               fontSize: '0.6rem',
               display: 'flex',
@@ -140,7 +140,7 @@ export default function AlertPanel({ onNavigate }: AlertPanelProps) {
                       background: 'none',
                       border: 'none',
                       cursor: 'pointer',
-                      fontFamily: 'DM Sans',
+                      fontFamily: 'Inter',
                       fontSize: '0.75rem',
                       color: '#7EB8D4',
                       display: 'flex',
@@ -168,7 +168,7 @@ export default function AlertPanel({ onNavigate }: AlertPanelProps) {
                     padding: 32,
                     textAlign: 'center',
                     color: '#9A9A9A',
-                    fontFamily: 'DM Sans',
+                    fontFamily: 'Inter',
                     fontSize: '0.85rem',
                   }}
                 >
@@ -199,7 +199,7 @@ export default function AlertPanel({ onNavigate }: AlertPanelProps) {
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <p
                             style={{
-                              fontFamily: 'DM Sans',
+                              fontFamily: 'Inter',
                               fontWeight: 600,
                               fontSize: '0.82rem',
                               color: '#1A1A1A',
@@ -210,7 +210,7 @@ export default function AlertPanel({ onNavigate }: AlertPanelProps) {
                             {alert.message}
                           </p>
                           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                            <span style={{ fontFamily: 'DM Sans', fontSize: '0.7rem', color: '#9A9A9A' }}>
+                            <span style={{ fontFamily: 'Inter', fontSize: '0.7rem', color: '#9A9A9A' }}>
                               {getRelativeTime(alert.timestamp)}
                             </span>
                             <button
@@ -223,7 +223,7 @@ export default function AlertPanel({ onNavigate }: AlertPanelProps) {
                                 background: 'none',
                                 border: 'none',
                                 cursor: 'pointer',
-                                fontFamily: 'DM Sans',
+                                fontFamily: 'Inter',
                                 fontSize: '0.7rem',
                                 color: '#7EB8D4',
                                 padding: 0,

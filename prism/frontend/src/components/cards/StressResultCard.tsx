@@ -22,7 +22,7 @@ export default function StressResultCard({ result }: StressResultCardProps) {
         <h3 className="font-syne" style={{ fontWeight: 700, fontSize: '0.9rem', color: '#D4A017' }}>
           STRESS RESULT: {result.scenario.toUpperCase()}
         </h3>
-        <span style={{ fontFamily: 'DM Sans', fontWeight: 600, color: '#C94040' }}>
+        <span style={{ fontFamily: 'Inter', fontWeight: 600, color: '#C94040' }}>
           {scoreDelta > 0 ? '+' : ''}{formatScore(scoreDelta)} pts
         </span>
       </div>
@@ -30,7 +30,7 @@ export default function StressResultCard({ result }: StressResultCardProps) {
       <div style={{ display: 'flex', alignItems: 'center', gap: 32, marginBottom: 24 }}>
         <div style={{ textAlign: 'center' }}>
           <p style={{
-            fontFamily: 'DM Sans', fontWeight: 600, fontSize: '0.65rem',
+            fontFamily: 'Inter', fontWeight: 600, fontSize: '0.65rem',
             letterSpacing: '0.1em', textTransform: 'uppercase' as const,
             color: '#9A9A9A', marginBottom: 4,
           }}>
@@ -48,7 +48,7 @@ export default function StressResultCard({ result }: StressResultCardProps) {
 
         <div style={{ textAlign: 'center' }}>
           <p style={{
-            fontFamily: 'DM Sans', fontWeight: 600, fontSize: '0.65rem',
+            fontFamily: 'Inter', fontWeight: 600, fontSize: '0.65rem',
             letterSpacing: '0.1em', textTransform: 'uppercase' as const,
             color: '#9A9A9A', marginBottom: 4,
           }}>
@@ -65,18 +65,18 @@ export default function StressResultCard({ result }: StressResultCardProps) {
 
       <div style={{ marginBottom: 16 }}>
         <span style={{
-          fontFamily: 'DM Sans', fontWeight: 600, fontSize: '0.65rem',
+          fontFamily: 'Inter', fontWeight: 600, fontSize: '0.65rem',
           letterSpacing: '0.1em', textTransform: 'uppercase' as const,
           color: '#9A9A9A',
         }}>
           MOST AFFECTED
         </span>
-        <p style={{ fontFamily: 'DM Sans', fontWeight: 600, fontSize: '0.9rem', color: '#D4A017', marginTop: 4 }}>
+        <p style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '0.9rem', color: '#D4A017', marginTop: 4 }}>
           {PILLAR_LABELS[result.most_affected_pillar] || result.most_affected_pillar}
         </p>
       </div>
 
-      <p style={{ fontFamily: 'DM Sans', fontWeight: 400, fontSize: '0.85rem', color: '#5C5C5C', lineHeight: 1.6 }}>
+      <p style={{ fontFamily: 'Inter', fontWeight: 400, fontSize: '0.85rem', color: '#5C5C5C', lineHeight: 1.6 }}>
         {result.narrative}
       </p>
     </motion.div>

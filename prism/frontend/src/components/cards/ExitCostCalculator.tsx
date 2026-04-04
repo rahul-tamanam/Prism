@@ -63,7 +63,7 @@ export default function ExitCostCalculator({ protocolId, protocolName }: ExitCos
         <h3 className="font-syne" style={{ fontWeight: 700, fontSize: '1rem', color: '#1A1A1A', margin: 0 }}>
           Exit Cost Calculator
         </h3>
-        <span style={{ fontFamily: 'DM Sans', fontSize: '0.75rem', color: '#9A9A9A', marginLeft: 4 }}>
+        <span style={{ fontFamily: 'Inter', fontSize: '0.75rem', color: '#9A9A9A', marginLeft: 4 }}>
           {protocolName}
         </span>
       </div>
@@ -72,7 +72,7 @@ export default function ExitCostCalculator({ protocolId, protocolName }: ExitCos
         <div>
           <label
             style={{
-              fontFamily: 'DM Sans',
+              fontFamily: 'Inter',
               fontSize: '0.75rem',
               color: '#5C5C5C',
               fontWeight: 600,
@@ -92,7 +92,7 @@ export default function ExitCostCalculator({ protocolId, protocolName }: ExitCos
               padding: '10px 14px',
               borderRadius: 8,
               border: '1px solid #E8E4DC',
-              fontFamily: 'DM Sans',
+              fontFamily: 'Inter',
               fontSize: '0.9rem',
               background: '#FAFAF7',
               color: '#1A1A1A',
@@ -103,7 +103,7 @@ export default function ExitCostCalculator({ protocolId, protocolName }: ExitCos
         <div>
           <label
             style={{
-              fontFamily: 'DM Sans',
+              fontFamily: 'Inter',
               fontSize: '0.75rem',
               color: '#5C5C5C',
               fontWeight: 600,
@@ -124,7 +124,7 @@ export default function ExitCostCalculator({ protocolId, protocolName }: ExitCos
                   borderRadius: 8,
                   border: `1px solid ${urgency === opt.value ? '#D4A017' : '#E8E4DC'}`,
                   background: urgency === opt.value ? 'rgba(212,160,23,0.08)' : '#FAFAF7',
-                  fontFamily: 'DM Sans',
+                  fontFamily: 'Inter',
                   fontWeight: urgency === opt.value ? 600 : 400,
                   fontSize: '0.8rem',
                   color: urgency === opt.value ? '#D4A017' : '#5C5C5C',
@@ -150,7 +150,7 @@ export default function ExitCostCalculator({ protocolId, protocolName }: ExitCos
           border: 'none',
           background: loading || !positionUsd ? '#9A9A9A' : '#1A1A1A',
           color: '#FFFFFF',
-          fontFamily: 'DM Sans',
+          fontFamily: 'Inter',
           fontWeight: 600,
           fontSize: '0.9rem',
           cursor: loading || !positionUsd ? 'not-allowed' : 'pointer',
@@ -181,7 +181,7 @@ export default function ExitCostCalculator({ protocolId, protocolName }: ExitCos
                 <span className="font-syne" style={{ fontWeight: 800, fontSize: '1.4rem', color: rating.color }}>
                   {result.total_cost_pct.toFixed(2)}%
                 </span>
-                <span style={{ fontFamily: 'DM Sans', fontSize: '0.85rem', color: '#5C5C5C', marginLeft: 8 }}>
+                <span style={{ fontFamily: 'Inter', fontSize: '0.85rem', color: '#5C5C5C', marginLeft: 8 }}>
                   total exit cost — {formatUSD(result.total_cost_usd)} on {formatUSD(result.position_size_usd)}{' '}
                   position
                 </span>
@@ -189,7 +189,7 @@ export default function ExitCostCalculator({ protocolId, protocolName }: ExitCos
               <span
                 style={{
                   marginLeft: 'auto',
-                  fontFamily: 'DM Sans',
+                  fontFamily: 'Inter',
                   fontWeight: 700,
                   fontSize: '0.7rem',
                   color: rating.color,
@@ -224,7 +224,7 @@ export default function ExitCostCalculator({ protocolId, protocolName }: ExitCos
                 >
                   <div
                     style={{
-                      fontFamily: 'DM Sans',
+                      fontFamily: 'Inter',
                       fontSize: '0.65rem',
                       color: '#9A9A9A',
                       textTransform: 'uppercase' as const,
@@ -252,7 +252,7 @@ export default function ExitCostCalculator({ protocolId, protocolName }: ExitCos
               >
                 <p
                   style={{
-                    fontFamily: 'DM Sans',
+                    fontFamily: 'Inter',
                     fontWeight: 600,
                     fontSize: '0.7rem',
                     color: '#D4A017',
@@ -264,7 +264,7 @@ export default function ExitCostCalculator({ protocolId, protocolName }: ExitCos
                   Recommendations
                 </p>
                 {result.recommendations.map((r, i) => (
-                  <p key={i} style={{ fontFamily: 'DM Sans', fontSize: '0.85rem', color: '#5C5C5C', margin: '0 0 4px' }}>
+                  <p key={i} style={{ fontFamily: 'Inter', fontSize: '0.85rem', color: '#5C5C5C', margin: '0 0 4px' }}>
                     · {r}
                   </p>
                 ))}

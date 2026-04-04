@@ -88,7 +88,7 @@ export default function RiskDecomposition() {
             justifyContent: 'space-between',
           }}
         >
-          <p style={{ color: '#5C5C5C', fontSize: '0.9rem', margin: 0, fontFamily: 'DM Sans' }}>
+          <p style={{ color: '#5C5C5C', fontSize: '0.9rem', margin: 0, fontFamily: 'Inter' }}>
             Full pillar breakdown for {score.name}
           </p>
           <button
@@ -96,7 +96,7 @@ export default function RiskDecomposition() {
             onClick={() => void refreshScore()}
             disabled={refreshing}
             style={{
-              fontFamily: 'DM Sans',
+              fontFamily: 'Inter',
               fontSize: '0.75rem',
               fontWeight: 600,
               padding: '6px 12px',
@@ -133,7 +133,7 @@ export default function RiskDecomposition() {
             <ActionBadge action={score.action} size="lg" />
           </div>
           <PrismRadarChart pillarScores={score.pillar_scores} color={scoreColor} size={400} />
-          <p style={{ fontFamily: 'DM Sans', fontSize: '0.85rem', color: '#9A9A9A', marginTop: 16 }}>
+          <p style={{ fontFamily: 'Inter', fontSize: '0.85rem', color: '#9A9A9A', marginTop: 16 }}>
             {score.safe_position_label}
           </p>
         </div>

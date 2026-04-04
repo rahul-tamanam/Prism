@@ -62,12 +62,12 @@ function PairRow({ pair }: { pair: DivergencePair }) {
         }}
         onClick={() => setExpanded(e => !e)}
       >
-        <span style={{ fontFamily: 'DM Sans', fontWeight: 500, fontSize: '0.8rem', color: '#1A1A1A' }}>
+        <span style={{ fontFamily: 'Inter', fontWeight: 500, fontSize: '0.8rem', color: '#1A1A1A' }}>
           {pair.label}
         </span>
         <span
           style={{
-            fontFamily: 'DM Sans',
+            fontFamily: 'Inter',
             fontWeight: 600,
             fontSize: '0.8rem',
             color: '#5C5C5C',
@@ -78,7 +78,7 @@ function PairRow({ pair }: { pair: DivergencePair }) {
         </span>
         <span
           style={{
-            fontFamily: 'DM Sans',
+            fontFamily: 'Inter',
             fontWeight: 600,
             fontSize: '0.8rem',
             color: '#5C5C5C',
@@ -89,7 +89,7 @@ function PairRow({ pair }: { pair: DivergencePair }) {
         </span>
         <span
           style={{
-            fontFamily: 'DM Sans',
+            fontFamily: 'Inter',
             fontWeight: 600,
             fontSize: '0.8rem',
             color: '#9A9A9A',
@@ -100,7 +100,7 @@ function PairRow({ pair }: { pair: DivergencePair }) {
         </span>
         <span
           style={{
-            fontFamily: 'DM Sans',
+            fontFamily: 'Inter',
             fontWeight: 600,
             fontSize: '0.8rem',
             color: '#9A9A9A',
@@ -111,7 +111,7 @@ function PairRow({ pair }: { pair: DivergencePair }) {
         </span>
         <span
           style={{
-            fontFamily: 'DM Sans',
+            fontFamily: 'Inter',
             fontWeight: 700,
             fontSize: '0.82rem',
             color: deltaColor(pair.delta),
@@ -125,7 +125,7 @@ function PairRow({ pair }: { pair: DivergencePair }) {
         </span>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
           <VelocityIcon velocity={pair.velocity} />
-          <span style={{ fontFamily: 'DM Sans', fontSize: '0.7rem', color: '#5C5C5C' }}>{pair.velocity}</span>
+          <span style={{ fontFamily: 'Inter', fontSize: '0.7rem', color: '#5C5C5C' }}>{pair.velocity}</span>
         </div>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           {expanded ? <ChevronUp size={14} color="#9A9A9A" /> : <ChevronDown size={14} color="#9A9A9A" />}
@@ -148,7 +148,7 @@ function PairRow({ pair }: { pair: DivergencePair }) {
                 background: 'rgba(224,123,57,0.05)',
                 border: '1px solid rgba(224,123,57,0.2)',
                 borderRadius: 8,
-                fontFamily: 'DM Sans',
+                fontFamily: 'Inter',
                 fontSize: '0.78rem',
                 color: '#5C5C5C',
                 lineHeight: 1.5,
@@ -212,7 +212,7 @@ export default function DivergencePanel({ divergence }: DivergencePanelProps) {
             <h3 className="font-syne" style={{ fontWeight: 700, fontSize: '0.95rem', color: '#1A1A1A', margin: 0 }}>
               Signal Divergence
             </h3>
-            <p style={{ fontFamily: 'DM Sans', fontSize: '0.75rem', color: '#9A9A9A', margin: '2px 0 0' }}>
+            <p style={{ fontFamily: 'Inter', fontSize: '0.75rem', color: '#9A9A9A', margin: '2px 0 0' }}>
               Disagreement between independent signal pairs
             </p>
           </div>
@@ -221,7 +221,7 @@ export default function DivergencePanel({ divergence }: DivergencePanelProps) {
           <div style={{ textAlign: 'right' }}>
             <div
               style={{
-                fontFamily: 'DM Sans',
+                fontFamily: 'Inter',
                 fontSize: '0.65rem',
                 color: '#9A9A9A',
                 textTransform: 'uppercase' as const,
@@ -237,7 +237,7 @@ export default function DivergencePanel({ divergence }: DivergencePanelProps) {
           <div style={{ textAlign: 'right' }}>
             <div
               style={{
-                fontFamily: 'DM Sans',
+                fontFamily: 'Inter',
                 fontSize: '0.65rem',
                 color: '#9A9A9A',
                 textTransform: 'uppercase' as const,
@@ -246,7 +246,7 @@ export default function DivergencePanel({ divergence }: DivergencePanelProps) {
             >
               Dominant Gap
             </div>
-            <span style={{ fontFamily: 'DM Sans', fontWeight: 600, fontSize: '0.8rem', color: '#1A1A1A' }}>
+            <span style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '0.8rem', color: '#1A1A1A' }}>
               {divergence.dominant_pair}
             </span>
           </div>
@@ -261,7 +261,7 @@ export default function DivergencePanel({ divergence }: DivergencePanelProps) {
             }}
           >
             <VelocityIcon velocity={divergence.velocity} />
-            <span style={{ fontFamily: 'DM Sans', fontWeight: 600, fontSize: '0.72rem', color: '#5C5C5C' }}>
+            <span style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '0.72rem', color: '#5C5C5C' }}>
               {divergence.velocity}
             </span>
           </div>
@@ -269,7 +269,7 @@ export default function DivergencePanel({ divergence }: DivergencePanelProps) {
       </div>
 
       <div style={{ padding: '12px 24px', borderBottom: '1px solid #F0EDE6', background: '#FAFAF7' }}>
-        <p style={{ fontFamily: 'DM Sans', fontSize: '0.82rem', color: '#5C5C5C', margin: 0, lineHeight: 1.5 }}>
+        <p style={{ fontFamily: 'Inter', fontSize: '0.82rem', color: '#5C5C5C', margin: 0, lineHeight: 1.5 }}>
           {divergence.interpretation}
         </p>
       </div>
@@ -288,7 +288,7 @@ export default function DivergencePanel({ divergence }: DivergencePanelProps) {
           <span
             key={`hdr-${i}`}
             style={{
-              fontFamily: 'DM Sans',
+              fontFamily: 'Inter',
               fontWeight: 600,
               fontSize: '0.65rem',
               color: '#9A9A9A',
@@ -323,7 +323,7 @@ export default function DivergencePanel({ divergence }: DivergencePanelProps) {
         ].map(item => (
           <div key={item.range} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <div style={{ width: 8, height: 8, borderRadius: 2, background: item.color }} />
-            <span style={{ fontFamily: 'DM Sans', fontSize: '0.7rem', color: '#9A9A9A' }}>
+            <span style={{ fontFamily: 'Inter', fontSize: '0.7rem', color: '#9A9A9A' }}>
               {item.range} {item.label}
             </span>
           </div>

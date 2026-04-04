@@ -32,7 +32,7 @@ export default function PrismRadarChart({ pillarScores, color, size = 200 }: Pri
             tick={{
               fill: 'var(--text-muted)',
               fontSize: 10,
-              fontFamily: "'DM Sans', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               fontWeight: 500,
             }}
           />

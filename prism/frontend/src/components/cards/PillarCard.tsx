@@ -100,7 +100,7 @@ function DuneWhaleBlock({ d }: { d: GovernanceDetail }) {
           marginTop: 10,
           paddingTop: 10,
           borderTop: '1px solid #E8E4DC',
-          fontFamily: 'DM Sans',
+          fontFamily: 'Inter',
           fontSize: '0.72rem',
           color: '#5C5C5C',
           lineHeight: 1.45,
@@ -119,7 +119,7 @@ function DuneWhaleBlock({ d }: { d: GovernanceDetail }) {
           marginTop: 10,
           paddingTop: 10,
           borderTop: '1px solid #E8E4DC',
-          fontFamily: 'DM Sans',
+          fontFamily: 'Inter',
           fontSize: '0.72rem',
           color: '#9A9A9A',
           lineHeight: 1.45,
@@ -151,7 +151,7 @@ function DuneWhaleBlock({ d }: { d: GovernanceDetail }) {
         marginTop: 10,
         paddingTop: 10,
         borderTop: '1px solid #E8E4DC',
-        fontFamily: 'DM Sans',
+        fontFamily: 'Inter',
         fontSize: '0.72rem',
         color: '#9A9A9A',
         lineHeight: 1.45,
@@ -179,7 +179,7 @@ function DuneLiquidationsBlock({ d }: { d: LiquidationDuneDetail }) {
           marginTop: 10,
           paddingTop: 10,
           borderTop: '1px solid #E8E4DC',
-          fontFamily: 'DM Sans',
+          fontFamily: 'Inter',
           fontSize: '0.72rem',
           color: '#5C5C5C',
           lineHeight: 1.45,
@@ -197,7 +197,7 @@ function DuneLiquidationsBlock({ d }: { d: LiquidationDuneDetail }) {
         marginTop: 10,
         paddingTop: 10,
         borderTop: '1px solid #E8E4DC',
-        fontFamily: 'DM Sans',
+        fontFamily: 'Inter',
         fontSize: '0.72rem',
         color: '#9A9A9A',
         lineHeight: 1.45,
@@ -231,7 +231,7 @@ function DuneLiquidityExtraBlock({ d }: { d: LiquidityDuneSnippet }) {
           marginTop: 10,
           paddingTop: 10,
           borderTop: '1px solid #E8E4DC',
-          fontFamily: 'DM Sans',
+          fontFamily: 'Inter',
           fontSize: '0.72rem',
           color: '#5C5C5C',
           lineHeight: 1.45,
@@ -248,7 +248,7 @@ function DuneLiquidityExtraBlock({ d }: { d: LiquidityDuneSnippet }) {
         marginTop: 10,
         paddingTop: 10,
         borderTop: '1px solid #E8E4DC',
-        fontFamily: 'DM Sans',
+        fontFamily: 'Inter',
         fontSize: '0.72rem',
         color: '#9A9A9A',
         lineHeight: 1.45,
@@ -269,7 +269,7 @@ function DuneOracleExtraBlock({ d }: { d: OracleDuneSnippet }) {
           marginTop: 10,
           paddingTop: 10,
           borderTop: '1px solid #E8E4DC',
-          fontFamily: 'DM Sans',
+          fontFamily: 'Inter',
           fontSize: '0.72rem',
           color: '#5C5C5C',
           lineHeight: 1.45,
@@ -286,7 +286,7 @@ function DuneOracleExtraBlock({ d }: { d: OracleDuneSnippet }) {
         marginTop: 10,
         paddingTop: 10,
         borderTop: '1px solid #E8E4DC',
-        fontFamily: 'DM Sans',
+        fontFamily: 'Inter',
         fontSize: '0.72rem',
         color: '#9A9A9A',
         lineHeight: 1.45,
@@ -308,7 +308,7 @@ function DuneSupplyExtraBlock({ d }: { d: SupplyDuneSnippet }) {
           marginTop: 10,
           paddingTop: 10,
           borderTop: '1px solid #E8E4DC',
-          fontFamily: 'DM Sans',
+          fontFamily: 'Inter',
           fontSize: '0.72rem',
           color: '#5C5C5C',
           lineHeight: 1.45,
@@ -325,7 +325,7 @@ function DuneSupplyExtraBlock({ d }: { d: SupplyDuneSnippet }) {
         marginTop: 10,
         paddingTop: 10,
         borderTop: '1px solid #E8E4DC',
-        fontFamily: 'DM Sans',
+        fontFamily: 'Inter',
         fontSize: '0.72rem',
         color: '#9A9A9A',
         lineHeight: 1.45,
@@ -357,7 +357,7 @@ function DuneUsersBlock({ d }: { d: NarrativeDuneDetail }) {
           marginTop: 10,
           paddingTop: 10,
           borderTop: '1px solid #E8E4DC',
-          fontFamily: 'DM Sans',
+          fontFamily: 'Inter',
           fontSize: '0.72rem',
           color: '#5C5C5C',
           lineHeight: 1.45,
@@ -376,7 +376,7 @@ function DuneUsersBlock({ d }: { d: NarrativeDuneDetail }) {
           marginTop: 10,
           paddingTop: 10,
           borderTop: '1px solid #E8E4DC',
-          fontFamily: 'DM Sans',
+          fontFamily: 'Inter',
           fontSize: '0.72rem',
           color: '#5C5C5C',
           lineHeight: 1.45,
@@ -401,7 +401,7 @@ function DuneUsersBlock({ d }: { d: NarrativeDuneDetail }) {
         marginTop: 10,
         paddingTop: 10,
         borderTop: '1px solid #E8E4DC',
-        fontFamily: 'DM Sans',
+        fontFamily: 'Inter',
         fontSize: '0.72rem',
         color: '#9A9A9A',
         lineHeight: 1.45,
@@ -455,7 +455,7 @@ export default function PillarCard({
       <div className="flex items-center justify-between mb-2">
         <span
           style={{
-            fontFamily: 'DM Sans',
+            fontFamily: 'Inter',
             fontWeight: 600,
             fontSize: '0.65rem',
             letterSpacing: '0.12em',
@@ -465,7 +465,7 @@ export default function PillarCard({
         >
           {PILLAR_LABELS[pillar]}
         </span>
-        <span style={{ fontFamily: 'DM Sans', fontWeight: 400, fontSize: '0.7rem', color: '#9A9A9A' }}>
+        <span style={{ fontFamily: 'Inter', fontWeight: 400, fontSize: '0.7rem', color: '#9A9A9A' }}>
           {weight}% weight
         </span>
       </div>
@@ -483,11 +483,11 @@ export default function PillarCard({
         />
       </div>
 
-      <p style={{ fontFamily: 'DM Sans', fontWeight: 400, fontSize: '0.85rem', color: '#5C5C5C', marginBottom: 8, lineHeight: 1.5 }}>
+      <p style={{ fontFamily: 'Inter', fontWeight: 400, fontSize: '0.85rem', color: '#5C5C5C', marginBottom: 8, lineHeight: 1.5 }}>
         {getRiskNarrative(pillar, score)}
       </p>
 
-      <p style={{ fontFamily: 'DM Sans', fontWeight: 400, fontSize: '0.75rem', color: '#9A9A9A', fontStyle: 'italic' }}>
+      <p style={{ fontFamily: 'Inter', fontWeight: 400, fontSize: '0.75rem', color: '#9A9A9A', fontStyle: 'italic' }}>
         {dataSources[pillar]}
       </p>
 
