@@ -109,6 +109,32 @@ export interface StressResult {
   narrative: string
 }
 
+export interface MonteCarloHistogramBin {
+  bin_start: number
+  bin_end: number
+  count: number
+}
+
+export interface MonteCarloResult {
+  protocol_id: string
+  scenario: string
+  iterations: number
+  sigma: number
+  base_score: number
+  mean_stressed: number
+  std_stressed: number
+  percentiles: Record<string, number>
+  histogram: MonteCarloHistogramBin[]
+  prob_by_action: Record<string, number>
+}
+
+export interface MonteCarloRequestBody {
+  scenario: string
+  iterations?: number
+  sigma?: number
+  seed?: number | null
+}
+
 export interface NarrativeArticle {
   title: string
   url: string

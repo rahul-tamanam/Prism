@@ -1,9 +1,50 @@
 import logging
 import json
 import os
+
+import numpy as np
+
 from scoring.prism import get_action, PILLAR_WEIGHTS
 
 logger = logging.getLogger(__name__)
+
+PILLAR_KEYS = ["liquidity", "liquidation", "governance", "oracle", "supply", "narrative"]
+
+_WEIGHT_VEC = np.array([PILLAR_WEIGHTS[k] for k in PILLAR_KEYS], dtype=np.float64)
+
+_MC_PERCENTILES = (5, 25, 50, 75, 95)
+_MC_HIST_BINS = 20
+
+
+def apply_pillar_deltas(base_pillar_scores: dict, deltas: dict) -> dict:
+    """
+    Apply pillar score deltas, clamp to [0, 100], return composite stressed score
+    and bookkeeping fields (no narrative).
+    """
+    stressed_pillars: dict[str, float] = {}
+    actual_deltas: dict[str, float] = {}
+    for pillar in PILLAR_KEYS:
+        base_val = float(base_pillar_scores.get(pillar, 50.0))
+        delta = float(deltas.get(pillar, 0))
+        stressed_val = max(0.0, min(100.0, base_val + delta))
+        stressed_pillars[pillar] = stressed_val
+        actual_deltas[pillar] = round(stressed_val - base_val, 1)
+
+    base_score = round(
+        sum(float(base_pillar_scores.get(k, 50)) * PILLAR_WEIGHTS[k] for k in PILLAR_KEYS), 1
+    )
+    stressed_score = round(
+        sum(stressed_pillars[k] * PILLAR_WEIGHTS[k] for k in PILLAR_KEYS), 1
+    )
+    most_affected = min(actual_deltas, key=actual_deltas.get)
+
+    return {
+        "base_score": base_score,
+        "stressed_score": stressed_score,
+        "stressed_pillars": stressed_pillars,
+        "actual_deltas": actual_deltas,
+        "most_affected_pillar": most_affected,
+    }
 
 SCENARIOS = {
     "eth_drop_10": {
@@ -109,24 +150,12 @@ async def run_stress_scenario(protocol_id: str, scenario: str, base_pillar_score
     if scenario not in SCENARIOS:
         raise ValueError(f"Unknown scenario: {scenario}. Valid: {list(SCENARIOS.keys())}")
 
-    config = SCENARIOS[scenario]
-    deltas = config["deltas"]
-
-    pillar_keys = ["liquidity", "liquidation", "governance", "oracle", "supply", "narrative"]
-
-    stressed_pillars = {}
-    actual_deltas = {}
-    for pillar in pillar_keys:
-        base_val = base_pillar_scores.get(pillar, 50.0)
-        delta = deltas.get(pillar, 0)
-        stressed_val = max(0, min(100, base_val + delta))
-        stressed_pillars[pillar] = stressed_val
-        actual_deltas[pillar] = round(stressed_val - base_val, 1)
-
-    base_score = round(sum(base_pillar_scores.get(k, 50) * PILLAR_WEIGHTS[k] for k in pillar_keys), 1)
-    stressed_score = round(sum(stressed_pillars[k] * PILLAR_WEIGHTS[k] for k in pillar_keys), 1)
-
-    most_affected = min(actual_deltas, key=actual_deltas.get)
+    deltas = SCENARIOS[scenario]["deltas"]
+    out = apply_pillar_deltas(base_pillar_scores, deltas)
+    base_score = out["base_score"]
+    stressed_score = out["stressed_score"]
+    actual_deltas = out["actual_deltas"]
+    most_affected = out["most_affected_pillar"]
 
     protocol_name = protocol_id.replace("-", " ").title()
     narrative = _generate_narrative(scenario, protocol_name, most_affected, base_score, stressed_score)
@@ -140,6 +169,73 @@ async def run_stress_scenario(protocol_id: str, scenario: str, base_pillar_score
         "pillar_deltas": actual_deltas,
         "most_affected_pillar": most_affected,
         "narrative": narrative,
+    }
+
+
+def run_monte_carlo_noisy_scenario(
+    protocol_id: str,
+    scenario_key: str,
+    base_pillar_scores: dict,
+    n_iter: int,
+    sigma: float,
+    seed: int | None = None,
+) -> dict:
+    """
+    Monte Carlo over one scenario: per draw, each pillar delta is scaled by an
+    independent lognormal multiplier with E[M]=1 (underlying normal mean = -sigma^2/2).
+    """
+    if scenario_key not in SCENARIOS:
+        raise ValueError(f"Unknown scenario: {scenario_key}. Valid: {list(SCENARIOS.keys())}")
+
+    n_iter = max(1, min(int(n_iter), 10_000))
+    sigma = float(sigma)
+    if sigma <= 0:
+        raise ValueError("sigma must be positive")
+
+    rng = np.random.default_rng(seed)
+    base = np.array([float(base_pillar_scores.get(k, 50.0)) for k in PILLAR_KEYS], dtype=np.float64)
+    delta = np.array(
+        [float(SCENARIOS[scenario_key]["deltas"].get(k, 0)) for k in PILLAR_KEYS], dtype=np.float64
+    )
+
+    # Lognormal with E[M]=1: if ln M ~ N(mu, sigma^2), E[M]=exp(mu+sigma^2/2)=1 => mu=-sigma^2/2
+    mu_log = -0.5 * sigma**2
+    mult = rng.lognormal(mean=mu_log, sigma=sigma, size=(n_iter, len(PILLAR_KEYS)))
+    effective = mult * delta
+    stressed = np.clip(base + effective, 0.0, 100.0)
+    scores = stressed @ _WEIGHT_VEC
+    scores = np.round(scores, 1)
+
+    pct = {str(p): float(np.percentile(scores, p)) for p in _MC_PERCENTILES}
+    mean_s = float(np.mean(scores))
+    std_s = float(np.std(scores, ddof=0))
+
+    counts, edges = np.histogram(scores, bins=_MC_HIST_BINS, range=(0.0, 100.0))
+    histogram = [
+        {"bin_start": round(float(edges[i]), 2), "bin_end": round(float(edges[i + 1]), 2), "count": int(counts[i])}
+        for i in range(len(counts))
+    ]
+
+    actions = ["ENTER", "HOLD", "REDUCE", "EXIT"]
+    prob_by_action = {a: 0.0 for a in actions}
+    for s in scores:
+        prob_by_action[get_action(float(s))] += 1.0
+    inv = 1.0 / n_iter
+    prob_by_action = {k: round(v * inv, 4) for k, v in prob_by_action.items()}
+
+    base_score = round(float(np.dot(base, _WEIGHT_VEC)), 1)
+
+    return {
+        "protocol_id": protocol_id,
+        "scenario": scenario_key,
+        "iterations": n_iter,
+        "sigma": sigma,
+        "base_score": base_score,
+        "mean_stressed": round(mean_s, 2),
+        "std_stressed": round(std_s, 3),
+        "percentiles": pct,
+        "histogram": histogram,
+        "prob_by_action": prob_by_action,
     }
 
 

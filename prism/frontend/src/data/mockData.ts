@@ -3,6 +3,7 @@ import type {
   PrismScore,
   ScoreHistoryPoint,
   StressResult,
+  MonteCarloResult,
   NarrativeSummary,
   PortfolioView,
 } from '../types'
@@ -407,6 +408,58 @@ export const mockStressResults: Record<string, Record<string, StressResult>> = {
       narrative: 'Stale oracle feeds on a bridge protocol create asymmetric risk — users could bridge assets at incorrect valuations, draining pools on the mispriced side. Stargate\'s cross-chain oracle dependency amplifies this vulnerability.',
     },
   },
+}
+
+/** Offline fallback for Monte Carlo API — shape matches backend response. */
+export function getMockMonteCarlo(
+  protocolId: string,
+  scenario: string,
+  iterations = 2000,
+  sigma = 0.25
+): MonteCarloResult {
+  const base = mockScores[protocolId]?.score ?? 62
+  const tweak = (scenario.length + protocolId.length) % 9
+  const meanStressed = Math.max(14, Math.min(92, base - 4.5 - tweak * 0.35))
+  const spread = 5 + sigma * 18
+  const pct = (p: number) =>
+    Math.round(Math.max(0, Math.min(100, meanStressed + spread * (p / 50 - 1))) * 10) / 10
+  const weights = Array.from({ length: 20 }, (_, i) => {
+    const mid = i * 5 + 2.5
+    return Math.exp(-0.5 * ((mid - meanStressed) / (spread * 1.2)) ** 2)
+  })
+  const sumW = weights.reduce((a, b) => a + b, 0) || 1
+  const counts = weights.map(w => Math.floor((w / sumW) * iterations))
+  let deficit = iterations - counts.reduce((a, b) => a + b, 0)
+  for (let k = 0; deficit > 0; k++, deficit--) counts[k % 20]++
+  const histogram: MonteCarloResult['histogram'] = counts.map((c, i) => ({
+    bin_start: i * 5,
+    bin_end: (i + 1) * 5,
+    count: c,
+  }))
+  const exitBump = tweak * 0.02
+  return {
+    protocol_id: protocolId,
+    scenario,
+    iterations,
+    sigma,
+    base_score: base,
+    mean_stressed: Math.round(meanStressed * 100) / 100,
+    std_stressed: Math.round(spread * 0.65 * 1000) / 1000,
+    percentiles: {
+      '5': pct(5),
+      '25': pct(25),
+      '50': pct(50),
+      '75': pct(75),
+      '95': pct(95),
+    },
+    histogram,
+    prob_by_action: {
+      ENTER: Math.round((0.02 - exitBump * 0.2) * 10000) / 10000,
+      HOLD: Math.round((0.48 - exitBump) * 10000) / 10000,
+      REDUCE: Math.round((0.32 + exitBump * 0.5) * 10000) / 10000,
+      EXIT: Math.round((0.18 + exitBump * 0.7) * 10000) / 10000,
+    },
+  }
 }
 
 const now = new Date()

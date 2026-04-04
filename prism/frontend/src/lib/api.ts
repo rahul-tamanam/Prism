@@ -3,10 +3,20 @@ import type {
   PrismScore,
   ScoreHistoryPoint,
   StressResult,
+  MonteCarloResult,
+  MonteCarloRequestBody,
   NarrativeSummary,
   PortfolioView,
 } from '../types'
-import { mockProtocols, mockScores, generateScoreHistory, mockStressResults, mockNarratives, mockPortfolio } from '../data/mockData'
+import {
+  mockProtocols,
+  mockScores,
+  generateScoreHistory,
+  mockStressResults,
+  mockNarratives,
+  mockPortfolio,
+  getMockMonteCarlo,
+} from '../data/mockData'
 
 // In dev, use same-origin `/api` so Vite proxies to the backend (vite.config server.proxy).
 // Hitting `http://localhost:8000` directly from the browser often fails CORS or network rules.
@@ -115,6 +125,27 @@ export const api = {
       return await res.json()
     } catch {
       return mockStressResults[id]?.[scenario] || mockStressResults['aave-v3']['eth_drop_10']
+    }
+  },
+
+  runMonteCarlo: async (id: string, body: MonteCarloRequestBody): Promise<MonteCarloResult> => {
+    const iterations = body.iterations ?? 2000
+    const sigma = body.sigma ?? 0.25
+    try {
+      const res = await fetch(`${BASE_URL}/stress/${id}/monte-carlo`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          scenario: body.scenario,
+          iterations,
+          sigma,
+          seed: body.seed ?? null,
+        }),
+      })
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      return await res.json()
+    } catch {
+      return getMockMonteCarlo(id, body.scenario, iterations, sigma)
     }
   },
 
