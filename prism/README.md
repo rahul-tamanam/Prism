@@ -290,3 +290,4 @@ The scoring engine uses protocol type to determine which sub-scores apply. Lendi
 ---
 
 *Built for FinHack 2026 - UTD*
+We leveraged AI-driven techniques to enhance data analysis, automate insights, and improve decision-making within the system.
