@@ -1,0 +1,615 @@
+{
+  "aave-v3": {
+    "protocol_id": "aave-v3",
+    "name": "Aave V3",
+    "score": 67.3,
+    "action": "HOLD",
+    "pillar_scores": {
+      "liquidity": 71.2,
+      "liquidation": 58.4,
+      "governance": 76.1,
+      "oracle": 82.3,
+      "supply": 69.8,
+      "narrative": 61.4,
+      "triple_convergence_active": false
+    },
+    "worst_pillar": "liquidation",
+    "triple_convergence_active": false,
+    "safe_position_label": "Max 3.6% of protocol TVL",
+    "current_tvl": 11240000000
+  },
+  "uniswap-v3": {
+    "protocol_id": "uniswap-v3",
+    "name": "Uniswap V3",
+    "score": 51.8,
+    "action": "REDUCE",
+    "pillar_scores": {
+      "liquidity": 48.3,
+      "liquidation": 62.1,
+      "governance": 44.7,
+      "oracle": 71.2,
+      "supply": 52.9,
+      "narrative": 38.6,
+      "triple_convergence_active": false
+    },
+    "worst_pillar": "narrative",
+    "triple_convergence_active": false,
+    "safe_position_label": "Max 2.4% of protocol TVL",
+    "current_tvl": 4890000000
+  },
+  "stargate": {
+    "protocol_id": "stargate",
+    "name": "Stargate Finance",
+    "score": 34.2,
+    "action": "EXIT",
+    "pillar_scores": {
+      "liquidity": 28.7,
+      "liquidation": 41.3,
+      "governance": 33.8,
+      "oracle": 52.1,
+      "supply": 24.6,
+      "narrative": 22.3,
+      "triple_convergence_active": true
+    },
+    "worst_pillar": "narrative",
+    "triple_convergence_active": true,
+    "safe_position_label": "Max 1.4% of protocol TVL",
+    "current_tvl": 342000000
+  },
+  "stress_results": {
+    "aave-v3": {
+      "eth_drop_10": {
+        "scenario": "eth_drop_10",
+        "base_score": 67.3,
+        "stressed_score": 58.1,
+        "base_action": "HOLD",
+        "stressed_action": "REDUCE",
+        "pillar_deltas": {
+          "liquidity": -4.2,
+          "liquidation": -18.6,
+          "governance": 0.0,
+          "oracle": -8.3,
+          "supply": -2.1,
+          "narrative": -5.7
+        },
+        "most_affected_pillar": "liquidation",
+        "narrative": "A 10% ETH decline triggers cascading liquidations on Aave V3. Approximately 14.3% of positions approach critical health factors, compressing the liquidation pillar significantly."
+      },
+      "eth_drop_20": {
+        "scenario": "eth_drop_20",
+        "base_score": 67.3,
+        "stressed_score": 46.7,
+        "base_action": "HOLD",
+        "stressed_action": "REDUCE",
+        "pillar_deltas": {
+          "liquidity": -9.8,
+          "liquidation": -34.2,
+          "governance": 0.0,
+          "oracle": -16.1,
+          "supply": -4.7,
+          "narrative": -11.3
+        },
+        "most_affected_pillar": "liquidation",
+        "narrative": "A 20% ETH crash creates severe liquidation cascades across Aave V3. Over 28% of borrowed value faces liquidation risk, with oracle delays amplifying mark-to-market losses."
+      },
+      "whale_exit_15": {
+        "scenario": "whale_exit_15",
+        "base_score": 67.3,
+        "stressed_score": 54.9,
+        "base_action": "HOLD",
+        "stressed_action": "REDUCE",
+        "pillar_deltas": {
+          "liquidity": -22.4,
+          "liquidation": -3.1,
+          "governance": 0.0,
+          "oracle": 0.0,
+          "supply": -6.8,
+          "narrative": -8.2
+        },
+        "most_affected_pillar": "liquidity",
+        "narrative": "A sudden 15% TVL withdrawal from Aave V3 compresses available liquidity. Remaining depositors face elevated utilization rates and potential withdrawal delays."
+      },
+      "bridge_outflow_spike": {
+        "scenario": "bridge_outflow_spike",
+        "base_score": 67.3,
+        "stressed_score": 56.2,
+        "base_action": "HOLD",
+        "stressed_action": "REDUCE",
+        "pillar_deltas": {
+          "liquidity": -18.7,
+          "liquidation": -2.4,
+          "governance": 0.0,
+          "oracle": 0.0,
+          "supply": -9.3,
+          "narrative": -4.1
+        },
+        "most_affected_pillar": "liquidity",
+        "narrative": "Heavy bridge outflows from Ethereum drain available liquidity across lending markets. Aave V3 sees reduced depositor base and rising utilization rates."
+      },
+      "governance_spike": {
+        "scenario": "governance_spike",
+        "base_score": 67.3,
+        "stressed_score": 62.8,
+        "base_action": "HOLD",
+        "stressed_action": "HOLD",
+        "pillar_deltas": {
+          "liquidity": -2.1,
+          "liquidation": 0.0,
+          "governance": -19.4,
+          "oracle": 0.0,
+          "supply": 0.0,
+          "narrative": -7.3
+        },
+        "most_affected_pillar": "governance",
+        "narrative": "A controversial governance proposal triggers voter concentration concerns. Top 5 AAVE holders rally to push through parameter changes, raising centralization alarms."
+      },
+      "oracle_staleness": {
+        "scenario": "oracle_staleness",
+        "base_score": 67.3,
+        "stressed_score": 57.4,
+        "base_action": "HOLD",
+        "stressed_action": "REDUCE",
+        "pillar_deltas": {
+          "liquidity": -3.2,
+          "liquidation": -6.8,
+          "governance": 0.0,
+          "oracle": -33.1,
+          "supply": 0.0,
+          "narrative": -4.6
+        },
+        "most_affected_pillar": "oracle",
+        "narrative": "Chainlink feed staleness exceeds 95% of heartbeat intervals across key Aave V3 price feeds. Stale oracles prevent accurate liquidations and create arbitrage windows."
+      }
+    },
+    "uniswap-v3": {
+      "eth_drop_10": {
+        "scenario": "eth_drop_10",
+        "base_score": 51.8,
+        "stressed_score": 44.3,
+        "base_action": "REDUCE",
+        "stressed_action": "REDUCE",
+        "pillar_deltas": {
+          "liquidity": -8.7,
+          "liquidation": -5.2,
+          "governance": 0.0,
+          "oracle": -9.4,
+          "supply": -3.6,
+          "narrative": -9.1
+        },
+        "most_affected_pillar": "oracle",
+        "narrative": "A 10% ETH drop causes concentrated liquidity positions to become out of range. LPs face impermanent loss acceleration and reduced fee capture."
+      },
+      "eth_drop_20": {
+        "scenario": "eth_drop_20",
+        "base_score": 51.8,
+        "stressed_score": 35.6,
+        "base_action": "REDUCE",
+        "stressed_action": "EXIT",
+        "pillar_deltas": {
+          "liquidity": -17.4,
+          "liquidation": -9.8,
+          "governance": 0.0,
+          "oracle": -18.7,
+          "supply": -7.1,
+          "narrative": -16.8
+        },
+        "most_affected_pillar": "oracle",
+        "narrative": "A severe 20% ETH crash pushes most concentrated liquidity out of range. Effective TVL plummets as passive LPs pull capital, creating a liquidity death spiral."
+      },
+      "whale_exit_15": {
+        "scenario": "whale_exit_15",
+        "base_score": 51.8,
+        "stressed_score": 39.2,
+        "base_action": "REDUCE",
+        "stressed_action": "EXIT",
+        "pillar_deltas": {
+          "liquidity": -24.8,
+          "liquidation": -1.4,
+          "governance": 0.0,
+          "oracle": 0.0,
+          "supply": -5.3,
+          "narrative": -10.7
+        },
+        "most_affected_pillar": "liquidity",
+        "narrative": "Large LP withdrawals create thin order books on Uniswap V3. Slippage for $5M+ swaps increases dramatically, discouraging remaining participants."
+      },
+      "bridge_outflow_spike": {
+        "scenario": "bridge_outflow_spike",
+        "base_score": 51.8,
+        "stressed_score": 41.3,
+        "base_action": "REDUCE",
+        "stressed_action": "REDUCE",
+        "pillar_deltas": {
+          "liquidity": -19.2,
+          "liquidation": 0.0,
+          "governance": 0.0,
+          "oracle": 0.0,
+          "supply": -11.6,
+          "narrative": -6.4
+        },
+        "most_affected_pillar": "liquidity",
+        "narrative": "Bridge outflows reduce available liquidity on Ethereum L1 pools. Uniswap V3 TVL declines as capital migrates to L2 alternatives."
+      },
+      "governance_spike": {
+        "scenario": "governance_spike",
+        "base_score": 51.8,
+        "stressed_score": 46.1,
+        "base_action": "REDUCE",
+        "stressed_action": "REDUCE",
+        "pillar_deltas": {
+          "liquidity": -1.8,
+          "liquidation": 0.0,
+          "governance": -22.7,
+          "oracle": 0.0,
+          "supply": 0.0,
+          "narrative": -8.9
+        },
+        "most_affected_pillar": "governance",
+        "narrative": "A fee switch proposal triggers governance turmoil at Uniswap. Whale voters dominate the outcome while retail participation plummets below quorum thresholds."
+      },
+      "oracle_staleness": {
+        "scenario": "oracle_staleness",
+        "base_score": 51.8,
+        "stressed_score": 44.7,
+        "base_action": "REDUCE",
+        "stressed_action": "REDUCE",
+        "pillar_deltas": {
+          "liquidity": -2.4,
+          "liquidation": -3.1,
+          "governance": 0.0,
+          "oracle": -28.6,
+          "supply": 0.0,
+          "narrative": -3.8
+        },
+        "most_affected_pillar": "oracle",
+        "narrative": "Oracle staleness creates pricing discrepancies between Uniswap V3 TWAP and external feeds. Arbitrageurs exploit delayed updates, extracting value from passive LPs."
+      }
+    },
+    "stargate": {
+      "eth_drop_10": {
+        "scenario": "eth_drop_10",
+        "base_score": 34.2,
+        "stressed_score": 27.8,
+        "base_action": "EXIT",
+        "stressed_action": "EXIT",
+        "pillar_deltas": {
+          "liquidity": -7.3,
+          "liquidation": -6.1,
+          "governance": 0.0,
+          "oracle": -11.2,
+          "supply": -4.8,
+          "narrative": -8.6
+        },
+        "most_affected_pillar": "oracle",
+        "narrative": "ETH decline amplifies existing bridge liquidity stress on Stargate. Cross-chain arbitrage volume spikes while available pool depth contracts sharply."
+      },
+      "eth_drop_20": {
+        "scenario": "eth_drop_20",
+        "base_score": 34.2,
+        "stressed_score": 19.4,
+        "base_action": "EXIT",
+        "stressed_action": "EXIT",
+        "pillar_deltas": {
+          "liquidity": -14.8,
+          "liquidation": -11.7,
+          "governance": 0.0,
+          "oracle": -22.3,
+          "supply": -9.4,
+          "narrative": -16.2
+        },
+        "most_affected_pillar": "oracle",
+        "narrative": "A 20% ETH crash devastates Stargate bridge pools. Cross-chain rebalancing fails as pool utilization exceeds 95%, effectively halting bridging operations."
+      },
+      "whale_exit_15": {
+        "scenario": "whale_exit_15",
+        "base_score": 34.2,
+        "stressed_score": 22.6,
+        "base_action": "EXIT",
+        "stressed_action": "EXIT",
+        "pillar_deltas": {
+          "liquidity": -23.1,
+          "liquidation": -2.3,
+          "governance": 0.0,
+          "oracle": 0.0,
+          "supply": -4.7,
+          "narrative": -12.4
+        },
+        "most_affected_pillar": "liquidity",
+        "narrative": "A 15% TVL withdrawal from Stargate creates critical pool imbalances. Bridge users face multi-hour delays and elevated slippage on cross-chain transfers."
+      },
+      "bridge_outflow_spike": {
+        "scenario": "bridge_outflow_spike",
+        "base_score": 34.2,
+        "stressed_score": 18.7,
+        "base_action": "EXIT",
+        "stressed_action": "EXIT",
+        "pillar_deltas": {
+          "liquidity": -28.4,
+          "liquidation": -1.8,
+          "governance": 0.0,
+          "oracle": 0.0,
+          "supply": -13.2,
+          "narrative": -9.7
+        },
+        "most_affected_pillar": "liquidity",
+        "narrative": "Massive bridge outflows cripple Stargate's core operations. Pool imbalances reach critical levels across all supported chains, with some pools fully drained."
+      },
+      "governance_spike": {
+        "scenario": "governance_spike",
+        "base_score": 34.2,
+        "stressed_score": 29.6,
+        "base_action": "EXIT",
+        "stressed_action": "EXIT",
+        "pillar_deltas": {
+          "liquidity": -1.6,
+          "liquidation": 0.0,
+          "governance": -18.9,
+          "oracle": 0.0,
+          "supply": 0.0,
+          "narrative": -7.1
+        },
+        "most_affected_pillar": "governance",
+        "narrative": "LayerZero team-controlled governance proposals pass without community input. STG token holders express concern over emission schedule changes and fee distribution."
+      },
+      "oracle_staleness": {
+        "scenario": "oracle_staleness",
+        "base_score": 34.2,
+        "stressed_score": 25.3,
+        "base_action": "EXIT",
+        "stressed_action": "EXIT",
+        "pillar_deltas": {
+          "liquidity": -4.1,
+          "liquidation": -2.7,
+          "governance": 0.0,
+          "oracle": -31.4,
+          "supply": 0.0,
+          "narrative": -5.3
+        },
+        "most_affected_pillar": "oracle",
+        "narrative": "Oracle staleness disrupts cross-chain price verification for Stargate transfers. Bridge operations become unreliable as price feeds diverge across chains."
+      }
+    }
+  },
+  "narrative_data": {
+    "aave-v3": {
+      "protocol_id": "aave-v3",
+      "token_symbol": "AAVE",
+      "avg_sentiment": 0.287,
+      "negative_ratio": 0.24,
+      "mention_velocity": 47.3,
+      "spike_detected": false,
+      "articles": [
+        {
+          "title": "Aave V3 Hits Record $11.2B TVL as DeFi Lending Demand Surges",
+          "source": "The Block",
+          "published_at": "2026-04-02T14:23:00Z",
+          "url": "https://theblock.co/aave-v3-tvl-record",
+          "sentiment": {"compound": 0.743, "positive": 0.38, "negative": 0.02, "neutral": 0.60}
+        },
+        {
+          "title": "Aave Governance Debates GHO Stablecoin Interest Rate Adjustment",
+          "source": "DeFi Pulse",
+          "published_at": "2026-04-02T09:45:00Z",
+          "url": "https://defipulse.com/aave-gho-debate",
+          "sentiment": {"compound": 0.124, "positive": 0.14, "negative": 0.08, "neutral": 0.78}
+        },
+        {
+          "title": "Ethereum Whale Deposits 50K ETH into Aave V3 for Leveraged Staking",
+          "source": "CoinDesk",
+          "published_at": "2026-04-01T18:12:00Z",
+          "url": "https://coindesk.com/aave-whale-deposit",
+          "sentiment": {"compound": 0.512, "positive": 0.26, "negative": 0.04, "neutral": 0.70}
+        },
+        {
+          "title": "Security Researcher Identifies Minor Bug in Aave V3 Periphery Contract",
+          "source": "Rekt News",
+          "published_at": "2026-04-01T11:30:00Z",
+          "url": "https://rekt.news/aave-bug-report",
+          "sentiment": {"compound": -0.342, "positive": 0.06, "negative": 0.22, "neutral": 0.72}
+        },
+        {
+          "title": "Aave Launches on zkSync Era with Optimized Gas Costs",
+          "source": "Decrypt",
+          "published_at": "2026-03-31T16:45:00Z",
+          "url": "https://decrypt.co/aave-zksync-launch",
+          "sentiment": {"compound": 0.648, "positive": 0.32, "negative": 0.02, "neutral": 0.66}
+        },
+        {
+          "title": "DeFi Lending Rates Compress as Stablecoin Supply Grows",
+          "source": "The Defiant",
+          "published_at": "2026-03-31T08:20:00Z",
+          "url": "https://thedefiant.io/lending-rate-compression",
+          "sentiment": {"compound": -0.118, "positive": 0.10, "negative": 0.14, "neutral": 0.76}
+        },
+        {
+          "title": "Aave Community Approves New Risk Parameter Framework for V3 Markets",
+          "source": "Blockworks",
+          "published_at": "2026-03-30T13:55:00Z",
+          "url": "https://blockworks.co/aave-risk-framework",
+          "sentiment": {"compound": 0.421, "positive": 0.24, "negative": 0.06, "neutral": 0.70}
+        },
+        {
+          "title": "Chainlink CCIP Integration Strengthens Aave Cross-Chain Governance",
+          "source": "CryptoSlate",
+          "published_at": "2026-03-30T07:10:00Z",
+          "url": "https://cryptoslate.com/aave-chainlink-ccip",
+          "sentiment": {"compound": 0.567, "positive": 0.28, "negative": 0.02, "neutral": 0.70}
+        },
+        {
+          "title": "AAVE Token Sees 12% Weekly Gain Amid Broader DeFi Recovery",
+          "source": "CoinTelegraph",
+          "published_at": "2026-03-29T20:30:00Z",
+          "url": "https://cointelegraph.com/aave-token-gain",
+          "sentiment": {"compound": 0.389, "positive": 0.22, "negative": 0.04, "neutral": 0.74}
+        },
+        {
+          "title": "Aave V3 Utilization Rates Spike on ETH Borrowing Demand",
+          "source": "DeFi Llama Blog",
+          "published_at": "2026-03-29T10:15:00Z",
+          "url": "https://blog.defillama.com/aave-utilization",
+          "sentiment": {"compound": 0.156, "positive": 0.16, "negative": 0.08, "neutral": 0.76}
+        }
+      ]
+    },
+    "uniswap-v3": {
+      "protocol_id": "uniswap-v3",
+      "token_symbol": "UNI",
+      "avg_sentiment": -0.043,
+      "negative_ratio": 0.38,
+      "mention_velocity": 62.7,
+      "spike_detected": false,
+      "articles": [
+        {
+          "title": "Uniswap V3 Faces Growing Competition from Intent-Based DEX Aggregators",
+          "source": "The Block",
+          "published_at": "2026-04-02T15:40:00Z",
+          "url": "https://theblock.co/uniswap-competition",
+          "sentiment": {"compound": -0.312, "positive": 0.08, "negative": 0.24, "neutral": 0.68}
+        },
+        {
+          "title": "UNI Foundation Faces Scrutiny Over $42M Treasury Spending",
+          "source": "Protos",
+          "published_at": "2026-04-02T10:15:00Z",
+          "url": "https://protos.com/uni-treasury-scrutiny",
+          "sentiment": {"compound": -0.587, "positive": 0.04, "negative": 0.36, "neutral": 0.60}
+        },
+        {
+          "title": "Uniswap Labs Announces V4 Hooks Framework Preview",
+          "source": "Decrypt",
+          "published_at": "2026-04-01T17:20:00Z",
+          "url": "https://decrypt.co/uniswap-v4-hooks",
+          "sentiment": {"compound": 0.623, "positive": 0.30, "negative": 0.02, "neutral": 0.68}
+        },
+        {
+          "title": "MEV Extraction on Uniswap V3 Reaches $8.4M in March",
+          "source": "Flashbots Research",
+          "published_at": "2026-04-01T09:30:00Z",
+          "url": "https://writings.flashbots.net/uniswap-mev-march",
+          "sentiment": {"compound": -0.456, "positive": 0.06, "negative": 0.30, "neutral": 0.64}
+        },
+        {
+          "title": "Concentrated Liquidity LPs Report Declining Returns on Major Pairs",
+          "source": "The Defiant",
+          "published_at": "2026-03-31T14:10:00Z",
+          "url": "https://thedefiant.io/cl-lp-returns-decline",
+          "sentiment": {"compound": -0.278, "positive": 0.08, "negative": 0.20, "neutral": 0.72}
+        },
+        {
+          "title": "Uniswap Governance Passes Fee Pilot Program for Select Pools",
+          "source": "Blockworks",
+          "published_at": "2026-03-31T08:45:00Z",
+          "url": "https://blockworks.co/uniswap-fee-pilot",
+          "sentiment": {"compound": 0.334, "positive": 0.20, "negative": 0.06, "neutral": 0.74}
+        },
+        {
+          "title": "On-Chain Data Shows Uniswap V3 Losing Market Share to Curve and Balancer",
+          "source": "Dune Analytics Blog",
+          "published_at": "2026-03-30T12:25:00Z",
+          "url": "https://blog.dune.com/uniswap-market-share",
+          "sentiment": {"compound": -0.367, "positive": 0.06, "negative": 0.26, "neutral": 0.68}
+        },
+        {
+          "title": "Uniswap Labs Launches Mobile Wallet Update with Built-In Bridge",
+          "source": "CoinDesk",
+          "published_at": "2026-03-30T06:50:00Z",
+          "url": "https://coindesk.com/uniswap-mobile-bridge",
+          "sentiment": {"compound": 0.498, "positive": 0.26, "negative": 0.04, "neutral": 0.70}
+        },
+        {
+          "title": "Whale Removes $47M Liquidity from Uniswap ETH/USDC Pool",
+          "source": "Whale Alert",
+          "published_at": "2026-03-29T19:40:00Z",
+          "url": "https://whalealert.io/uniswap-withdrawal",
+          "sentiment": {"compound": -0.423, "positive": 0.04, "negative": 0.28, "neutral": 0.68}
+        },
+        {
+          "title": "UNI Token Underperforms DeFi Index Amid Governance Uncertainty",
+          "source": "CryptoSlate",
+          "published_at": "2026-03-29T11:30:00Z",
+          "url": "https://cryptoslate.com/uni-underperformance",
+          "sentiment": {"compound": -0.389, "positive": 0.06, "negative": 0.26, "neutral": 0.68}
+        }
+      ]
+    },
+    "stargate": {
+      "protocol_id": "stargate",
+      "token_symbol": "STG",
+      "avg_sentiment": -0.341,
+      "negative_ratio": 0.56,
+      "mention_velocity": 89.4,
+      "spike_detected": true,
+      "articles": [
+        {
+          "title": "Stargate Finance TVL Drops 18% as Bridge Competition Intensifies",
+          "source": "The Block",
+          "published_at": "2026-04-02T16:30:00Z",
+          "url": "https://theblock.co/stargate-tvl-drop",
+          "sentiment": {"compound": -0.634, "positive": 0.04, "negative": 0.38, "neutral": 0.58}
+        },
+        {
+          "title": "LayerZero Insider Selling Raises Concerns About STG Token Future",
+          "source": "Protos",
+          "published_at": "2026-04-02T11:20:00Z",
+          "url": "https://protos.com/layerzero-stg-selling",
+          "sentiment": {"compound": -0.723, "positive": 0.02, "negative": 0.44, "neutral": 0.54}
+        },
+        {
+          "title": "Stargate V2 Migration Faces Delays Amid Smart Contract Audit Findings",
+          "source": "Rekt News",
+          "published_at": "2026-04-01T18:45:00Z",
+          "url": "https://rekt.news/stargate-v2-delay",
+          "sentiment": {"compound": -0.567, "positive": 0.04, "negative": 0.34, "neutral": 0.62}
+        },
+        {
+          "title": "Cross-Chain Bridge Exploits Total $2.1B - Is Stargate Next?",
+          "source": "CoinTelegraph",
+          "published_at": "2026-04-01T10:00:00Z",
+          "url": "https://cointelegraph.com/bridge-exploits-analysis",
+          "sentiment": {"compound": -0.712, "positive": 0.02, "negative": 0.42, "neutral": 0.56}
+        },
+        {
+          "title": "Stargate Pool Imbalances Hit Record Levels on Arbitrum",
+          "source": "The Defiant",
+          "published_at": "2026-03-31T15:30:00Z",
+          "url": "https://thedefiant.io/stargate-imbalance",
+          "sentiment": {"compound": -0.489, "positive": 0.06, "negative": 0.32, "neutral": 0.62}
+        },
+        {
+          "title": "STG Token Unlocks: 45M Tokens Releasing in Next 30 Days",
+          "source": "TokenUnlocks",
+          "published_at": "2026-03-31T09:15:00Z",
+          "url": "https://tokenunlocks.app/stg-schedule",
+          "sentiment": {"compound": -0.534, "positive": 0.04, "negative": 0.34, "neutral": 0.62}
+        },
+        {
+          "title": "Wormhole and Across Protocol Gain Bridge Market Share from Stargate",
+          "source": "Blockworks",
+          "published_at": "2026-03-30T13:40:00Z",
+          "url": "https://blockworks.co/bridge-market-share-shift",
+          "sentiment": {"compound": -0.378, "positive": 0.08, "negative": 0.26, "neutral": 0.66}
+        },
+        {
+          "title": "Stargate DAO Proposes Emergency Rebalancing Mechanism for V2",
+          "source": "Decrypt",
+          "published_at": "2026-03-30T07:25:00Z",
+          "url": "https://decrypt.co/stargate-rebalancing",
+          "sentiment": {"compound": 0.112, "positive": 0.14, "negative": 0.10, "neutral": 0.76}
+        },
+        {
+          "title": "On-Chain Analysis: Stargate Whale Wallets Reducing Positions",
+          "source": "Nansen",
+          "published_at": "2026-03-29T21:10:00Z",
+          "url": "https://nansen.ai/stargate-whale-analysis",
+          "sentiment": {"compound": -0.445, "positive": 0.06, "negative": 0.28, "neutral": 0.66}
+        },
+        {
+          "title": "LayerZero V2 Messaging Upgrades Could Revitalize Stargate Protocol",
+          "source": "CryptoSlate",
+          "published_at": "2026-03-29T12:00:00Z",
+          "url": "https://cryptoslate.com/layerzero-v2-stargate",
+          "sentiment": {"compound": 0.356, "positive": 0.22, "negative": 0.06, "neutral": 0.72}
+        }
+      ]
+    }
+  }
+}
