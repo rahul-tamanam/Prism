@@ -10,7 +10,12 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import type { DivergenceResult, DivergenceTimelinePoint, DrsTimelineEvent } from '../../types'
+import type {
+  DivergenceResult,
+  DivergenceTimelinePairSnapshot,
+  DivergenceTimelinePoint,
+  DrsTimelineEvent,
+} from '../../types'
 
 const PAIR_LINE_COLORS: Record<string, string> = {
   liquidity_governance: '#2D8A4E',
@@ -46,7 +51,7 @@ function buildRows(
   const sorted = [...timeline].sort((a, b) => parseISODate(a.date) - parseISODate(b.date))
   const pairKeys =
     sorted.length > 0 && sorted[sorted.length - 1].pairs?.length
-      ? sorted[sorted.length - 1].pairs.map(p => p.pair_key)
+      ? sorted[sorted.length - 1].pairs.map((p: DivergenceTimelinePairSnapshot) => p.pair_key)
       : []
 
   const rows: Record<string, string | number>[] = []
@@ -62,7 +67,7 @@ function buildRows(
     if (!pick && sorted.length) pick = sorted[0]
     const row: Record<string, string | number> = { date: ds.slice(5), drs: pick?.drs ?? 0 }
     for (const pk of pairKeys) {
-      const pr = pick?.pairs?.find(p => p.pair_key === pk)
+      const pr = pick?.pairs?.find((p: DivergenceTimelinePairSnapshot) => p.pair_key === pk)
       row[`gap_${pk}`] = pr?.gap ?? 0
       row[`base_${pk}`] = pr?.baseline_gap ?? 0
     }

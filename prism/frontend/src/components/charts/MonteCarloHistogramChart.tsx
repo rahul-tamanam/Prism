@@ -39,7 +39,10 @@ export default function MonteCarloHistogramChart({ result }: MonteCarloHistogram
             fontSize: 11,
             boxShadow: 'var(--shadow-card)',
           }}
-          formatter={(value: number) => [value, 'Paths']}
+          formatter={(value: unknown) => [
+            typeof value === 'number' ? value : Number(value) || 0,
+            'Paths',
+          ]}
         />
         <Bar dataKey="count" name="Simulations" radius={[3, 3, 0, 0]} maxBarSize={28}>
           {data.map((_, idx) => (

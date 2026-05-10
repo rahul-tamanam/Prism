@@ -44,7 +44,7 @@ export default function StressLab() {
   const [cascadeStage, setCascadeStage] = useState(-1)
   const [cascadeResults, setCascadeResults] = useState<StressResult[]>([])
 
-  const [mcScenario, setMcScenario] = useState(STRESS_SCENARIOS[0].id)
+  const [mcScenario, setMcScenario] = useState<string>(STRESS_SCENARIOS[0].id)
   const [mcIterations, setMcIterations] = useState(2000)
   const [mcSigma, setMcSigma] = useState(0.25)
   const [mcResult, setMcResult] = useState<MonteCarloResult | null>(null)

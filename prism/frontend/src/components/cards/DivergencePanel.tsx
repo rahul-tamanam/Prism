@@ -213,16 +213,17 @@ function DivergenceGapTooltip({
   chartData,
 }: {
   active?: boolean
-  payload?: Array<{ payload?: TooltipPayloadRow }>
-  label?: string
+  payload?: readonly { payload?: TooltipPayloadRow }[]
+  label?: string | number
   pairs: DivergencePair[]
   chartData: TooltipPayloadRow[]
 }) {
   if (!active || !payload?.length) return null
   const fromPayload = payload[0]?.payload as TooltipPayloadRow | undefined
+  const labelKey = label != null ? String(label) : undefined
   const row =
     fromPayload ??
-    (label != null ? chartData.find(r => r.label === label || r.date === label) : undefined)
+    (labelKey != null ? chartData.find(r => r.label === labelKey || r.date === labelKey) : undefined)
   if (!row) return null
   return (
     <div

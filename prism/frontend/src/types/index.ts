@@ -90,6 +90,25 @@ export interface DivergenceResult {
   interpretation: string
 }
 
+/** One row in the divergence history series (backend timeline / chart) */
+export interface DivergenceTimelinePairSnapshot {
+  pair_key: string
+  gap: number
+  baseline_gap: number
+}
+
+export interface DivergenceTimelinePoint {
+  date: string
+  drs: number
+  pairs: DivergenceTimelinePairSnapshot[]
+}
+
+/** Optional markers on the DRS timeline (governance, narrative, flows) */
+export interface DrsTimelineEvent {
+  date: string
+  type: string
+}
+
 export interface PrismScore {
   protocol_id: string
   name: string
