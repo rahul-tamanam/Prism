@@ -50,20 +50,20 @@ export default function ExitCostCalculator({ protocolId, protocolName }: ExitCos
   return (
     <div
       style={{
-        background: '#FFFFFF',
-        border: '1px solid #E8E4DC',
+        background: 'var(--bg-card)',
+        border: '1px solid var(--border)',
         borderRadius: 16,
         padding: 24,
-        boxShadow: '0 2px 16px rgba(0,0,0,0.06)',
+        boxShadow: 'var(--shadow-card)',
         marginTop: 24,
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
         <DollarSign size={20} color="#D4A017" />
-        <h3 className="font-syne" style={{ fontWeight: 700, fontSize: '1rem', color: '#1A1A1A', margin: 0 }}>
+        <h3 className="font-syne" style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text-primary)', margin: 0 }}>
           Exit Cost Calculator
         </h3>
-        <span style={{ fontFamily: 'Inter', fontSize: '0.75rem', color: '#9A9A9A', marginLeft: 4 }}>
+        <span style={{ fontFamily: 'Inter', fontSize: '0.75rem', color: 'var(--text-muted)', marginLeft: 4 }}>
           {protocolName}
         </span>
       </div>
@@ -74,7 +74,7 @@ export default function ExitCostCalculator({ protocolId, protocolName }: ExitCos
             style={{
               fontFamily: 'Inter',
               fontSize: '0.75rem',
-              color: '#5C5C5C',
+              color: 'var(--text-secondary)',
               fontWeight: 600,
               display: 'block',
               marginBottom: 6,
@@ -91,11 +91,11 @@ export default function ExitCostCalculator({ protocolId, protocolName }: ExitCos
               width: '100%',
               padding: '10px 14px',
               borderRadius: 8,
-              border: '1px solid #E8E4DC',
+              border: '1px solid var(--border)',
               fontFamily: 'Inter',
               fontSize: '0.9rem',
-              background: '#FAFAF7',
-              color: '#1A1A1A',
+              background: 'var(--bg-primary)',
+              color: 'var(--text-primary)',
               outline: 'none',
             }}
           />
@@ -105,7 +105,7 @@ export default function ExitCostCalculator({ protocolId, protocolName }: ExitCos
             style={{
               fontFamily: 'Inter',
               fontSize: '0.75rem',
-              color: '#5C5C5C',
+              color: 'var(--text-secondary)',
               fontWeight: 600,
               display: 'block',
               marginBottom: 6,
@@ -122,12 +122,12 @@ export default function ExitCostCalculator({ protocolId, protocolName }: ExitCos
                 style={{
                   padding: '10px 14px',
                   borderRadius: 8,
-                  border: `1px solid ${urgency === opt.value ? '#D4A017' : '#E8E4DC'}`,
-                  background: urgency === opt.value ? 'rgba(212,160,23,0.08)' : '#FAFAF7',
+                  border: `1px solid ${urgency === opt.value ? '#D4A017' : 'var(--border)'}`,
+                  background: urgency === opt.value ? 'rgba(212,160,23,0.08)' : 'var(--bg-primary)',
                   fontFamily: 'Inter',
                   fontWeight: urgency === opt.value ? 600 : 400,
                   fontSize: '0.8rem',
-                  color: urgency === opt.value ? '#D4A017' : '#5C5C5C',
+                  color: urgency === opt.value ? '#D4A017' : 'var(--text-secondary)',
                   cursor: 'pointer',
                   whiteSpace: 'nowrap',
                 }}
@@ -148,7 +148,7 @@ export default function ExitCostCalculator({ protocolId, protocolName }: ExitCos
           padding: '12px',
           borderRadius: 8,
           border: 'none',
-          background: loading || !positionUsd ? '#9A9A9A' : '#1A1A1A',
+          background: loading || !positionUsd ? 'var(--text-muted)' : '#D4A017',
           color: '#FFFFFF',
           fontFamily: 'Inter',
           fontWeight: 600,
@@ -181,7 +181,7 @@ export default function ExitCostCalculator({ protocolId, protocolName }: ExitCos
                 <span className="font-syne" style={{ fontWeight: 800, fontSize: '1.4rem', color: rating.color }}>
                   {result.total_cost_pct.toFixed(2)}%
                 </span>
-                <span style={{ fontFamily: 'Inter', fontSize: '0.85rem', color: '#5C5C5C', marginLeft: 8 }}>
+                <span style={{ fontFamily: 'Inter', fontSize: '0.85rem', color: 'var(--text-secondary)', marginLeft: 8 }}>
                   total exit cost - {formatUSD(result.total_cost_usd)} on {formatUSD(result.position_size_usd)}{' '}
                   position
                 </span>
@@ -216,17 +216,17 @@ export default function ExitCostCalculator({ protocolId, protocolName }: ExitCos
                 <div
                   key={item.label}
                   style={{
-                    background: '#FAFAF7',
+                    background: 'var(--bg-primary)',
                     borderRadius: 8,
                     padding: '10px 12px',
-                    border: '1px solid #E8E4DC',
+                    border: '1px solid var(--border)',
                   }}
                 >
                   <div
                     style={{
                       fontFamily: 'Inter',
                       fontSize: '0.65rem',
-                      color: '#9A9A9A',
+                      color: 'var(--text-muted)',
                       textTransform: 'uppercase' as const,
                       letterSpacing: '0.1em',
                       marginBottom: 4,
@@ -234,7 +234,7 @@ export default function ExitCostCalculator({ protocolId, protocolName }: ExitCos
                   >
                     {item.label}
                   </div>
-                  <div className="font-syne" style={{ fontWeight: 700, fontSize: '1rem', color: '#1A1A1A' }}>
+                  <div className="font-syne" style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text-primary)' }}>
                     {item.value}
                   </div>
                 </div>
@@ -264,7 +264,7 @@ export default function ExitCostCalculator({ protocolId, protocolName }: ExitCos
                   Recommendations
                 </p>
                 {result.recommendations.map((r, i) => (
-                  <p key={i} style={{ fontFamily: 'Inter', fontSize: '0.85rem', color: '#5C5C5C', margin: '0 0 4px' }}>
+                  <p key={i} style={{ fontFamily: 'Inter', fontSize: '0.85rem', color: 'var(--text-secondary)', margin: '0 0 4px' }}>
                     · {r}
                   </p>
                 ))}

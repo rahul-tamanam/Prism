@@ -100,15 +100,15 @@ export default function StressLab() {
       transition={{ duration: 0.35 }}
       style={{ maxWidth: 1280, margin: '0 auto', padding: '32px 24px' }}
     >
-      <div style={{ marginBottom: 28, paddingBottom: 20, borderBottom: '1px solid #E8E4DC' }}>
+      <div style={{ marginBottom: 28, paddingBottom: 20, borderBottom: '1px solid var(--border)' }}>
         <h1
           className="font-syne"
-          style={{ fontWeight: 700, fontSize: '1.6rem', color: '#1A1A1A', display: 'flex', alignItems: 'center', gap: 10 }}
+          style={{ fontWeight: 700, fontSize: '1.6rem', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: 10 }}
         >
           <span style={{ width: 4, height: 24, background: '#D4A017', borderRadius: 2, display: 'inline-block' }} />
           Stress Lab
         </h1>
-        <p style={{ color: '#5C5C5C', fontSize: '0.9rem', marginTop: 4, fontFamily: 'Inter' }}>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: 4, fontFamily: 'Inter' }}>
           Interactive scenario simulator for {score?.name || 'selected protocol'}
         </p>
       </div>
@@ -141,16 +141,16 @@ export default function StressLab() {
                   >
                     <Icon size={16} color="#7EB8D4" />
                     <div>
-                      <div style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '0.85rem', color: '#1A1A1A', marginBottom: 2 }}>
+                      <div style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '0.85rem', color: 'var(--text-primary)', marginBottom: 2 }}>
                         {scenario.label}
                       </div>
-                      <div style={{ fontFamily: 'Inter', fontWeight: 400, fontSize: '0.8rem', color: '#9A9A9A' }}>
+                      <div style={{ fontFamily: 'Inter', fontWeight: 400, fontSize: '0.8rem', color: 'var(--text-muted)' }}>
                         {scenario.description}
                       </div>
                     </div>
                   </button>
                   {idx < STRESS_SCENARIOS.length - 1 && (
-                    <div style={{ height: 1, background: '#F0EDE6', margin: '0 16px' }} />
+                    <div style={{ height: 1, background: 'var(--border)', margin: '0 16px' }} />
                   )}
                 </div>
               )
@@ -171,7 +171,7 @@ export default function StressLab() {
               fontWeight: 600,
               fontSize: '0.85rem',
               color: '#FFFFFF',
-              background: cascadeRunning ? '#9A9A9A' : '#D4A017',
+              background: cascadeRunning ? 'var(--text-muted)' : '#D4A017',
               transition: 'background 0.2s ease',
             }}
             onMouseEnter={e => { if (!cascadeRunning) (e.target as HTMLElement).style.background = '#C49010' }}
@@ -196,7 +196,7 @@ export default function StressLab() {
                 className="prism-card flex items-center justify-center"
                 style={{ minHeight: 400 }}
               >
-                <span style={{ fontFamily: 'Inter', fontWeight: 400, color: '#9A9A9A' }}>
+                <span style={{ fontFamily: 'Inter', fontWeight: 400, color: 'var(--text-muted)' }}>
                   Running scenario…
                 </span>
               </motion.div>
@@ -211,7 +211,7 @@ export default function StressLab() {
                 className="prism-card flex items-center justify-center"
                 style={{ minHeight: 400 }}
               >
-                <span style={{ fontFamily: 'Inter', fontWeight: 400, fontStyle: 'italic', color: '#9A9A9A' }}>
+                <span style={{ fontFamily: 'Inter', fontWeight: 400, fontStyle: 'italic', color: 'var(--text-muted)' }}>
                   Select a scenario to begin
                 </span>
               </motion.div>
@@ -226,7 +226,7 @@ export default function StressLab() {
                 style={{ display: 'flex', flexDirection: 'column', gap: 20 }}
               >
                 <StressResultCard result={result} />
-                <div className="prism-card" style={{ padding: 24, background: '#F9F8F5' }}>
+                <div className="prism-card" style={{ padding: 24, background: 'var(--bg-tertiary)' }}>
                   <p className="card-section-label" style={{ color: '#D4A017' }}>PILLAR IMPACT</p>
                   <StressComparisonChart result={result} baseScores={score.pillar_scores} />
                 </div>
@@ -253,14 +253,14 @@ export default function StressLab() {
                       <span className="font-syne" style={{ fontSize: '0.9rem', fontWeight: 800, color: ACTION_COLORS[cr.base_action] }}>
                         {formatScore(cr.base_score)}
                       </span>
-                      <span style={{ color: '#9A9A9A' }}>→</span>
+                      <span style={{ color: 'var(--text-muted)' }}>→</span>
                       <span className="font-syne" style={{ fontSize: '0.9rem', fontWeight: 800, color: ACTION_COLORS[cr.stressed_action] }}>
                         {formatScore(cr.stressed_score)}
                       </span>
                       <ActionBadge action={cr.stressed_action} size="sm" />
                     </div>
                   </div>
-                  <p style={{ fontFamily: 'Inter', fontWeight: 400, fontSize: '0.85rem', color: '#5C5C5C' }}>
+                  <p style={{ fontFamily: 'Inter', fontWeight: 400, fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
                     {cr.narrative}
                   </p>
                 </motion.div>
@@ -273,11 +273,11 @@ export default function StressLab() {
       <div className="prism-card" style={{ padding: 24, marginTop: 8 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
           <FlaskConical size={22} color="#D4A017" />
-          <h2 className="font-syne" style={{ fontWeight: 700, fontSize: '1.15rem', color: '#1A1A1A', margin: 0 }}>
+          <h2 className="font-syne" style={{ fontWeight: 700, fontSize: '1.15rem', color: 'var(--text-primary)', margin: 0 }}>
             Monte Carlo
           </h2>
         </div>
-        <p style={{ fontFamily: 'Inter', fontSize: '0.85rem', color: '#5C5C5C', marginBottom: 20, maxWidth: 720 }}>
+        <p style={{ fontFamily: 'Inter', fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: 20, maxWidth: 720 }}>
           Each path applies independent log-normal multipliers (mean 1, tunable σ) to the selected scenario&apos;s pillar
           deltas, then recomputes the PRISM score. Use this to see the distribution of outcomes under shock magnitude
           uncertainty.
@@ -292,7 +292,7 @@ export default function StressLab() {
             marginBottom: 20,
           }}
         >
-          <label style={{ display: 'flex', flexDirection: 'column', gap: 6, fontFamily: 'Inter', fontSize: '0.8rem', color: '#5C5C5C' }}>
+          <label style={{ display: 'flex', flexDirection: 'column', gap: 6, fontFamily: 'Inter', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
             Scenario
             <select
               value={mcScenario}
@@ -300,11 +300,11 @@ export default function StressLab() {
               style={{
                 padding: '10px 12px',
                 borderRadius: 8,
-                border: '1px solid #E8E4DC',
+                border: '1px solid var(--border)',
                 fontFamily: 'Inter',
                 fontSize: '0.85rem',
-                background: '#F9F8F5',
-                color: '#1A1A1A',
+                background: 'var(--bg-tertiary)',
+                color: 'var(--text-primary)',
               }}
             >
               {STRESS_SCENARIOS.map(s => (
@@ -314,7 +314,7 @@ export default function StressLab() {
               ))}
             </select>
           </label>
-          <label style={{ display: 'flex', flexDirection: 'column', gap: 6, fontFamily: 'Inter', fontSize: '0.8rem', color: '#5C5C5C' }}>
+          <label style={{ display: 'flex', flexDirection: 'column', gap: 6, fontFamily: 'Inter', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
             Paths ({mcIterations})
             <input
               type="range"
@@ -326,7 +326,7 @@ export default function StressLab() {
               style={{ width: '100%' }}
             />
           </label>
-          <label style={{ display: 'flex', flexDirection: 'column', gap: 6, fontFamily: 'Inter', fontSize: '0.8rem', color: '#5C5C5C' }}>
+          <label style={{ display: 'flex', flexDirection: 'column', gap: 6, fontFamily: 'Inter', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
             σ (shock uncertainty) - {mcSigma.toFixed(2)}
             <input
               type="range"
@@ -351,7 +351,7 @@ export default function StressLab() {
               fontWeight: 600,
               fontSize: '0.85rem',
               color: '#FFFFFF',
-              background: mcLoading ? '#9A9A9A' : '#1A3A52',
+              background: mcLoading ? 'var(--text-muted)' : '#1A3A52',
               transition: 'background 0.2s ease',
             }}
           >
@@ -361,7 +361,7 @@ export default function StressLab() {
 
         {mcLoading && (
           <div className="flex items-center justify-center" style={{ minHeight: 120 }}>
-            <span style={{ fontFamily: 'Inter', color: '#9A9A9A' }}>Running Monte Carlo paths…</span>
+            <span style={{ fontFamily: 'Inter', color: 'var(--text-muted)' }}>Running Monte Carlo paths…</span>
           </div>
         )}
 
@@ -374,27 +374,27 @@ export default function StressLab() {
                 gap: 12,
               }}
             >
-              <div style={{ padding: 14, background: '#F9F8F5', borderRadius: 8 }}>
-                <div style={{ fontFamily: 'Inter', fontSize: '0.7rem', color: '#9A9A9A', textTransform: 'uppercase' }}>Base score</div>
-                <div className="font-syne" style={{ fontSize: '1.35rem', fontWeight: 800, color: '#1A1A1A' }}>
+              <div style={{ padding: 14, background: 'var(--bg-tertiary)', borderRadius: 8 }}>
+                <div style={{ fontFamily: 'Inter', fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Base score</div>
+                <div className="font-syne" style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-primary)' }}>
                   {formatScore(mcResult.base_score)}
                 </div>
               </div>
-              <div style={{ padding: 14, background: '#F9F8F5', borderRadius: 8 }}>
-                <div style={{ fontFamily: 'Inter', fontSize: '0.7rem', color: '#9A9A9A', textTransform: 'uppercase' }}>Mean stressed</div>
+              <div style={{ padding: 14, background: 'var(--bg-tertiary)', borderRadius: 8 }}>
+                <div style={{ fontFamily: 'Inter', fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Mean stressed</div>
                 <div className="font-syne" style={{ fontSize: '1.35rem', fontWeight: 800, color: '#D4A017' }}>
                   {formatScore(mcResult.mean_stressed)}
                 </div>
               </div>
-              <div style={{ padding: 14, background: '#F9F8F5', borderRadius: 8 }}>
-                <div style={{ fontFamily: 'Inter', fontSize: '0.7rem', color: '#9A9A9A', textTransform: 'uppercase' }}>Std dev</div>
-                <div className="font-syne" style={{ fontSize: '1.35rem', fontWeight: 800, color: '#5C5C5C' }}>
+              <div style={{ padding: 14, background: 'var(--bg-tertiary)', borderRadius: 8 }}>
+                <div style={{ fontFamily: 'Inter', fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Std dev</div>
+                <div className="font-syne" style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-secondary)' }}>
                   {mcResult.std_stressed.toFixed(2)}
                 </div>
               </div>
-              <div style={{ padding: 14, background: '#F9F8F5', borderRadius: 8 }}>
-                <div style={{ fontFamily: 'Inter', fontSize: '0.7rem', color: '#9A9A9A', textTransform: 'uppercase' }}>p5 / p50 / p95</div>
-                <div className="font-syne" style={{ fontSize: '1rem', fontWeight: 800, color: '#1A1A1A' }}>
+              <div style={{ padding: 14, background: 'var(--bg-tertiary)', borderRadius: 8 }}>
+                <div style={{ fontFamily: 'Inter', fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>p5 / p50 / p95</div>
+                <div className="font-syne" style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-primary)' }}>
                   {formatScore(mcResult.percentiles['5'])} · {formatScore(mcResult.percentiles['50'])} ·{' '}
                   {formatScore(mcResult.percentiles['95'])}
                 </div>
@@ -419,13 +419,13 @@ export default function StressLab() {
                         padding: '10px 12px',
                         borderRadius: 8,
                         background: 'rgba(0,0,0,0.03)',
-                        borderLeft: `3px solid ${ACTION_COLORS[action] || '#9A9A9A'}`,
+                        borderLeft: `3px solid ${ACTION_COLORS[action] || 'var(--text-muted)'}`,
                       }}
                     >
                       <div style={{ fontFamily: 'Inter', fontSize: '0.72rem', fontWeight: 600, color: ACTION_COLORS[action] }}>
                         {action}
                       </div>
-                      <div className="font-syne" style={{ fontSize: '1.1rem', fontWeight: 800, color: '#1A1A1A' }}>
+                      <div className="font-syne" style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-primary)' }}>
                         {(p * 100).toFixed(1)}%
                       </div>
                     </div>
@@ -437,7 +437,7 @@ export default function StressLab() {
         )}
 
         {!mcLoading && !mcResult && (
-          <p style={{ fontFamily: 'Inter', fontSize: '0.85rem', fontStyle: 'italic', color: '#9A9A9A', margin: 0 }}>
+          <p style={{ fontFamily: 'Inter', fontSize: '0.85rem', fontStyle: 'italic', color: 'var(--text-muted)', margin: 0 }}>
             Run a simulation to see percentiles, histogram, and action probabilities.
           </p>
         )}

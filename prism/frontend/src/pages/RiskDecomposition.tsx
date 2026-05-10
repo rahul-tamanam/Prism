@@ -70,10 +70,10 @@ export default function RiskDecomposition() {
       transition={{ duration: 0.35 }}
       style={{ maxWidth: 1280, margin: '0 auto', padding: '32px 24px' }}
     >
-      <div style={{ marginBottom: 28, paddingBottom: 20, borderBottom: '1px solid #E8E4DC' }}>
+      <div style={{ marginBottom: 28, paddingBottom: 20, borderBottom: '1px solid var(--border)' }}>
         <h1
           className="font-syne"
-          style={{ fontWeight: 700, fontSize: '1.6rem', color: '#1A1A1A', display: 'flex', alignItems: 'center', gap: 10 }}
+          style={{ fontWeight: 700, fontSize: '1.6rem', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: 10 }}
         >
           <span style={{ width: 4, height: 24, background: '#D4A017', borderRadius: 2, display: 'inline-block' }} />
           Risk Decomposition
@@ -88,7 +88,7 @@ export default function RiskDecomposition() {
             justifyContent: 'space-between',
           }}
         >
-          <p style={{ color: '#5C5C5C', fontSize: '0.9rem', margin: 0, fontFamily: 'Inter' }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', margin: 0, fontFamily: 'Inter' }}>
             Full pillar breakdown for {score.name}
           </p>
           <button
@@ -101,9 +101,9 @@ export default function RiskDecomposition() {
               fontWeight: 600,
               padding: '6px 12px',
               borderRadius: 8,
-              border: '1px solid #E8E4DC',
-              background: refreshing ? '#F5F2EB' : '#FFFFFF',
-              color: '#5C5C5C',
+              border: '1px solid var(--border)',
+              background: refreshing ? 'var(--bg-secondary)' : 'var(--bg-card)',
+              color: 'var(--text-secondary)',
               cursor: refreshing ? 'default' : 'pointer',
             }}
           >
@@ -133,7 +133,7 @@ export default function RiskDecomposition() {
             <ActionBadge action={score.action} size="lg" />
           </div>
           <PrismRadarChart pillarScores={score.pillar_scores} color={scoreColor} size={400} />
-          <p style={{ fontFamily: 'Inter', fontSize: '0.85rem', color: '#9A9A9A', marginTop: 16 }}>
+          <p style={{ fontFamily: 'Inter', fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: 16 }}>
             {score.safe_position_label}
           </p>
         </div>

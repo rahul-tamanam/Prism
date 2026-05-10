@@ -61,15 +61,15 @@ export default function ProtocolRadar() {
         className="dashboard-section"
         style={{ maxWidth: 1280, margin: '0 auto', padding: '32px 24px' }}
       >
-        <div style={{ marginBottom: 28, paddingBottom: 20, borderBottom: '1px solid #E8E4DC' }}>
+        <div style={{ marginBottom: 28, paddingBottom: 20, borderBottom: '1px solid var(--border)' }}>
           <h1
             className="font-syne"
-            style={{ fontWeight: 700, fontSize: '1.6rem', color: '#1A1A1A', display: 'flex', alignItems: 'center', gap: 10 }}
+            style={{ fontWeight: 700, fontSize: '1.6rem', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: 10 }}
           >
             <span style={{ width: 4, height: 24, background: '#D4A017', borderRadius: 2, display: 'inline-block' }} />
             Protocol Radar
           </h1>
-          <p style={{ color: '#5C5C5C', fontSize: '0.9rem', marginTop: 4, fontFamily: 'Inter' }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: 4, fontFamily: 'Inter' }}>
             Real-time PRISM scores across monitored protocols
           </p>
         </div>
@@ -84,10 +84,10 @@ export default function ProtocolRadar() {
           ))}
         </div>
 
-        <div style={{ marginBottom: 28, paddingBottom: 20, borderBottom: '1px solid #E8E4DC' }}>
+        <div style={{ marginBottom: 28, paddingBottom: 20, borderBottom: '1px solid var(--border)' }}>
           <h2
             className="font-syne"
-            style={{ fontWeight: 700, fontSize: '1.6rem', color: '#1A1A1A', display: 'flex', alignItems: 'center', gap: 10 }}
+            style={{ fontWeight: 700, fontSize: '1.6rem', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: 10 }}
           >
             <span style={{ width: 4, height: 24, background: '#D4A017', borderRadius: 2, display: 'inline-block' }} />
             Score History

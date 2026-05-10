@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
 import { NavLink } from 'react-router-dom'
-import { Radio, BarChart3, Zap, Newspaper, Briefcase } from 'lucide-react'
+import { Radio, BarChart3, Zap, Newspaper, Briefcase, Moon, Sun } from 'lucide-react'
 import type { Protocol, PrismScore } from '../../types'
 import { ACTION_COLORS, ACTION_BG } from '../../types'
-import { formatScore, getRelativeTime } from '../../lib/utils'
+import { formatScore } from '../../lib/utils'
 import { mockScores } from '../../data/mockData'
 import AlertPanel from './AlertPanel'
+import { useTheme } from '../../contexts/ThemeContext'
 
 const navItems = [
   { to: '/', label: 'Protocol Radar', icon: Radio },
@@ -34,10 +35,13 @@ function ProtocolMenu({
   selectedProtocol,
   onProtocolChange,
   protocols,
+  dropdownAlign = 'right',
 }: {
   selectedProtocol: string
   onProtocolChange: (id: string) => void
   protocols: Protocol[]
+  /** Anchor edge for the open panel (use left when the trigger sits on the header left) */
+  dropdownAlign?: 'left' | 'right'
 }) {
   const [open, setOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
@@ -51,7 +55,7 @@ function ProtocolMenu({
     return () => document.removeEventListener('mousedown', handler)
   }, [])
 
-  const dotColor = PROTOCOL_DOT[selectedProtocol] || '#9A9A9A'
+  const dotColor = PROTOCOL_DOT[selectedProtocol] || 'var(--text-muted)'
 
   return (
     <div ref={dropdownRef} style={{ position: 'relative' }}>
@@ -63,15 +67,15 @@ function ProtocolMenu({
           alignItems: 'center',
           gap: 8,
           padding: '8px 14px',
-          background: '#FFFFFF',
-          border: `1px solid ${open ? '#D4A017' : '#E8E4DC'}`,
+          background: 'var(--bg-card)',
+          border: `1px solid ${open ? '#D4A017' : 'var(--border)'}`,
           borderRadius: 10,
           boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
           cursor: 'pointer',
           fontFamily: 'Inter, sans-serif',
           fontWeight: 600,
           fontSize: '0.875rem',
-          color: '#1A1A1A',
+          color: 'var(--text-primary)',
           minWidth: 180,
           justifyContent: 'space-between',
           transition: 'border-color 0.2s ease',
@@ -99,7 +103,7 @@ function ProtocolMenu({
           strokeLinecap="round"
           strokeLinejoin="round"
           style={{
-            color: '#9A9A9A',
+            color: 'var(--text-muted)',
             transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
             transition: 'transform 0.2s ease',
             flexShrink: 0,
@@ -115,10 +119,10 @@ function ProtocolMenu({
           style={{
             position: 'absolute',
             top: 'calc(100% + 8px)',
-            right: 0,
+            ...(dropdownAlign === 'left' ? { left: 0, right: 'auto' } : { right: 0, left: 'auto' }),
             minWidth: 200,
-            background: '#FFFFFF',
-            border: '1px solid #E8E4DC',
+            background: 'var(--bg-card)',
+            border: '1px solid var(--border)',
             borderRadius: 12,
             boxShadow: '0 8px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06)',
             overflow: 'hidden',
@@ -129,7 +133,7 @@ function ProtocolMenu({
             const ms = mockScores[protocol.id]
             const selected = protocol.id === selectedProtocol
             const rowDot = PROTOCOL_DOT[protocol.id] || protocol.color
-            const actionColor = ms ? ACTION_COLORS[ms.action] : '#9A9A9A'
+            const actionColor = ms ? ACTION_COLORS[ms.action] : 'var(--text-muted)'
             const actionBg = ms ? ACTION_BG[ms.action] : 'rgba(0,0,0,0.06)'
             const isLast = index === protocols.length - 1
             return (
@@ -157,10 +161,10 @@ function ProtocolMenu({
                   fontFamily: 'Inter, sans-serif',
                   fontWeight: selected ? 600 : 400,
                   fontSize: '0.875rem',
-                  color: '#1A1A1A',
+                  color: 'var(--text-primary)',
                   background: selected ? 'rgba(212,160,23,0.07)' : 'transparent',
                   transition: 'background 0.15s ease',
-                  borderBottom: isLast ? 'none' : '1px solid #F0EDE6',
+                  borderBottom: isLast ? 'none' : '1px solid var(--border)',
                 }}
                 onMouseEnter={e => {
                   e.currentTarget.style.background = 'rgba(212,160,23,0.05)'
@@ -216,33 +220,41 @@ export default function Sidebar(props?: NavBarProps) {
     ? Date.now() - new Date(score.timestamp).getTime() < 900000
     : false
 
+  const { theme, toggleTheme } = useTheme()
+
   return (
     <header
-      className={`navbar flex items-center justify-between px-6${showNavbar ? ' visible' : ''}`}
+      className={`navbar px-6${showNavbar ? ' visible' : ''}`}
       style={{
         height: 64,
-        background: 'rgba(250, 250, 247, 0.85)',
+        background: 'var(--navbar-surface)',
         backdropFilter: 'blur(12px)',
         WebkitBackdropFilter: 'blur(12px)',
         borderBottom: '1px solid var(--border)',
       }}
     >
-      <div className="flex items-center gap-2 shrink-0">
+      <div className="navbar-brand">
         <span
-          className="font-syne text-xl font-extrabold tracking-tight"
-          style={{ color: '#D4A017' }}
+          className="font-syne font-extrabold leading-none tracking-[-0.03em]"
+          style={{
+            color: '#D4A017',
+            fontSize: '1.375rem',
+            lineHeight: 1,
+          }}
         >
           PRISM
         </span>
-        <span
-          className="text-[0.65rem] font-medium uppercase tracking-[0.15em] hidden sm:inline"
-          style={{ color: 'var(--text-muted)' }}
-        >
-          DeFi Risk Engine
-        </span>
+        {protocols && protocols.length > 0 && onProtocolChange && (
+          <ProtocolMenu
+            dropdownAlign="left"
+            selectedProtocol={selectedProtocol}
+            onProtocolChange={onProtocolChange}
+            protocols={protocols}
+          />
+        )}
       </div>
 
-      <nav className="nav-cluster">
+      <nav className="nav-cluster" aria-label="Primary">
         {navItems.map(item => (
           <NavLink
             key={item.to}
@@ -258,16 +270,9 @@ export default function Sidebar(props?: NavBarProps) {
         ))}
       </nav>
 
-      <div className="flex items-center gap-3 shrink-0">
-        {protocols && protocols.length > 0 && onProtocolChange && (
-          <ProtocolMenu
-            selectedProtocol={selectedProtocol}
-            onProtocolChange={onProtocolChange}
-            protocols={protocols}
-          />
-        )}
-
+      <div className="navbar-actions">
         <AlertPanel
+          scoreTimestamp={score?.timestamp ?? null}
           onNavigate={id => {
             if (onAlertNavigate) onAlertNavigate(id)
             else if (onProtocolChange) onProtocolChange(id)
@@ -286,12 +291,6 @@ export default function Sidebar(props?: NavBarProps) {
             <span className="text-xs font-semibold uppercase tracking-wide">{score.action}</span>
           </div>
         )}
-
-        {score && (
-          <span className="text-xs hidden xl:inline" style={{ color: '#7EB8D4' }}>
-            {getRelativeTime(score.timestamp)}
-          </span>
-        )}
         <span
           className="block w-2 h-2 rounded-full"
           style={{
@@ -302,6 +301,14 @@ export default function Sidebar(props?: NavBarProps) {
             animation: 'pulse-glow 2s ease-in-out infinite',
           }}
         />
+        <button
+          type="button"
+          className="theme-toggle-btn"
+          onClick={toggleTheme}
+          aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+        >
+          {theme === 'dark' ? <Sun size={18} strokeWidth={2} /> : <Moon size={18} strokeWidth={2} />}
+        </button>
       </div>
     </header>
   )

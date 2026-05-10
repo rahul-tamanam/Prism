@@ -21,9 +21,11 @@ const TYPE_ICONS = {
 
 interface AlertPanelProps {
   onNavigate: (protocolId: string) => void
+  /** ISO timestamp of the current protocol score; shown in the panel header */
+  scoreTimestamp?: string | null
 }
 
-export default function AlertPanel({ onNavigate }: AlertPanelProps) {
+export default function AlertPanel({ onNavigate, scoreTimestamp }: AlertPanelProps) {
   const [open, setOpen] = useState(false)
   const [alerts, setAlerts] = useState<PrismAlert[]>([])
   const [unread, setUnread] = useState(0)
@@ -68,7 +70,7 @@ export default function AlertPanel({ onNavigate }: AlertPanelProps) {
           borderRadius: 8,
           display: 'flex',
           alignItems: 'center',
-          color: unread > 0 ? '#C94040' : '#9A9A9A',
+          color: unread > 0 ? '#C94040' : 'var(--text-muted)',
         }}
       >
         <Bell size={18} />
@@ -109,10 +111,10 @@ export default function AlertPanel({ onNavigate }: AlertPanelProps) {
               right: 0,
               width: 380,
               maxHeight: 520,
-              background: '#FFFFFF',
-              border: '1px solid #E8E4DC',
+              background: 'var(--bg-card)',
+              border: '1px solid var(--border)',
               borderRadius: 16,
-              boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+              boxShadow: 'var(--shadow-hover)',
               zIndex: 2000,
               overflow: 'hidden',
               display: 'flex',
@@ -122,43 +124,57 @@ export default function AlertPanel({ onNavigate }: AlertPanelProps) {
             <div
               style={{
                 padding: '14px 18px',
-                borderBottom: '1px solid #E8E4DC',
+                borderBottom: '1px solid var(--border)',
                 display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
+                flexDirection: 'column',
+                gap: 6,
               }}
             >
-              <span className="font-syne" style={{ fontWeight: 700, fontSize: '0.9rem', color: '#1A1A1A' }}>
-                Alerts {unread > 0 && <span style={{ color: '#C94040' }}>({unread} new)</span>}
-              </span>
-              <div style={{ display: 'flex', gap: 8 }}>
-                {unread > 0 && (
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span className="font-syne" style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--text-primary)' }}>
+                  Alerts {unread > 0 && <span style={{ color: '#C94040' }}>({unread} new)</span>}
+                </span>
+                <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                  {unread > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => void handleAckAll()}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        fontFamily: 'Inter',
+                        fontSize: '0.75rem',
+                        color: 'var(--accent-blue)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 4,
+                      }}
+                    >
+                      <CheckCheck size={13} /> Mark all read
+                    </button>
+                  )}
                   <button
                     type="button"
-                    onClick={() => void handleAckAll()}
-                    style={{
-                      background: 'none',
-                      border: 'none',
-                      cursor: 'pointer',
-                      fontFamily: 'Inter',
-                      fontSize: '0.75rem',
-                      color: '#7EB8D4',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 4,
-                    }}
+                    onClick={() => setOpen(false)}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}
                   >
-                    <CheckCheck size={13} /> Mark all read
+                    <X size={16} />
                   </button>
-                )}
-                <button
-                  type="button"
-                  onClick={() => setOpen(false)}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#9A9A9A' }}
-                >
-                  <X size={16} />
-                </button>
+                </div>
               </div>
+              {scoreTimestamp ? (
+                <span
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '0.72rem',
+                    fontWeight: 500,
+                    color: 'var(--accent-blue)',
+                  }}
+                >
+                  Score data {getRelativeTime(scoreTimestamp)}
+                </span>
+              ) : null}
             </div>
 
             <div style={{ overflowY: 'auto', flex: 1 }}>
@@ -167,7 +183,7 @@ export default function AlertPanel({ onNavigate }: AlertPanelProps) {
                   style={{
                     padding: 32,
                     textAlign: 'center',
-                    color: '#9A9A9A',
+                    color: 'var(--text-muted)',
                     fontFamily: 'Inter',
                     fontSize: '0.85rem',
                   }}
@@ -183,8 +199,8 @@ export default function AlertPanel({ onNavigate }: AlertPanelProps) {
                       key={alert.id}
                       style={{
                         padding: '12px 16px',
-                        borderBottom: '1px solid #F0EDE6',
-                        borderLeft: `3px solid ${alert.acknowledged ? '#E8E4DC' : sev.border}`,
+                        borderBottom: '1px solid var(--border)',
+                        borderLeft: `3px solid ${alert.acknowledged ? 'var(--border)' : sev.border}`,
                         background: alert.acknowledged ? 'transparent' : sev.bg,
                         opacity: alert.acknowledged ? 0.65 : 1,
                         transition: 'all 0.2s ease',
@@ -193,7 +209,7 @@ export default function AlertPanel({ onNavigate }: AlertPanelProps) {
                       <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
                         <Icon
                           size={15}
-                          color={alert.acknowledged ? '#9A9A9A' : sev.color}
+                          color={alert.acknowledged ? 'var(--text-muted)' : sev.color}
                           style={{ marginTop: 2, flexShrink: 0 }}
                         />
                         <div style={{ flex: 1, minWidth: 0 }}>
@@ -202,7 +218,7 @@ export default function AlertPanel({ onNavigate }: AlertPanelProps) {
                               fontFamily: 'Inter',
                               fontWeight: 600,
                               fontSize: '0.82rem',
-                              color: '#1A1A1A',
+                              color: 'var(--text-primary)',
                               margin: '0 0 3px',
                               lineHeight: 1.4,
                             }}
@@ -210,7 +226,7 @@ export default function AlertPanel({ onNavigate }: AlertPanelProps) {
                             {alert.message}
                           </p>
                           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                            <span style={{ fontFamily: 'Inter', fontSize: '0.7rem', color: '#9A9A9A' }}>
+                            <span style={{ fontFamily: 'Inter', fontSize: '0.7rem', color: 'var(--text-muted)' }}>
                               {getRelativeTime(alert.timestamp)}
                             </span>
                             <button
@@ -225,7 +241,7 @@ export default function AlertPanel({ onNavigate }: AlertPanelProps) {
                                 cursor: 'pointer',
                                 fontFamily: 'Inter',
                                 fontSize: '0.7rem',
-                                color: '#7EB8D4',
+                                color: 'var(--accent-blue)',
                                 padding: 0,
                               }}
                             >
@@ -241,7 +257,7 @@ export default function AlertPanel({ onNavigate }: AlertPanelProps) {
                               background: 'none',
                               border: 'none',
                               cursor: 'pointer',
-                              color: '#9A9A9A',
+                              color: 'var(--text-muted)',
                               padding: 2,
                               flexShrink: 0,
                             }}

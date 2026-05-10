@@ -99,14 +99,14 @@ function DuneWhaleBlock({ d }: { d: GovernanceDetail }) {
         style={{
           marginTop: 10,
           paddingTop: 10,
-          borderTop: '1px solid #E8E4DC',
+          borderTop: '1px solid var(--border)',
           fontFamily: 'Inter',
           fontSize: '0.72rem',
-          color: '#5C5C5C',
+          color: 'var(--text-secondary)',
           lineHeight: 1.45,
         }}
       >
-        <span style={{ fontWeight: 600, color: '#1A1A1A' }}>Dune (holders)</span>
+        <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>Dune (holders)</span>
         {parts.length > 0 ? <span>{`: ${parts.join(' · ')}`}</span> : <span>: live query (no numeric columns parsed)</span>}
       </div>
     )
@@ -118,10 +118,10 @@ function DuneWhaleBlock({ d }: { d: GovernanceDetail }) {
         style={{
           marginTop: 10,
           paddingTop: 10,
-          borderTop: '1px solid #E8E4DC',
+          borderTop: '1px solid var(--border)',
           fontFamily: 'Inter',
           fontSize: '0.72rem',
-          color: '#9A9A9A',
+          color: 'var(--text-muted)',
           lineHeight: 1.45,
         }}
       >
@@ -149,10 +149,10 @@ function DuneWhaleBlock({ d }: { d: GovernanceDetail }) {
       style={{
         marginTop: 10,
         paddingTop: 10,
-        borderTop: '1px solid #E8E4DC',
+        borderTop: '1px solid var(--border)',
         fontFamily: 'Inter',
         fontSize: '0.72rem',
-        color: '#9A9A9A',
+        color: 'var(--text-muted)',
         lineHeight: 1.45,
       }}
     >
@@ -177,14 +177,14 @@ function DuneLiquidationsBlock({ d }: { d: LiquidationDuneDetail }) {
         style={{
           marginTop: 10,
           paddingTop: 10,
-          borderTop: '1px solid #E8E4DC',
+          borderTop: '1px solid var(--border)',
           fontFamily: 'Inter',
           fontSize: '0.72rem',
-          color: '#5C5C5C',
+          color: 'var(--text-secondary)',
           lineHeight: 1.45,
         }}
       >
-        <span style={{ fontWeight: 600, color: '#1A1A1A' }}>Dune (liquidations)</span>
+        <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>Dune (liquidations)</span>
         {parts.length > 0 ? <span>{`: latest row - ${parts.join(' · ')}`}</span> : <span>: live query</span>}
       </div>
     )
@@ -195,10 +195,10 @@ function DuneLiquidationsBlock({ d }: { d: LiquidationDuneDetail }) {
       style={{
         marginTop: 10,
         paddingTop: 10,
-        borderTop: '1px solid #E8E4DC',
+        borderTop: '1px solid var(--border)',
         fontFamily: 'Inter',
         fontSize: '0.72rem',
-        color: '#9A9A9A',
+        color: 'var(--text-muted)',
         lineHeight: 1.45,
       }}
     >
@@ -208,7 +208,7 @@ function DuneLiquidationsBlock({ d }: { d: LiquidationDuneDetail }) {
           <>. Dune request failed.</>
         ) : (
           <>
-            {' '}. <strong style={{ fontWeight: 600, color: '#5C5C5C' }}>Not configured:</strong> add liquidation columns to{' '}
+            {' '}. <strong style={{ fontWeight: 600, color: 'var(--text-secondary)' }}>Not configured:</strong> add liquidation columns to{' '}
             <code style={{ fontSize: '0.68rem' }}>dune_prism_query_id</code> or set{' '}
             <code style={{ fontSize: '0.68rem' }}>dune_liquidations_query_id</code>.
           </>
@@ -228,14 +228,14 @@ function DuneLiquidityExtraBlock({ d }: { d: LiquidityDuneSnippet }) {
         style={{
           marginTop: 10,
           paddingTop: 10,
-          borderTop: '1px solid #E8E4DC',
+          borderTop: '1px solid var(--border)',
           fontFamily: 'Inter',
           fontSize: '0.72rem',
-          color: '#5C5C5C',
+          color: 'var(--text-secondary)',
           lineHeight: 1.45,
         }}
       >
-        <span style={{ fontWeight: 600, color: '#1A1A1A' }}>Dune</span>
+        <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>Dune</span>
         <span>{`: ${parts.join(' · ')}`}</span>
       </div>
     )
@@ -245,14 +245,14 @@ function DuneLiquidityExtraBlock({ d }: { d: LiquidityDuneSnippet }) {
       style={{
         marginTop: 10,
         paddingTop: 10,
-        borderTop: '1px solid #E8E4DC',
+        borderTop: '1px solid var(--border)',
         fontFamily: 'Inter',
         fontSize: '0.72rem',
-        color: '#9A9A9A',
+        color: 'var(--text-muted)',
         lineHeight: 1.45,
       }}
     >
-      <strong style={{ fontWeight: 600, color: '#5C5C5C' }}>Dune (optional):</strong> add{' '}
+      <strong style={{ fontWeight: 600, color: 'var(--text-secondary)' }}>Dune (optional):</strong> add{' '}
       <code style={{ fontSize: '0.68rem' }}>prism_liquidity_tvl_usd</code> to your unified query (
       <code style={{ fontSize: '0.68rem' }}>dune_prism_query_id</code>).
     </div>
@@ -266,14 +266,14 @@ function DuneOracleExtraBlock({ d }: { d: OracleDuneSnippet }) {
         style={{
           marginTop: 10,
           paddingTop: 10,
-          borderTop: '1px solid #E8E4DC',
+          borderTop: '1px solid var(--border)',
           fontFamily: 'Inter',
           fontSize: '0.72rem',
-          color: '#5C5C5C',
+          color: 'var(--text-secondary)',
           lineHeight: 1.45,
         }}
       >
-        <span style={{ fontWeight: 600, color: '#1A1A1A' }}>Dune</span>
+        <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>Dune</span>
         <span>{`: max oracle deviation ~${Number(d.dune_oracle_max_deviation_bps).toFixed(2)} bps`}</span>
       </div>
     )
@@ -283,14 +283,14 @@ function DuneOracleExtraBlock({ d }: { d: OracleDuneSnippet }) {
       style={{
         marginTop: 10,
         paddingTop: 10,
-        borderTop: '1px solid #E8E4DC',
+        borderTop: '1px solid var(--border)',
         fontFamily: 'Inter',
         fontSize: '0.72rem',
-        color: '#9A9A9A',
+        color: 'var(--text-muted)',
         lineHeight: 1.45,
       }}
     >
-      <strong style={{ fontWeight: 600, color: '#5C5C5C' }}>Dune (optional):</strong> add{' '}
+      <strong style={{ fontWeight: 600, color: 'var(--text-secondary)' }}>Dune (optional):</strong> add{' '}
       <code style={{ fontSize: '0.68rem' }}>prism_oracle_max_deviation_bps</code> to unified query.
     </div>
   )
@@ -305,14 +305,14 @@ function DuneSupplyExtraBlock({ d }: { d: SupplyDuneSnippet }) {
         style={{
           marginTop: 10,
           paddingTop: 10,
-          borderTop: '1px solid #E8E4DC',
+          borderTop: '1px solid var(--border)',
           fontFamily: 'Inter',
           fontSize: '0.72rem',
-          color: '#5C5C5C',
+          color: 'var(--text-secondary)',
           lineHeight: 1.45,
         }}
       >
-        <span style={{ fontWeight: 600, color: '#1A1A1A' }}>Dune</span>
+        <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>Dune</span>
         <span>{`: 30d net flow ${sign}${fmtUsdCompact(Math.abs(v))}`}</span>
       </div>
     )
@@ -322,14 +322,14 @@ function DuneSupplyExtraBlock({ d }: { d: SupplyDuneSnippet }) {
       style={{
         marginTop: 10,
         paddingTop: 10,
-        borderTop: '1px solid #E8E4DC',
+        borderTop: '1px solid var(--border)',
         fontFamily: 'Inter',
         fontSize: '0.72rem',
-        color: '#9A9A9A',
+        color: 'var(--text-muted)',
         lineHeight: 1.45,
       }}
     >
-      <strong style={{ fontWeight: 600, color: '#5C5C5C' }}>Dune (optional):</strong> add{' '}
+      <strong style={{ fontWeight: 600, color: 'var(--text-secondary)' }}>Dune (optional):</strong> add{' '}
       <code style={{ fontSize: '0.68rem' }}>prism_supply_net_flow_30d_usd</code> to unified query.
     </div>
   )
@@ -354,14 +354,14 @@ function DuneUsersBlock({ d }: { d: NarrativeDuneDetail }) {
         style={{
           marginTop: 10,
           paddingTop: 10,
-          borderTop: '1px solid #E8E4DC',
+          borderTop: '1px solid var(--border)',
           fontFamily: 'Inter',
           fontSize: '0.72rem',
-          color: '#5C5C5C',
+          color: 'var(--text-secondary)',
           lineHeight: 1.45,
         }}
       >
-        <span style={{ fontWeight: 600, color: '#1A1A1A' }}>Dune (activity)</span>
+        <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>Dune (activity)</span>
         {parts.length > 0 ? <span>{`: ${parts.join(' · ')}`}</span> : <span>: live query</span>}
       </div>
     )
@@ -373,16 +373,16 @@ function DuneUsersBlock({ d }: { d: NarrativeDuneDetail }) {
         style={{
           marginTop: 10,
           paddingTop: 10,
-          borderTop: '1px solid #E8E4DC',
+          borderTop: '1px solid var(--border)',
           fontFamily: 'Inter',
           fontSize: '0.72rem',
-          color: '#5C5C5C',
+          color: 'var(--text-secondary)',
           lineHeight: 1.45,
         }}
       >
-        <span style={{ fontWeight: 600, color: '#1A1A1A' }}>On-chain activity (demo)</span>
+        <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>On-chain activity (demo)</span>
         <span>{`: ${parts.join(' · ')}`}</span>
-        <div style={{ marginTop: 6, fontSize: '0.68rem', color: '#9A9A9A' }}>
+        <div style={{ marginTop: 6, fontSize: '0.68rem', color: 'var(--text-muted)' }}>
           For live Dune labeling: set <code style={{ fontSize: '0.68rem' }}>dune_prism_query_id</code> (or per-protocol
           env override in backend) and include <code style={{ fontSize: '0.68rem' }}>dau</code>/
           <code style={{ fontSize: '0.68rem' }}>wau</code>/<code style={{ fontSize: '0.68rem' }}>mau</code> in the unified
@@ -398,10 +398,10 @@ function DuneUsersBlock({ d }: { d: NarrativeDuneDetail }) {
       style={{
         marginTop: 10,
         paddingTop: 10,
-        borderTop: '1px solid #E8E4DC',
+        borderTop: '1px solid var(--border)',
         fontFamily: 'Inter',
         fontSize: '0.72rem',
-        color: '#9A9A9A',
+        color: 'var(--text-muted)',
         lineHeight: 1.45,
       }}
     >
@@ -411,7 +411,7 @@ function DuneUsersBlock({ d }: { d: NarrativeDuneDetail }) {
           <>. Dune request failed.</>
         ) : (
           <>
-            {' '}. <strong style={{ fontWeight: 600, color: '#5C5C5C' }}>Not configured:</strong> add{' '}
+            {' '}. <strong style={{ fontWeight: 600, color: 'var(--text-secondary)' }}>Not configured:</strong> add{' '}
             <code style={{ fontSize: '0.68rem' }}>dau</code>/<code style={{ fontSize: '0.68rem' }}>wau</code>/
             <code style={{ fontSize: '0.68rem' }}>mau</code> to unified query or{' '}
             <code style={{ fontSize: '0.68rem' }}>dune_users_query_id</code>.
@@ -442,8 +442,8 @@ export default function PillarCard({
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: index * 0.08, duration: 0.35 }}
       style={{
-        background: '#FFFFFF',
-        border: '1px solid #E8E4DC',
+        background: 'var(--bg-card)',
+        border: '1px solid var(--border)',
         borderRadius: 12,
         padding: '16px 20px',
         borderLeft: `3px solid ${color}`,
@@ -457,12 +457,12 @@ export default function PillarCard({
             fontSize: '0.65rem',
             letterSpacing: '0.12em',
             textTransform: 'uppercase' as const,
-            color: '#9A9A9A',
+            color: 'var(--text-muted)',
           }}
         >
           {PILLAR_LABELS[pillar]}
         </span>
-        <span style={{ fontFamily: 'Inter', fontWeight: 400, fontSize: '0.7rem', color: '#9A9A9A' }}>
+        <span style={{ fontFamily: 'Inter', fontWeight: 400, fontSize: '0.7rem', color: 'var(--text-muted)' }}>
           {weight}% weight
         </span>
       </div>
@@ -471,7 +471,7 @@ export default function PillarCard({
         {formatScore(score)}
       </div>
 
-      <div style={{ width: '100%', height: 4, borderRadius: 2, backgroundColor: '#F0EDE6', marginBottom: 12 }}>
+      <div style={{ width: '100%', height: 4, borderRadius: 2, backgroundColor: 'var(--border)', marginBottom: 12 }}>
         <motion.div
           style={{ height: '100%', borderRadius: 2, background: color }}
           initial={{ width: 0 }}
@@ -480,11 +480,11 @@ export default function PillarCard({
         />
       </div>
 
-      <p style={{ fontFamily: 'Inter', fontWeight: 400, fontSize: '0.85rem', color: '#5C5C5C', marginBottom: 8, lineHeight: 1.5 }}>
+      <p style={{ fontFamily: 'Inter', fontWeight: 400, fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: 8, lineHeight: 1.5 }}>
         {getRiskNarrative(pillar, score)}
       </p>
 
-      <p style={{ fontFamily: 'Inter', fontWeight: 400, fontSize: '0.75rem', color: '#9A9A9A', fontStyle: 'italic' }}>
+      <p style={{ fontFamily: 'Inter', fontWeight: 400, fontSize: '0.75rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>
         {dataSources[pillar]}
       </p>
 

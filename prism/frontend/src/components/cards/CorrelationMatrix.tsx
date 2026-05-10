@@ -34,7 +34,7 @@ export default function CorrelationMatrix() {
 
   if (!data) {
     return (
-      <div style={{ padding: 24, textAlign: 'center', color: '#9A9A9A', fontFamily: 'Inter' }}>
+      <div style={{ padding: 24, textAlign: 'center', color: 'var(--text-muted)', fontFamily: 'Inter' }}>
         Loading correlation data…
       </div>
     )
@@ -48,7 +48,7 @@ export default function CorrelationMatrix() {
   return (
     <div
       style={{
-        background: '#FFFFFF',
+        background: 'var(--bg-card)',
         border: '1px solid #E8E4DC',
         borderRadius: 16,
         overflow: 'hidden',
@@ -66,12 +66,12 @@ export default function CorrelationMatrix() {
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <GitBranch size={18} color="#7EB8D4" />
-          <h3 className="font-syne" style={{ fontWeight: 700, fontSize: '0.95rem', color: '#1A1A1A', margin: 0 }}>
+          <h3 className="font-syne" style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--text-primary)', margin: 0 }}>
             Correlation Matrix
           </h3>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ fontFamily: 'Inter', fontSize: '0.75rem', color: '#9A9A9A' }}>
+          <span style={{ fontFamily: 'Inter', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
             Portfolio Diversification Score
           </span>
           <span
@@ -126,7 +126,7 @@ export default function CorrelationMatrix() {
                 fontFamily: 'Inter',
                 fontWeight: 600,
                 fontSize: '0.7rem',
-                color: '#5C5C5C',
+                color: 'var(--text-secondary)',
                 textAlign: 'center',
                 padding: '6px 4px',
               }}
@@ -142,7 +142,7 @@ export default function CorrelationMatrix() {
                   fontFamily: 'Inter',
                   fontWeight: 600,
                   fontSize: '0.7rem',
-                  color: '#5C5C5C',
+                  color: 'var(--text-secondary)',
                   display: 'flex',
                   alignItems: 'center',
                   paddingRight: 8,
@@ -165,7 +165,7 @@ export default function CorrelationMatrix() {
                     }}
                     style={{
                       background: isDiag
-                        ? '#F0EDE6'
+                        ? 'var(--border)'
                         : isSelected
                           ? correlationColor(corr)
                           : correlationBg(corr),
@@ -182,7 +182,7 @@ export default function CorrelationMatrix() {
                       style={{
                         fontWeight: 700,
                         fontSize: '0.9rem',
-                        color: isDiag ? '#9A9A9A' : isSelected ? '#FFFFFF' : correlationColor(corr),
+                        color: isDiag ? 'var(--text-muted)' : isSelected ? '#FFFFFF' : correlationColor(corr),
                       }}
                     >
                       {isDiag ? '-' : corr.toFixed(2)}
@@ -203,7 +203,7 @@ export default function CorrelationMatrix() {
           ].map(item => (
             <div key={item.label} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <div style={{ width: 10, height: 10, borderRadius: 2, background: item.color }} />
-              <span style={{ fontFamily: 'Inter', fontSize: '0.72rem', color: '#5C5C5C' }}>{item.label}</span>
+              <span style={{ fontFamily: 'Inter', fontSize: '0.72rem', color: 'var(--text-secondary)' }}>{item.label}</span>
             </div>
           ))}
         </div>
@@ -213,8 +213,8 @@ export default function CorrelationMatrix() {
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             style={{
-              background: '#FAFAF7',
-              border: '1px solid #E8E4DC',
+              background: 'var(--bg-primary)',
+              border: '1px solid var(--border)',
               borderLeft: `3px solid ${correlationColor(selectedPairData.correlation)}`,
               borderRadius: 10,
               padding: 16,
@@ -228,7 +228,7 @@ export default function CorrelationMatrix() {
                 marginBottom: 10,
               }}
             >
-              <span className="font-syne" style={{ fontWeight: 700, fontSize: '0.85rem', color: '#1A1A1A' }}>
+              <span className="font-syne" style={{ fontWeight: 700, fontSize: '0.85rem', color: 'var(--text-primary)' }}>
                 {DISPLAY_NAMES[selectedPairData.protocol_a]} × {DISPLAY_NAMES[selectedPairData.protocol_b]}
               </span>
               <span
@@ -236,8 +236,8 @@ export default function CorrelationMatrix() {
                   fontFamily: 'Inter',
                   fontWeight: 600,
                   fontSize: '0.7rem',
-                  color: '#9A9A9A',
-                  background: '#F0EDE6',
+                  color: 'var(--text-muted)',
+                  background: 'var(--border)',
                   borderRadius: 20,
                   padding: '2px 8px',
                 }}
@@ -249,7 +249,7 @@ export default function CorrelationMatrix() {
               style={{
                 fontFamily: 'Inter',
                 fontSize: '0.82rem',
-                color: '#5C5C5C',
+                color: 'var(--text-secondary)',
                 margin: '0 0 8px',
                 lineHeight: 1.5,
               }}

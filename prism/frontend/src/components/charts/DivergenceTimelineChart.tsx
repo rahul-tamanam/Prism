@@ -148,7 +148,7 @@ export default function DivergenceTimelineChart({
               gap: 6,
               fontFamily: 'DM Sans',
               fontSize: '0.68rem',
-              color: '#5C5C5C',
+              color: 'var(--text-secondary)',
               cursor: 'pointer',
             }}
           >
@@ -168,7 +168,7 @@ export default function DivergenceTimelineChart({
                 fontSize: '0.62rem',
                 cursor: 'pointer',
                 padding: '2px 6px',
-                color: '#9A9A9A',
+                color: 'var(--text-muted)',
               }}
             >
               baseline
@@ -179,20 +179,20 @@ export default function DivergenceTimelineChart({
       <div style={{ width: '100%', height: 320 }}>
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart data={rows} margin={{ top: 8, right: 16, left: 0, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#E8E4DC" />
-            <XAxis dataKey="date" tick={{ fontSize: 9, fill: '#9A9A9A' }} />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid-stroke)" />
+            <XAxis dataKey="date" tick={{ fontSize: 9, fill: 'var(--chart-axis-muted)' }} />
             <YAxis
               yAxisId="left"
               domain={[0, 100]}
-              tick={{ fontSize: 9, fill: '#9A9A9A' }}
-              label={{ value: 'Pair gap', angle: -90, position: 'insideLeft', fill: '#9A9A9A', fontSize: 10 }}
+              tick={{ fontSize: 9, fill: 'var(--chart-axis-muted)' }}
+              label={{ value: 'Pair gap', angle: -90, position: 'insideLeft', fill: 'var(--chart-axis-muted)', fontSize: 10 }}
             />
             <YAxis
               yAxisId="right"
               orientation="right"
               domain={[0, 100]}
-              tick={{ fontSize: 9, fill: '#E8E4DC' }}
-              label={{ value: 'DRS', angle: 90, position: 'insideRight', fill: '#E8E4DC', fontSize: 10 }}
+              tick={{ fontSize: 9, fill: 'var(--chart-axis-muted)' }}
+              label={{ value: 'DRS', angle: 90, position: 'insideRight', fill: 'var(--chart-axis-muted)', fontSize: 10 }}
             />
             <Tooltip
               contentStyle={{ fontFamily: 'DM Sans', fontSize: 11, borderRadius: 8 }}

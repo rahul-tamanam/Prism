@@ -128,7 +128,7 @@ function PrecedentRow({ pair }: { pair: DivergencePair }) {
   return (
     <div
       style={{
-        borderBottom: '1px solid #F0EDE6',
+        borderBottom: '1px solid var(--border)',
         background: expanded ? 'rgba(212,160,23,0.03)' : 'transparent',
         transition: 'background 0.15s ease',
       }}
@@ -148,13 +148,13 @@ function PrecedentRow({ pair }: { pair: DivergencePair }) {
           textAlign: 'left',
         }}
       >
-        <span style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '0.8rem', color: '#1A1A1A' }}>
+        <span style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '0.8rem', color: 'var(--text-primary)' }}>
           {abbr}
-          <span style={{ fontWeight: 400, color: '#9A9A9A', marginLeft: 8, fontSize: '0.72rem' }}>
+          <span style={{ fontWeight: 400, color: 'var(--text-muted)', marginLeft: 8, fontSize: '0.72rem' }}>
             Historical precedent
           </span>
         </span>
-        {expanded ? <ChevronUp size={16} color="#9A9A9A" /> : <ChevronDown size={16} color="#9A9A9A" />}
+        {expanded ? <ChevronUp size={16} color="var(--text-muted)" /> : <ChevronDown size={16} color="var(--text-muted)" />}
       </button>
       <AnimatePresence>
         {expanded && (
@@ -174,7 +174,7 @@ function PrecedentRow({ pair }: { pair: DivergencePair }) {
                 borderRadius: 8,
                 fontFamily: 'Inter',
                 fontSize: '0.78rem',
-                color: '#5C5C5C',
+                color: 'var(--text-secondary)',
                 lineHeight: 1.5,
               }}
             >
@@ -227,7 +227,7 @@ function DivergenceGapTooltip({
   return (
     <div
       style={{
-        backgroundColor: '#FFFFFF',
+        backgroundColor: 'var(--bg-card)',
         border: '1px solid var(--border)',
         borderRadius: 8,
         fontFamily: "'Inter', sans-serif",
@@ -317,14 +317,14 @@ export default function DivergencePanel({ divergence }: DivergencePanelProps) {
     return { chartData: data, pairMeta: meta }
   }, [pairs, drs])
 
-  const axisMuted = '#9A9A9A'
-  const gridStroke = '#E8E4DC'
+  const axisMuted = 'var(--text-muted)'
+  const gridStroke = 'var(--border)'
 
   return (
     <div
       style={{
-        background: '#FFFFFF',
-        border: '1px solid #E8E4DC',
+        background: 'var(--bg-card)',
+        border: '1px solid var(--border)',
         borderRadius: 16,
         overflow: 'hidden',
         boxShadow: '0 2px 16px rgba(0,0,0,0.06)',
@@ -334,7 +334,7 @@ export default function DivergencePanel({ divergence }: DivergencePanelProps) {
       <div
         style={{
           padding: '16px 24px',
-          borderBottom: '1px solid #E8E4DC',
+          borderBottom: '1px solid var(--border)',
           background: bg,
           display: 'flex',
           alignItems: 'center',
@@ -350,10 +350,10 @@ export default function DivergencePanel({ divergence }: DivergencePanelProps) {
             </motion.div>
           )}
           <div>
-            <h3 className="font-syne" style={{ fontWeight: 700, fontSize: '0.95rem', color: '#1A1A1A', margin: 0 }}>
+            <h3 className="font-syne" style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--text-primary)', margin: 0 }}>
               Signal Divergence
             </h3>
-            <p style={{ fontFamily: 'Inter', fontSize: '0.75rem', color: '#9A9A9A', margin: '2px 0 0' }}>
+            <p style={{ fontFamily: 'Inter', fontSize: '0.75rem', color: 'var(--text-muted)', margin: '2px 0 0' }}>
               Disagreement between independent signal pairs
             </p>
           </div>
@@ -364,7 +364,7 @@ export default function DivergencePanel({ divergence }: DivergencePanelProps) {
               style={{
                 fontFamily: 'Inter',
                 fontSize: '0.65rem',
-                color: '#9A9A9A',
+                color: 'var(--text-muted)',
                 textTransform: 'uppercase' as const,
                 letterSpacing: '0.1em',
               }}
@@ -380,14 +380,14 @@ export default function DivergencePanel({ divergence }: DivergencePanelProps) {
               style={{
                 fontFamily: 'Inter',
                 fontSize: '0.65rem',
-                color: '#9A9A9A',
+                color: 'var(--text-muted)',
                 textTransform: 'uppercase' as const,
                 letterSpacing: '0.1em',
               }}
             >
               Dominant Gap
             </div>
-            <span style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '0.8rem', color: '#1A1A1A' }}>
+            <span style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '0.8rem', color: 'var(--text-primary)' }}>
               {divergence.dominant_pair}
             </span>
           </div>
@@ -396,21 +396,21 @@ export default function DivergencePanel({ divergence }: DivergencePanelProps) {
               display: 'flex',
               alignItems: 'center',
               gap: 4,
-              background: '#F0EDE6',
+              background: 'var(--bg-secondary)',
               borderRadius: 20,
               padding: '4px 10px',
             }}
           >
             <VelocityIcon velocity={divergence.velocity} />
-            <span style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '0.72rem', color: '#5C5C5C' }}>
+            <span style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '0.72rem', color: 'var(--text-secondary)' }}>
               {divergence.velocity}
             </span>
           </div>
         </div>
       </div>
 
-      <div style={{ padding: '12px 24px', borderBottom: '1px solid #F0EDE6', background: '#FAFAF7' }}>
-        <p style={{ fontFamily: 'Inter', fontSize: '0.82rem', color: '#5C5C5C', margin: 0, lineHeight: 1.5 }}>
+      <div style={{ padding: '12px 24px', borderBottom: '1px solid var(--border)', background: 'var(--bg-primary)' }}>
+        <p style={{ fontFamily: 'Inter', fontSize: '0.82rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.5 }}>
           {divergence.interpretation}
         </p>
       </div>
@@ -536,7 +536,7 @@ export default function DivergencePanel({ divergence }: DivergencePanelProps) {
               type="monotone"
               dataKey="drsLevel"
               name="DRS"
-              stroke="#9A9A9A"
+              stroke="var(--text-muted)"
               strokeWidth={1.5}
               strokeDasharray="5 4"
               dot={false}
@@ -593,7 +593,7 @@ export default function DivergencePanel({ divergence }: DivergencePanelProps) {
               style={{
                 width: 12,
                 height: 0,
-                borderTop: '2px dashed #9A9A9A',
+                borderTop: '2px dashed var(--text-muted)',
               }}
             />
             <span style={{ fontFamily: 'Inter', fontSize: 11, color: axisMuted }}>DRS</span>
@@ -605,14 +605,14 @@ export default function DivergencePanel({ divergence }: DivergencePanelProps) {
         </p>
       </div>
 
-      <div style={{ borderTop: '1px solid #E8E4DC' }}>
+      <div style={{ borderTop: '1px solid var(--border)' }}>
         <div
           style={{
             padding: '8px 16px 4px',
             fontFamily: 'Inter',
             fontSize: '0.65rem',
             fontWeight: 600,
-            color: '#9A9A9A',
+            color: 'var(--text-muted)',
             textTransform: 'uppercase' as const,
             letterSpacing: '0.08em',
           }}
@@ -627,7 +627,7 @@ export default function DivergencePanel({ divergence }: DivergencePanelProps) {
       <div
         style={{
           padding: '12px 24px',
-          borderTop: '1px solid #E8E4DC',
+          borderTop: '1px solid var(--border)',
           display: 'flex',
           gap: 20,
           flexWrap: 'wrap',
@@ -641,7 +641,7 @@ export default function DivergencePanel({ divergence }: DivergencePanelProps) {
         ].map(item => (
           <div key={item.range} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <div style={{ width: 8, height: 8, borderRadius: 2, background: item.color }} />
-            <span style={{ fontFamily: 'Inter', fontSize: '0.7rem', color: '#9A9A9A' }}>
+            <span style={{ fontFamily: 'Inter', fontSize: '0.7rem', color: 'var(--text-muted)' }}>
               {item.range} {item.label}
             </span>
           </div>

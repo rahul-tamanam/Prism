@@ -28,8 +28,8 @@ export default function NewsCard({ article }: NewsCardProps) {
       rel="noopener noreferrer"
       className="block"
       style={{
-        backgroundColor: '#FFFFFF',
-        border: '1px solid #E8E4DC',
+        backgroundColor: 'var(--bg-card)',
+        border: '1px solid var(--border)',
         borderRadius: 12,
         padding: '16px 20px',
         boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
@@ -47,14 +47,14 @@ export default function NewsCard({ article }: NewsCardProps) {
     >
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16 }}>
         <div style={{ flex: 1 }}>
-          <h4 style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '0.9rem', color: '#1A1A1A', lineHeight: 1.4, marginBottom: 6 }}>
+          <h4 style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '0.9rem', color: 'var(--text-primary)', lineHeight: 1.4, marginBottom: 6 }}>
             {article.title}
           </h4>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <span style={{ fontFamily: 'Inter', fontWeight: 400, fontSize: '0.8rem', color: '#9A9A9A' }}>
+            <span style={{ fontFamily: 'Inter', fontWeight: 400, fontSize: '0.8rem', color: 'var(--text-muted)' }}>
               {article.source}
             </span>
-            <span style={{ fontFamily: 'Inter', fontWeight: 400, fontSize: '0.8rem', color: '#9A9A9A' }}>
+            <span style={{ fontFamily: 'Inter', fontWeight: 400, fontSize: '0.8rem', color: 'var(--text-muted)' }}>
               {getRelativeTime(article.published_at)}
             </span>
           </div>

@@ -32,7 +32,7 @@ export default function StressResultCard({ result }: StressResultCardProps) {
           <p style={{
             fontFamily: 'Inter', fontWeight: 600, fontSize: '0.65rem',
             letterSpacing: '0.1em', textTransform: 'uppercase' as const,
-            color: '#9A9A9A', marginBottom: 4,
+            color: 'var(--text-muted)', marginBottom: 4,
           }}>
             Before
           </p>
@@ -44,13 +44,13 @@ export default function StressResultCard({ result }: StressResultCardProps) {
           </div>
         </div>
 
-        <div style={{ fontSize: '1.2rem', color: '#9A9A9A' }}>→</div>
+        <div style={{ fontSize: '1.2rem', color: 'var(--text-muted)' }}>→</div>
 
         <div style={{ textAlign: 'center' }}>
           <p style={{
             fontFamily: 'Inter', fontWeight: 600, fontSize: '0.65rem',
             letterSpacing: '0.1em', textTransform: 'uppercase' as const,
-            color: '#9A9A9A', marginBottom: 4,
+            color: 'var(--text-muted)', marginBottom: 4,
           }}>
             After
           </p>
@@ -67,7 +67,7 @@ export default function StressResultCard({ result }: StressResultCardProps) {
         <span style={{
           fontFamily: 'Inter', fontWeight: 600, fontSize: '0.65rem',
           letterSpacing: '0.1em', textTransform: 'uppercase' as const,
-          color: '#9A9A9A',
+          color: 'var(--text-muted)',
         }}>
           MOST AFFECTED
         </span>

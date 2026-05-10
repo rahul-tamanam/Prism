@@ -26,7 +26,7 @@ export default function NarrativeFeed() {
   if (loading || !narrative) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span style={{ fontFamily: 'Inter', color: '#9A9A9A' }}>Loading narrative data…</span>
+        <span style={{ fontFamily: 'Inter', color: 'var(--text-muted)' }}>Loading narrative data…</span>
       </div>
     )
   }
@@ -74,15 +74,15 @@ export default function NarrativeFeed() {
       transition={{ duration: 0.35 }}
       style={{ maxWidth: 1280, margin: '0 auto', padding: '32px 24px' }}
     >
-      <div style={{ marginBottom: 28, paddingBottom: 20, borderBottom: '1px solid #E8E4DC' }}>
+      <div style={{ marginBottom: 28, paddingBottom: 20, borderBottom: '1px solid var(--border)' }}>
         <h1
           className="font-syne"
-          style={{ fontWeight: 700, fontSize: '1.6rem', color: '#1A1A1A', display: 'flex', alignItems: 'center', gap: 10 }}
+          style={{ fontWeight: 700, fontSize: '1.6rem', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: 10 }}
         >
           <span style={{ width: 4, height: 24, background: '#D4A017', borderRadius: 2, display: 'inline-block' }} />
           Narrative Feed
         </h1>
-        <p style={{ color: '#5C5C5C', fontSize: '0.9rem', marginTop: 4, fontFamily: 'Inter' }}>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: 4, fontFamily: 'Inter' }}>
           Sentiment analysis and media monitoring for {score?.name || 'selected protocol'}
         </p>
       </div>
@@ -98,18 +98,18 @@ export default function NarrativeFeed() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.08 }}
             style={{
-              background: '#FFFFFF',
+              background: 'var(--bg-card)',
               borderRadius: 16,
-              border: '1px solid #E8E4DC',
+              border: '1px solid var(--border)',
               borderLeft: `3px solid ${stat.color}`,
               padding: '20px 24px',
-              boxShadow: '0 2px 16px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)',
+              boxShadow: 'var(--shadow-card)',
             }}
           >
             <span style={{
               fontFamily: 'Inter', fontWeight: 600, fontSize: '0.65rem',
               letterSpacing: '0.12em', textTransform: 'uppercase' as const,
-              color: '#9A9A9A', display: 'block', marginBottom: 8,
+              color: 'var(--text-muted)', display: 'block', marginBottom: 8,
             }}>
               {stat.label}
             </span>
@@ -137,14 +137,14 @@ export default function NarrativeFeed() {
               <RadialBar
                 dataKey="value"
                 cornerRadius={4}
-                background={{ fill: '#F0EDE6' }}
+                background={{ fill: 'var(--border)' }}
               />
             </RadialBarChart>
           </ResponsiveContainer>
           <span className="font-syne" style={{ fontWeight: 800, fontSize: '1.2rem', color: sentimentColor, marginTop: 8 }}>
             {narrative.avg_sentiment.toFixed(2)}
           </span>
-          <span style={{ fontFamily: 'Inter', fontSize: '0.75rem', color: '#9A9A9A', marginTop: 2 }}>
+          <span style={{ fontFamily: 'Inter', fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 2 }}>
             {narrative.avg_sentiment >= 0.3 ? 'Positive' : narrative.avg_sentiment >= -0.1 ? 'Mixed' : 'Negative'}
           </span>
         </div>
@@ -161,21 +161,21 @@ export default function NarrativeFeed() {
               </defs>
               <XAxis
                 dataKey="hour"
-                tick={{ fill: '#9A9A9A', fontSize: 9, fontFamily: 'Inter' }}
-                axisLine={{ stroke: '#E8E4DC' }}
+                tick={{ fill: 'var(--text-muted)', fontSize: 9, fontFamily: 'Inter' }}
+                axisLine={{ stroke: 'var(--border)' }}
                 tickLine={false}
                 interval={3}
               />
               <YAxis
-                tick={{ fill: '#9A9A9A', fontSize: 9, fontFamily: 'Inter' }}
-                axisLine={{ stroke: '#E8E4DC' }}
+                tick={{ fill: 'var(--text-muted)', fontSize: 9, fontFamily: 'Inter' }}
+                axisLine={{ stroke: 'var(--border)' }}
                 tickLine={false}
                 width={32}
               />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: '#FFFFFF',
-                  border: '1px solid #E8E4DC',
+                  backgroundColor: 'var(--bg-card)',
+                  border: '1px solid var(--border)',
                   borderRadius: 12,
                   boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
                   fontSize: 11,
@@ -195,10 +195,10 @@ export default function NarrativeFeed() {
       </div>
 
       {/* Articles */}
-      <div style={{ marginBottom: 28, paddingBottom: 20, borderBottom: '1px solid #E8E4DC' }}>
+      <div style={{ marginBottom: 28, paddingBottom: 20, borderBottom: '1px solid var(--border)' }}>
         <h2
           className="font-syne"
-          style={{ fontWeight: 700, fontSize: '1.6rem', color: '#1A1A1A', display: 'flex', alignItems: 'center', gap: 10 }}
+          style={{ fontWeight: 700, fontSize: '1.6rem', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: 10 }}
         >
           <span style={{ width: 4, height: 24, background: '#D4A017', borderRadius: 2, display: 'inline-block' }} />
           Latest Articles

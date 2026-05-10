@@ -22,20 +22,20 @@ const floatingSquares = [
 ]
 
 const CARD_SHELL = {
-  background: 'rgba(255,255,255,0.75)',
-  border: '1px solid rgba(126,184,212,0.25)',
+  background: 'var(--hero-card-bg)',
+  border: '1px solid var(--hero-card-border)',
   borderRadius: 20,
   padding: '20px 28px',
   backdropFilter: 'blur(8px)',
   WebkitBackdropFilter: 'blur(8px)',
-  boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
+  boxShadow: 'var(--hero-card-shadow)',
 } as const
 
 const CARD_HEADER = {
   fontFamily: 'Inter, sans-serif',
   fontSize: '0.65rem',
   fontWeight: 600,
-  color: '#9A9A9A',
+  color: 'var(--text-muted)',
   textTransform: 'uppercase' as const,
   letterSpacing: '0.1em',
   marginBottom: 14,
@@ -49,15 +49,15 @@ const HERO_PROTOCOLS = [
 
 /** Top 2 / middle 2 / bottom 2 by model weight - dot greys dark → light */
 const PILLAR_WEIGHT_TIERS = [
-  { keys: ['liquidity', 'liquidation'] as const, dot: '#2A2A2A' },
-  { keys: ['governance', 'oracle'] as const, dot: '#6E6E6E' },
-  { keys: ['supply', 'narrative'] as const, dot: '#B8B8B8' },
+  { keys: ['liquidity', 'liquidation'] as const, dot: 'var(--hero-pillar-dot-1)' },
+  { keys: ['governance', 'oracle'] as const, dot: 'var(--hero-pillar-dot-2)' },
+  { keys: ['supply', 'narrative'] as const, dot: 'var(--hero-pillar-dot-3)' },
 ] as const
 
 function ProtocolStatusRow({ protocolId, name }: { protocolId: string; name: string }) {
   const { score } = usePrismScore(protocolId)
   const dotColor =
-    score != null ? (ACTION_COLORS[score.action] ?? '#C8C8C8') : '#C8C8C8'
+    score != null ? (ACTION_COLORS[score.action] ?? 'var(--text-muted)') : 'var(--text-muted)'
 
   return (
     <li
@@ -68,7 +68,7 @@ function ProtocolStatusRow({ protocolId, name }: { protocolId: string; name: str
         fontFamily: 'Inter, sans-serif',
         fontSize: '0.9rem',
         fontWeight: 500,
-        color: '#1A1A1A',
+        color: 'var(--text-primary)',
       }}
     >
       <span
@@ -95,7 +95,7 @@ export default function HeroSection({ onScrollToDashboard }: HeroSectionProps) {
           zIndex: 1,
           height: '100vh',
           minHeight: '100vh',
-          background: 'linear-gradient(160deg, #FAFAF7 0%, #EEF3F8 45%, #F5F2E8 100%)',
+          background: 'var(--hero-surface)',
           display: 'flex',
           flexDirection: 'column',
         }}
@@ -130,7 +130,7 @@ export default function HeroSection({ onScrollToDashboard }: HeroSectionProps) {
             <p
               className="font-medium uppercase tracking-[0.2em]"
               style={{
-                color: '#7EB8D4',
+                color: 'var(--accent-blue)',
                 fontSize: 13,
                 marginBottom: 24,
                 opacity: 0,
@@ -146,7 +146,7 @@ export default function HeroSection({ onScrollToDashboard }: HeroSectionProps) {
               style={{
                 fontWeight: 400,
                 fontSize: 'clamp(3rem, 5.5vw + 2rem, 7.5rem)',
-                color: '#1A1A1A',
+                color: 'var(--text-primary)',
                 lineHeight: 1.05,
                 marginBottom: 24,
                 opacity: 0,
@@ -160,7 +160,7 @@ export default function HeroSection({ onScrollToDashboard }: HeroSectionProps) {
 
             <p
               style={{
-                color: '#5C5C5C',
+                color: 'var(--text-secondary)',
                 fontSize: 18,
                 maxWidth: 520,
                 lineHeight: 1.65,
@@ -262,10 +262,10 @@ export default function HeroSection({ onScrollToDashboard }: HeroSectionProps) {
             >
               <AlertTriangle size={22} color="#D4A017" strokeWidth={1.5} />
               <div style={{ textAlign: 'left' }}>
-                <p className="font-syne" style={{ fontWeight: 800, color: '#1A1A1A', fontSize: 16, margin: 0, lineHeight: 1.2 }}>
+                <p className="font-syne" style={{ fontWeight: 800, color: 'var(--text-primary)', fontSize: 16, margin: 0, lineHeight: 1.2 }}>
                   Real-Time
                 </p>
-                <p style={{ color: '#5C5C5C', fontSize: 13, margin: '4px 0 0' }}>Exit Signals</p>
+                <p style={{ color: 'var(--text-secondary)', fontSize: 13, margin: '4px 0 0' }}>Exit Signals</p>
               </div>
             </div>
 
@@ -299,7 +299,7 @@ export default function HeroSection({ onScrollToDashboard }: HeroSectionProps) {
                           gap: 8,
                           fontFamily: 'Inter, sans-serif',
                           fontSize: '0.78rem',
-                          color: '#1A1A1A',
+                          color: 'var(--text-primary)',
                           lineHeight: 1.35,
                         }}
                       >
@@ -313,7 +313,7 @@ export default function HeroSection({ onScrollToDashboard }: HeroSectionProps) {
                           }}
                         />
                         <span style={{ flex: 1, minWidth: 0 }}>{PILLAR_LABELS[key]}</span>
-                        <span style={{ color: '#9A9A9A', fontSize: '0.72rem', flexShrink: 0 }}>
+                        <span style={{ color: 'var(--text-muted)', fontSize: '0.72rem', flexShrink: 0 }}>
                           {PILLAR_WEIGHTS[key]}%
                         </span>
                       </div>
@@ -329,7 +329,7 @@ export default function HeroSection({ onScrollToDashboard }: HeroSectionProps) {
       <div
         style={{
           height: '120px',
-          background: 'linear-gradient(to bottom, #F5F2E8 0%, #FAFAF7 100%)',
+          background: 'var(--hero-bottom-fade)',
           marginTop: '-1px',
         }}
       />

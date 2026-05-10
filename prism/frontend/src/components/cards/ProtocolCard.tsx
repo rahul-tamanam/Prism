@@ -72,7 +72,7 @@ export default function ProtocolCard({ protocol, score, onClick, index = 0 }: Pr
           )}
         </div>
         <div>
-          <h3 className="font-syne text-sm font-bold" style={{ color: '#1A1A1A' }}>
+          <h3 className="font-syne text-sm font-bold" style={{ color: 'var(--text-primary)' }}>
             {protocol.name}
           </h3>
           <span
